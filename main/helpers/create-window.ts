@@ -17,7 +17,7 @@ export default (
     height: options.height,
   };
   let state = {};
-  const win;
+  let win;
 
   const restore = () => store.get(key, defaultSize);
 
