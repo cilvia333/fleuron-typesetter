@@ -60,7 +60,10 @@
       "settings": {
         "import/resolver": {
           "typescript": {
-            "alwaysTryTypes": true
+            "alwaysTryTypes": true,
+            "project": [
+              "renderer/tsconfig.json"
+            ]
           }
         }
       },

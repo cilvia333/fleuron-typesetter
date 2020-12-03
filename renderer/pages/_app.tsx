@@ -3,6 +3,8 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import tw from 'twin.macro';
 
+import { useToolButtonContext, toolButtonContext } from '~/hooks';
+
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
@@ -16,10 +18,14 @@ const GlobalStyle = createGlobalStyle`
 
 export type Props = AppProps;
 const App: React.FC<Props> = ({ Component, pageProps }) => {
+  const ctx = useToolButtonContext();
+
   return (
     <>
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <toolButtonContext.Provider value={ctx}>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </toolButtonContext.Provider>
     </>
   );
 };
