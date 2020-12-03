@@ -9,12 +9,7 @@ const Home: React.FC = () => {
         <title>Home - Nextron (with-typescript)</title>
       </Head>
       <div>
-        <p>
-          Electron
-          <Link href="/next">
-            <a>Go to next page</a>
-          </Link>
-        </p>
+        <p>Electron</p>
         <img src="/images/logo.png" />
       </div>
     </>
