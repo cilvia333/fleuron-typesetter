@@ -30,6 +30,7 @@ const Editor: React.FC = () => {
   );
   const [isSelected, setIsSelected] = useState(false);
   const [fleuronsMap, setFleuronsMap] = useState<string[][]>([]);
+  const [isMultiSelect, setIsMultiSelect] = useState(false);
 
   useEffectOnce(() => {
     let array: string[][] = [];
@@ -41,6 +42,7 @@ const Editor: React.FC = () => {
       return v.map((state, y) => {
         const item = fleurons.get('key1');
         if (
+          item &&
           x >= item?.position?.x - 1 &&
           x < item?.position?.x - 1 + item?.size &&
           y >= item?.position?.y - 1 &&
