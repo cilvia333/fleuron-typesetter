@@ -7,14 +7,17 @@ export type FleuronState = {
   position: { x: number; y: number };
   size: number;
   rotate: number;
+  selected: boolean;
 };
 
 interface Props {
   state: FleuronState;
+  selected: boolean;
 }
 
 const Fleuron: React.FC<Props> = (props) => {
   const state = props.state;
+  const selected = props.selected;
   const [iconSize, setIconSize] = useState<{ x: number; y: number }>({
     x: 1,
     y: 1,
@@ -27,6 +30,7 @@ const Fleuron: React.FC<Props> = (props) => {
         size={state.size}
         rotate={state.rotate}
         iconSize={iconSize}
+        selected={selected}
       ></Icon>
     </>
   );
@@ -37,6 +41,7 @@ interface IconProps {
   size: number;
   rotate: number;
   iconSize: { x: number; y: number };
+  selected: boolean;
 }
 
 const Icon = styled.div<IconProps>`
@@ -44,12 +49,18 @@ const Icon = styled.div<IconProps>`
 
   ${({ position, size, rotate, iconSize }) => css`
     grid-column-start: ${position.x};
-    grid-column-end: ${position.x + size * iconSize.x + 1};
+    grid-column-end: ${position.x + size * iconSize.x};
     grid-row-start: ${position.y};
-    grid-row-end: ${position.y + size * iconSize.y + 1};
+    grid-row-end: ${position.y + size * iconSize.y};
 
     transform: rotate(${rotate}deg);
   `}
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      ${tw`bg-blue-500`}
+    `}
 `;
 
 export default Fleuron;
