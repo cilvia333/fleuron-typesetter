@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 
 import { toolButtonContext } from '~/hooks';
 
-const ToolButton: React.FC = () => {
+const Editor: React.FC = () => {
   const ctx = useContext(toolButtonContext);
   const [gridSize, setGridSize] = useState(4);
   const fleurons = new Map<string, number>();
@@ -65,4 +65,4 @@ const GridLine = styled.div`
   box-sizing: content-box;
 `;
 
-export default ToolButton;
+export default Editor;
