@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 import { useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
@@ -138,26 +139,32 @@ const Editor: React.FC = () => {
 
   return (
     <>
-      <EditorWrapper ref={editorRef} onClick={onClickEditor}>
-        {/* 花形装飾描画 */}
-        <Grid gridSize={gridSize}>
-          {[...fleurons.entries()].map((fleuron, i) => {
-            return (
-              <Fleuron
-                state={fleuron[1]}
-                selected={selectedFleurons.has('key1')}
-                key={`fleuron_${i}`}
-              />
-            );
-          })}
-        </Grid>
-        {/* グリッドライン描画 */}
-        <Grid gridSize={gridSize}>
-          {[...Array(gridSize ** 2).keys()].map((v, i) => (
-            <GridLine key={`grid_${i}`} />
-          ))}
-        </Grid>
-      </EditorWrapper>
+      <Droppable droppableId="editorDroppable">
+        {(provided, snapshot) => (
+          <div ref={provided.innerRef}>
+            <EditorWrapper ref={editorRef} onClick={onClickEditor}>
+              {/* 花形装飾描画 */}
+              <Grid gridSize={gridSize}>
+                {[...fleurons.entries()].map((fleuron, i) => {
+                  return (
+                    <Fleuron
+                      state={fleuron[1]}
+                      selected={selectedFleurons.has('key1')}
+                      key={`fleuron_${i}`}
+                    />
+                  );
+                })}
+              </Grid>
+              {/* グリッドライン描画 */}
+              <Grid gridSize={gridSize}>
+                {[...Array(gridSize ** 2).keys()].map((v, i) => (
+                  <GridLine key={`grid_${i}`} />
+                ))}
+              </Grid>
+            </EditorWrapper>
+          </div>
+        )}
+      </Droppable>
     </>
   );
 };
