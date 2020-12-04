@@ -29,7 +29,7 @@ const Editor: React.FC = () => {
     new Map<string, boolean>()
   );
   const [isSelected, setIsSelected] = useState(false);
-  const [fleuronsMap, setFleuronsMap] = useState<string[][]>([]);
+  const [fleuronsMap, setFleuronsMap] = useState<string[][]>([[]]);
   const [isMultiSelect, setIsMultiSelect] = useState(false);
 
   useEffectOnce(() => {
@@ -66,11 +66,11 @@ const Editor: React.FC = () => {
     }
 
     const positionX: number =
-      editorRef?.current?.getBoundingClientRect()?.top ?? null;
-    const positionY: number =
       editorRef?.current?.getBoundingClientRect()?.left ?? null;
+    const positionY: number =
+      editorRef?.current?.getBoundingClientRect()?.top ?? null;
 
-    if (positionX && positionY) {
+    if (positionX !== null && positionY !== null) {
       setEditorPosition({ x: positionX, y: positionY });
     }
   }, [editorRef?.current]);
@@ -138,7 +138,7 @@ const Editor: React.FC = () => {
 
   return (
     <>
-      <Wrapper ref={editorRef} onClick={onClickEditor}>
+      <EditorWrapper ref={editorRef} onClick={onClickEditor}>
         {/* 花形装飾描画 */}
         <Grid gridSize={gridSize}>
           {[...fleurons.entries()].map((fleuron, i) => {
@@ -157,12 +157,12 @@ const Editor: React.FC = () => {
             <GridLine key={`grid_${i}`} />
           ))}
         </Grid>
-      </Wrapper>
+      </EditorWrapper>
     </>
   );
 };
 
-const Wrapper = styled.div`
+const EditorWrapper = styled.div`
   ${tw`w-full bg-white overflow-hidden relative`};
 
   &::before {
