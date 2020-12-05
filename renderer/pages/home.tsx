@@ -13,6 +13,7 @@ import tw from 'twin.macro';
 
 import Editor from '~/components/editor/editor';
 import IconBar from '~/components/iconbar/iconBar';
+import ToolBar from '~/components/toolbar/toolBar';
 import { editorContext } from '~/hooks';
 
 const Home: React.FC = () => {
@@ -42,7 +43,9 @@ const Home: React.FC = () => {
       </Head>
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
-          <ToolBarWrapper></ToolBarWrapper>
+          <ToolBarWrapper>
+            <ToolBar />
+          </ToolBarWrapper>
           <EditorWrapper>
             <Droppable droppableId="editorDroppable">
               {(provided, snapshot) => (
@@ -70,21 +73,15 @@ const Wrapper = styled.div`
 `;
 
 const ToolBarWrapper = styled.div`
-  ${tw`px-4`}
-
-  width: 25%;
+  width: 20%;
 `;
 
 const EditorWrapper = styled.div`
-  ${tw`px-4`}
-
-  width: 40%;
+  width: 55%;
 `;
 
 const IconBarWrapper = styled.div`
-  ${tw`px-4`}
-
-  width: 35%;
+  width: 25%;
 `;
 
 export default Home;
