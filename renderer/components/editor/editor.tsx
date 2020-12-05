@@ -162,8 +162,6 @@ const Editor: React.FC<Props> = (props) => {
       editorCtx
     );
 
-    console.log(position);
-
     if (!isSelected && fleuronsMap[position.x][position.y]) {
       setIsSelected(true);
       updateSelectedFleurons('key1', true);
