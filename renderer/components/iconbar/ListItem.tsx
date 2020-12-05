@@ -15,12 +15,13 @@ interface Props {
   size: number;
   rotate: number;
   selected: boolean;
+  onClickItem: (itemId: number) => void;
   provided: DraggableProvided;
   snapshot: DraggableStateSnapshot;
 }
 
 const ListItem: React.FC<Props> = (props) => {
-  const { id, size, rotate, selected, provided, snapshot } = props;
+  const { id, size, rotate, selected, onClickItem, provided, snapshot } = props;
   const editorCtx = useContext(editorContext);
   const [customProvidedStyle, setCustomProvidedStyle] = useState<
     DraggableProvided['draggableProps']['style']
@@ -61,7 +62,7 @@ const ListItem: React.FC<Props> = (props) => {
           setCustomProvidedStyle({ ...style, transform: newTransform });
           editorCtx.setCurrentDraggingState({
             ...editorCtx.currentDraggingState,
-            position,
+            position: gridPosition,
           });
         }
       }
@@ -87,6 +88,10 @@ const ListItem: React.FC<Props> = (props) => {
         size={size}
         rotate={rotate}
         selected={selected}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClickItem(id);
+        }}
       ></Item>
       {snapshot.isDragging && (
         <Clone

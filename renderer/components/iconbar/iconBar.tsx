@@ -6,9 +6,19 @@ import tw from 'twin.macro';
 import ListItem from '~/components/iconbar/ListItem';
 
 const IconBar: React.FC = () => {
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+
+  const onClickItem = (itemId: number) => {
+    setSelectedItemId(itemId);
+  };
+
   return (
     <>
-      <IconBarWrapper>
+      <IconBarWrapper
+        onClick={(e) => {
+          setSelectedItemId(null);
+        }}
+      >
         <Droppable droppableId="iconBarDroppable" isDropDisabled>
           {(provided, snapshot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -19,7 +29,8 @@ const IconBar: React.FC = () => {
                       id={1}
                       size={1}
                       rotate={0}
-                      selected={false}
+                      selected={selectedItemId === 1}
+                      onClickItem={onClickItem}
                       provided={provided}
                       snapshot={snapshot}
                     />

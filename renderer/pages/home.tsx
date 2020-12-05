@@ -21,9 +21,8 @@ const Home: React.FC = () => {
       return;
     }
 
-    // if (source.droppableId === destination.droppableId) {
-    // } else {
-    // }
+    if (destination.droppableId === 'editorDroppable') {
+    }
   };
 
   return (
