@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   resetServerContext,
   DragDropContext,
@@ -13,8 +13,11 @@ import tw from 'twin.macro';
 
 import Editor from '~/components/editor/editor';
 import IconBar from '~/components/iconbar/iconBar';
+import { editorContext } from '~/hooks';
 
 const Home: React.FC = () => {
+  const editorCtx = useContext(editorContext);
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) {
@@ -22,6 +25,13 @@ const Home: React.FC = () => {
     }
 
     if (destination.droppableId === 'editorDroppable') {
+      if (editorCtx.currentDraggingState.selectedFleuron) {
+        console.log(editorCtx.currentDraggingState.position);
+        editorCtx.updateFleuron('key2', {
+          ...editorCtx.currentDraggingState.selectedFleuron,
+          position: editorCtx.currentDraggingState.position,
+        });
+      }
     }
   };
 

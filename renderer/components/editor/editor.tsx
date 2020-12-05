@@ -12,14 +12,6 @@ interface Props {
   snapshot: DroppableStateSnapshot;
 }
 
-const mockFleuron: FleuronState = {
-  id: 1,
-  position: { x: 1, y: 1 },
-  size: 1,
-  rotate: 0,
-  selected: false,
-};
-
 const Editor: React.FC<Props> = (props) => {
   const { provided, snapshot } = props;
 
@@ -28,9 +20,6 @@ const Editor: React.FC<Props> = (props) => {
 
   const editorRef = useRef(null);
 
-  const [fleurons, setFleurons] = useState(
-    new Map<string, FleuronState>([['key1', mockFleuron]])
-  );
   const [selectedFleurons, setSelectedFleurons] = useState(
     new Map<string, boolean>()
   );
@@ -47,7 +36,7 @@ const Editor: React.FC<Props> = (props) => {
 
     array = array.map((v, x) => {
       return v.map((state, y) => {
-        const item = fleurons.get('key1');
+        const item = editorCtx.fleurons.get('key1');
         if (
           item &&
           x >= item?.position?.x - 1 &&
@@ -117,42 +106,6 @@ const Editor: React.FC<Props> = (props) => {
     }
   };
 
-  const updateFleurons = (key: string, value: FleuronState) => {
-    setFleurons((old) => old.set(key, value));
-  };
-
-  const clearFleurons = () => {
-    setFleurons((old) => {
-      old.clear();
-      return old;
-    });
-  };
-
-  const deleteFleurons = (key: string) => {
-    setFleurons((old) => {
-      old.delete(key);
-      return old;
-    });
-  };
-
-  const updateSelectedFleurons = (key: string, value: boolean) => {
-    setSelectedFleurons((old) => old.set(key, value));
-  };
-
-  const clearSelectedFleurons = () => {
-    setSelectedFleurons((old) => {
-      old.clear();
-      return old;
-    });
-  };
-
-  const deleteSelectedFleurons = (key: string) => {
-    setSelectedFleurons((old) => {
-      old.delete(key);
-      return old;
-    });
-  };
-
   //イベントハンドラ
   const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -176,7 +129,7 @@ const Editor: React.FC<Props> = (props) => {
       <EditorWrapper ref={editorRef} onClick={onClickEditor}>
         {/* 花形装飾描画 */}
         <Grid gridSize={editorCtx.gridSize}>
-          {[...fleurons.entries()].map((fleuron, i) => {
+          {[...editorCtx.fleurons.entries()].map((fleuron, i) => {
             return (
               <Fleuron
                 state={fleuron[1]}

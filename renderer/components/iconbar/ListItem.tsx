@@ -28,6 +28,21 @@ const ListItem: React.FC<Props> = (props) => {
   >(provided.draggableProps.style);
 
   useEffect(() => {
+    if (snapshot.isDragging) {
+      editorCtx.setCurrentDraggingState({
+        ...editorCtx.currentDraggingState,
+        selectedFleuron: {
+          id,
+          size,
+          rotate,
+          selected: false,
+          position: { x: 0, y: 0 },
+        },
+      });
+    }
+  }, [snapshot.isDragging]);
+
+  useEffect(() => {
     const style = provided.draggableProps.style;
 
     if (style) {

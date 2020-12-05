@@ -1,9 +1,12 @@
 import { useState, useCallback, createContext } from 'react';
 
+import { FleuronState } from '~/components/editor/fleuron';
+
 type DraggingState = {
   position: { x: number; y: number };
   editorPosition: { x: number; y: number };
   isDroppable: boolean;
+  selectedFleuron: FleuronState | null;
 };
 
 type Position = {
@@ -11,7 +14,19 @@ type Position = {
   y: number;
 };
 
+const mockFleuron: FleuronState = {
+  id: 1,
+  position: { x: 1, y: 1 },
+  size: 1,
+  rotate: 0,
+  selected: false,
+};
+
 interface EditorContext {
+  fleurons: Map<string, FleuronState>;
+  updateFleuron: (key: string, value: FleuronState) => void;
+  deleteFleuron: (key: string) => void;
+  clearFleurons: () => void;
   currentDraggingState: DraggingState;
   setCurrentDraggingState: (current: DraggingState) => void;
   gridSize: number;
@@ -26,10 +41,19 @@ interface EditorContext {
 }
 
 export const editorContext = createContext<EditorContext>({
+  fleurons: new Map<string, FleuronState>([['key1', mockFleuron]]),
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  updateFleuron: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  deleteFleuron: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  clearFleurons: () => {},
+
   currentDraggingState: {
     position: { x: 0, y: 0 },
     editorPosition: { x: 0, y: 0 },
     isDroppable: false,
+    selectedFleuron: null,
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentDraggingState: () => {},
@@ -75,10 +99,32 @@ export const editorContext = createContext<EditorContext>({
 });
 
 export const useEditorContext = (): EditorContext => {
+  const [fleurons, setFleurons] = useState(
+    new Map<string, FleuronState>([['key1', mockFleuron]])
+  );
+  const updateFleuron = (key: string, value: FleuronState) => {
+    setFleurons((old) => old.set(key, value));
+  };
+
+  const clearFleurons = () => {
+    setFleurons((old) => {
+      old.clear();
+      return old;
+    });
+  };
+
+  const deleteFleuron = (key: string) => {
+    setFleurons((old) => {
+      old.delete(key);
+      return old;
+    });
+  };
+
   const [currentDraggingState, setDraggingState] = useState<DraggingState>({
     position: { x: 0, y: 0 },
     editorPosition: { x: 0, y: 0 },
     isDroppable: false,
+    selectedFleuron: null,
   });
   const setCurrentDraggingState = useCallback(
     (current: DraggingState): void => {
@@ -119,6 +165,10 @@ export const useEditorContext = (): EditorContext => {
     []
   );
   return {
+    fleurons,
+    updateFleuron,
+    deleteFleuron,
+    clearFleurons,
     currentDraggingState,
     setCurrentDraggingState,
     gridSize,

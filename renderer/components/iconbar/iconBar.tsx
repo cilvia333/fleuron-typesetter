@@ -9,7 +9,11 @@ const IconBar: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const onClickItem = (itemId: number) => {
-    setSelectedItemId(itemId);
+    if (itemId === selectedItemId) {
+      setSelectedItemId(null);
+    } else {
+      setSelectedItemId(itemId);
+    }
   };
 
   return (
