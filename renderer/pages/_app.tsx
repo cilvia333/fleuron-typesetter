@@ -3,7 +3,12 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import tw from 'twin.macro';
 
-import { useToolButtonContext, toolButtonContext } from '~/hooks';
+import {
+  useToolButtonContext,
+  toolButtonContext,
+  useEditorContext,
+  editorContext,
+} from '~/hooks';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,13 +23,16 @@ const GlobalStyle = createGlobalStyle`
 
 export type Props = AppProps;
 const App: React.FC<Props> = ({ Component, pageProps }) => {
-  const ctx = useToolButtonContext();
+  const toolButtonCtx = useToolButtonContext();
+  const editorCtx = useEditorContext();
 
   return (
     <>
-      <toolButtonContext.Provider value={ctx}>
-        <GlobalStyle />
-        <Component {...pageProps} />
+      <toolButtonContext.Provider value={toolButtonCtx}>
+        <editorContext.Provider value={editorCtx}>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </editorContext.Provider>
       </toolButtonContext.Provider>
     </>
   );

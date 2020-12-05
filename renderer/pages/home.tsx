@@ -1,7 +1,13 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import {
+  resetServerContext,
+  DragDropContext,
+  DropResult,
+  Droppable,
+} from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -29,7 +35,11 @@ const Home: React.FC = () => {
         <Wrapper>
           <ToolBarWrapper></ToolBarWrapper>
           <EditorWrapper>
-            <Editor />
+            <Droppable droppableId="editorDroppable">
+              {(provided, snapshot) => (
+                <Editor provided={provided} snapshot={snapshot} />
+              )}
+            </Droppable>
           </EditorWrapper>
           <IconBarWrapper>
             <IconBar />
@@ -38,6 +48,12 @@ const Home: React.FC = () => {
       </DragDropContext>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
+
+  return { props: { data: [] } };
 };
 
 const Wrapper = styled.div`

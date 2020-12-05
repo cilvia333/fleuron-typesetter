@@ -22,6 +22,7 @@ interface EditorContext {
   setEditorSize: (size: number) => void;
   editorPosition: Position;
   setEditorPosition: (position: Position) => void;
+  calcGridPosition: (position: Position, ctx: EditorContext) => Position;
 }
 
 export const editorContext = createContext<EditorContext>({
@@ -69,6 +70,8 @@ export const editorContext = createContext<EditorContext>({
   editorPosition: { x: 0, y: 0 },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorPosition: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  calcGridPosition: () => {},
 });
 
 export const useEditorContext = (): EditorContext => {
@@ -102,6 +105,19 @@ export const useEditorContext = (): EditorContext => {
   const setEditorPosition = useCallback((position: Position): void => {
     updateEditorPosition(position);
   }, []);
+  const calcGridPosition = useCallback(
+    (position: Position, ctx: EditorContext): Position => {
+      const currentX = Math.floor(
+        ((position.x - ctx.editorPosition.x) / ctx.editorSize) * ctx.gridSize
+      );
+      const currentY = Math.floor(
+        ((position.y - ctx.editorPosition.y) / ctx.editorSize) * ctx.gridSize
+      );
+
+      return { x: currentX, y: currentY };
+    },
+    []
+  );
   return {
     currentDraggingState,
     setCurrentDraggingState,
@@ -113,5 +129,6 @@ export const useEditorContext = (): EditorContext => {
     setEditorSize,
     editorPosition,
     setEditorPosition,
+    calcGridPosition,
   };
 };

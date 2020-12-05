@@ -41,10 +41,28 @@ const ListItem: React.FC<Props> = (props) => {
           .split(',')
           .map((str) => parseInt(str, 10));
         if (transform !== undefined) {
-          const position = {
-            x: top + transform[0],
-            y: left + transform[1],
+          const screenPosition = {
+            x: left + transform[0],
+            y: top + transform[1],
           };
+
+          const gridPosition = editorCtx.calcGridPosition(
+            screenPosition,
+            editorCtx
+          );
+
+          const position =
+            editorCtx.gridPositions[gridPosition.x][gridPosition.y];
+
+          console.log(position);
+
+          const newTransform = `translate(${position.x - left}px, ${
+            position.y - top
+          }px)`;
+
+          console.log(newTransform);
+
+          setCustomProvidedStyle({ ...style, transform: newTransform });
           editorCtx.setCurrentDraggingState({
             ...editorCtx.currentDraggingState,
             position,
@@ -54,24 +72,6 @@ const ListItem: React.FC<Props> = (props) => {
     }
   }, [provided.draggableProps, editorCtx.currentDraggingState.isDroppable]);
 
-  useEffect(() => {
-    const style = provided.draggableProps.style;
-
-    if (editorCtx.currentDraggingState.isDroppable && isDraggingStyle(style)) {
-      const position = editorCtx.currentDraggingState.editorPosition;
-      const x = position.x - style.top;
-      const y = position.y - style.left;
-      const transform = `translate(${x}px, ${y}px)`;
-
-      setCustomProvidedStyle({ ...style, transform });
-    } else {
-      setCustomProvidedStyle(style);
-    }
-  }, [
-    editorCtx.currentDraggingState.isDroppable,
-    editorCtx.currentDraggingState.editorPosition,
-  ]);
-
   const isDraggingStyle = (style: any): style is DraggingStyle => {
     return style.position !== undefined;
   };
@@ -80,7 +80,12 @@ const ListItem: React.FC<Props> = (props) => {
     <>
       <Item
         ref={provided.innerRef}
-        {...{ ...provided.draggableProps, style: customProvidedStyle }}
+        {...{
+          ...provided.draggableProps,
+          style: editorCtx.currentDraggingState.isDroppable
+            ? customProvidedStyle
+            : provided.draggableProps.style,
+        }}
         {...provided.dragHandleProps}
         isDragging={snapshot.isDragging}
         size={size}
