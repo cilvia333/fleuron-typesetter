@@ -1,11 +1,16 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import { useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Fleuron, { FleuronState } from '~/components/editor/fleuron';
-import { toolButtonContext } from '~/hooks';
+import { toolButtonContext, editorContext } from '~/hooks';
+
+interface Props {
+  provided: DroppableProvided;
+  snapshot: DroppableStateSnapshot;
+}
 
 const mockFleuron: FleuronState = {
   id: 1,
@@ -14,8 +19,12 @@ const mockFleuron: FleuronState = {
   rotate: 0,
 };
 
-const Editor: React.FC = () => {
-  const ctx = useContext(toolButtonContext);
+const Editor: React.FC<Props> = (props) => {
+  const { provided, snapshot } = props;
+
+  const toolButtonCtx = useContext(toolButtonContext);
+  const editorCtx = useContext(editorContext);
+
   const [editorSize, setEditorSize] = useState(0);
   const [editorPosition, setEditorPosition] = useState<{
     x: number;
@@ -23,6 +32,10 @@ const Editor: React.FC = () => {
   }>({ x: 0, y: 0 });
   const editorRef = useRef(null);
   const [gridSize, setGridSize] = useState(4);
+  const [gridPositions, setGridPositions] = useState<
+    { x: number; y: number }[][]
+  >([[]]);
+
   const [fleurons, setFleurons] = useState(
     new Map<string, FleuronState>([['key1', mockFleuron]])
   );
@@ -33,6 +46,7 @@ const Editor: React.FC = () => {
   const [fleuronsMap, setFleuronsMap] = useState<string[][]>([[]]);
   const [isMultiSelect, setIsMultiSelect] = useState(false);
 
+  //useEffect
   useEffectOnce(() => {
     let array: string[][] = [];
     for (let y = 0; y < gridSize; y++) {
@@ -73,9 +87,42 @@ const Editor: React.FC = () => {
 
     if (positionX !== null && positionY !== null) {
       setEditorPosition({ x: positionX, y: positionY });
-    }
-  }, [editorRef?.current]);
 
+      const array: { x: number; y: number }[][] = [];
+      const gridLiteralSize = height / gridSize;
+      for (let x = 0; x < gridSize; x++) {
+        const tmpArray: { x: number; y: number }[] = [];
+        for (let y = 0; y < gridSize; y++) {
+          tmpArray[y] = {
+            x: positionX + gridLiteralSize * x,
+            y: positionY + gridLiteralSize * y,
+          };
+        }
+        array[x] = tmpArray;
+      }
+
+      setGridPositions(array);
+    }
+  }, [editorRef?.current, gridSize]);
+
+  useEffect(() => {
+    if (snapshot.isDraggingOver) {
+      const position = editorCtx.currentDraggingState.position;
+
+      editorCtx.setCurrentDraggingState({
+        ...editorCtx.currentDraggingState,
+        editorPosition: calcGridPosition(position.x, position.y),
+        isDroppable: true,
+      });
+    } else {
+      editorCtx.setCurrentDraggingState({
+        ...editorCtx.currentDraggingState,
+        isDroppable: false,
+      });
+    }
+  }, [snapshot, editorCtx.currentDraggingState.position]);
+
+  //関数群
   const changeGridSize = (size: number) => {
     if (size > 0) {
       setGridSize(size);
@@ -118,17 +165,13 @@ const Editor: React.FC = () => {
     });
   };
 
+  //イベントハンドラ
   const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
 
-    const x = Math.floor(
-      ((e.clientX - editorPosition.x) / editorSize) * gridSize
-    );
-    const y = Math.floor(
-      ((e.clientY - editorPosition.y) / editorSize) * gridSize
-    );
+    const position = calcGridPosition(e.clientX, e.clientY);
 
-    if (!isSelected && fleuronsMap[x][y]) {
+    if (!isSelected && fleuronsMap[position.x][position.y]) {
       setIsSelected(true);
       updateSelectedFleurons('key1', true);
     } else {
@@ -137,35 +180,41 @@ const Editor: React.FC = () => {
     }
   };
 
+  const calcGridPosition = (x: number, y: number) => {
+    const currentX = Math.floor(
+      ((x - editorPosition.x) / editorSize) * gridSize
+    );
+    const currentY = Math.floor(
+      ((y - editorPosition.y) / editorSize) * gridSize
+    );
+
+    return { x: currentX, y: currentY };
+  };
+
   return (
-    <>
-      <Droppable droppableId="editorDroppable">
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef}>
-            <EditorWrapper ref={editorRef} onClick={onClickEditor}>
-              {/* 花形装飾描画 */}
-              <Grid gridSize={gridSize}>
-                {[...fleurons.entries()].map((fleuron, i) => {
-                  return (
-                    <Fleuron
-                      state={fleuron[1]}
-                      selected={selectedFleurons.has('key1')}
-                      key={`fleuron_${i}`}
-                    />
-                  );
-                })}
-              </Grid>
-              {/* グリッドライン描画 */}
-              <Grid gridSize={gridSize}>
-                {[...Array(gridSize ** 2).keys()].map((v, i) => (
-                  <GridLine key={`grid_${i}`} />
-                ))}
-              </Grid>
-            </EditorWrapper>
-          </div>
-        )}
-      </Droppable>
-    </>
+    <div ref={provided.innerRef} {...provided.droppableProps}>
+      <EditorWrapper ref={editorRef} onClick={onClickEditor}>
+        {/* 花形装飾描画 */}
+        <Grid gridSize={gridSize}>
+          {[...fleurons.entries()].map((fleuron, i) => {
+            return (
+              <Fleuron
+                state={fleuron[1]}
+                selected={selectedFleurons.has('key1')}
+                key={`fleuron_${i}`}
+              />
+            );
+          })}
+        </Grid>
+        {/* グリッドライン描画 */}
+        <Grid gridSize={gridSize}>
+          {[...Array(gridSize ** 2).keys()].map((v, i) => (
+            <GridLine key={`grid_${i}`} />
+          ))}
+        </Grid>
+      </EditorWrapper>
+      {provided.placeholder}
+    </div>
   );
 };
 

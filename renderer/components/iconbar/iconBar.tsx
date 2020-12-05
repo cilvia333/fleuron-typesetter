@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -9,10 +9,24 @@ const IconBar: React.FC = () => {
   return (
     <>
       <IconBarWrapper>
-        <Droppable droppableId="editorDroppable">
+        <Droppable droppableId="iconBarDroppable" isDropDisabled>
           {(provided, snapshot) => (
-            <div ref={provided.innerRef}>
-              <ListItem id={1} size={1} rotate={0} selected={false} />
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <Draggable draggableId={`${1}`} index={0}>
+                {(provided, snapshot) => (
+                  <>
+                    <ListItem
+                      id={1}
+                      size={1}
+                      rotate={0}
+                      selected={false}
+                      provided={provided}
+                      snapshot={snapshot}
+                    />
+                  </>
+                )}
+              </Draggable>
+              {provided.placeholder}
             </div>
           )}
         </Droppable>
