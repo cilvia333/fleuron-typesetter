@@ -54,13 +54,9 @@ const ListItem: React.FC<Props> = (props) => {
           const position =
             editorCtx.gridPositions[gridPosition.x][gridPosition.y];
 
-          console.log(position);
-
           const newTransform = `translate(${position.x - left}px, ${
             position.y - top
           }px)`;
-
-          console.log(newTransform);
 
           setCustomProvidedStyle({ ...style, transform: newTransform });
           editorCtx.setCurrentDraggingState({
