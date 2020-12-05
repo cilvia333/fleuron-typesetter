@@ -139,6 +139,18 @@ const Editor: React.FC<Props> = (props) => {
             );
           })}
         </Grid>
+        {/* 選択中花形装飾描画 */}
+        <Grid gridSize={editorCtx.gridSize}>
+          {[...editorCtx.fleurons.entries()].map((fleuron, i) => {
+            return (
+              <Fleuron
+                state={fleuron[1]}
+                selected={selectedFleurons.has('key1')}
+                key={`fleuron_${i}`}
+              />
+            );
+          })}
+        </Grid>
         {/* グリッドライン描画 */}
         <Grid gridSize={editorCtx.gridSize}>
           {[...Array(editorCtx.gridSize ** 2).keys()].map((v, i) => (

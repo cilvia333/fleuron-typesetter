@@ -14,9 +14,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          500: '#FC008F',
-        },
+        primary: '#FC008F',
+        silver: '#757780',
       },
       fontFamily: {
         header: ['brandon-grotesque', defaultTheme.fontFamily.sans],

@@ -23,9 +23,12 @@ const IconBar: React.FC = () => {
           setSelectedItemId(null);
         }}
       >
+        <IconBarHeader>
+          <HeaderTitle>Fleuron Icons</HeaderTitle>
+        </IconBarHeader>
         <Droppable droppableId="iconBarDroppable" isDropDisabled>
           {(provided, snapshot) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+            <List ref={provided.innerRef} {...provided.droppableProps}>
               <Draggable draggableId={`${1}`} index={0}>
                 {(provided, snapshot) => (
                   <>
@@ -42,7 +45,7 @@ const IconBar: React.FC = () => {
                 )}
               </Draggable>
               {provided.placeholder}
-            </div>
+            </List>
           )}
         </Droppable>
       </IconBarWrapper>
@@ -50,12 +53,25 @@ const IconBar: React.FC = () => {
   );
 };
 
-const IconBarWrapper = styled.div`
-  ${tw`w-full h-full bg-gray-300 px-4`}
+const IconBarWrapper = styled.section`
+  ${tw`w-full h-full bg-gray-300 relative`}
+
+  & * {
+    box-sizing: border-box;
+  }
+`;
+
+const IconBarHeader = styled.header`
+  ${tw`w-full h-16 p-2`}
+`;
+
+const HeaderTitle = styled.h1`
+  ${tw`text-xl font-bold m-0`}
 `;
 
 const List = styled.div`
-  ${tw`w-full h-full bg-gray-300 px-4`}
+  ${tw`bg-white mx-4 overflow-scroll`}
+  box-sizing: border-box;
 `;
 
 export default IconBar;
