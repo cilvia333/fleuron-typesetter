@@ -14,12 +14,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#FC008F',
-        silver: '#757780',
+        primary: '#FF15AB',
+        success: '#09E85E',
+        lightGray: '#757780',
+        darkGray: '#45474C',
+        gray: '#757780',
+        surface: {
+          0: '#FCFBFC',
+          1: '#ffffff',
+          2: '#CDD0DA',
+          3: '#000000',
+        },
       },
       fontFamily: {
-        header: ['brandon-grotesque', defaultTheme.fontFamily.sans],
-        text: ['Noto Sans JP', defaultTheme.fontFamily.sans],
+        header: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.sans],
+        text: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.sans],
       },
       borderRadius: {
         circle: '50%',
