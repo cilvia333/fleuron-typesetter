@@ -135,7 +135,7 @@ interface ItemState {
 }
 
 const Item = styled.div<ItemState>`
-  ${tw`bg-primary opacity-100`}
+  ${tw`bg-primary opacity-100 mr-4 mb-4`}
 
   ${({ gridLength, size, rotate }) => css`
     width: ${gridLength * size}px;

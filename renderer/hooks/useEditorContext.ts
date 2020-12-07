@@ -88,7 +88,7 @@ export const editorContext = createContext<EditorContext>({
   ],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridPositions: () => {},
-  editorSize: 4,
+  editorSize: 8,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorSize: () => {},
   editorPosition: { x: 0, y: 0 },
@@ -132,7 +132,7 @@ export const useEditorContext = (): EditorContext => {
     },
     []
   );
-  const [gridSize, updateGridSize] = useState(4);
+  const [gridSize, updateGridSize] = useState(8);
   const setGridSize = useCallback((size: number): void => {
     updateGridSize(size);
   }, []);

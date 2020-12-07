@@ -182,11 +182,13 @@ const Editor: React.FC<Props> = (props) => {
 };
 
 const Wrapper = styled.div`
-  ${tw`w-full h-full block absolute inset-0 m-auto`};
+  ${tw`block absolute inset-0 m-auto py-10`};
+
+  width: 80%;
 `;
 
 const GridWrapper = styled.div`
-  ${tw`w-full bg-white overflow-hidden relative`};
+  ${tw`w-full bg-white overflow-hidden relative border border-black border-solid`};
 
   &::before {
     ${tw`block`};

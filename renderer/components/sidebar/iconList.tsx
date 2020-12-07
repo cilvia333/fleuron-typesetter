@@ -44,7 +44,6 @@ const IconList: React.FC = () => {
                         />
                       )}
                     </Draggable>
-                    {`id_${i}`}
                   </>
                 ))}
               </List>
@@ -66,7 +65,7 @@ const IconListWrapper = styled.section`
 `;
 
 const List = styled.div`
-  ${tw`bg-white px-8 py-8 overflow-scroll`}
+  ${tw`bg-white px-8 py-8 overflow-scroll flex justify-between flex-wrap`}
   box-sizing: border-box;
 `;
 
