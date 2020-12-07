@@ -3,9 +3,9 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import ListItem from '~/components/iconbar/ListItem';
+import ListItem from '~/components/sidebar/ListItem';
 
-const IconBar: React.FC = () => {
+const IconList: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
   const onClickItem = (itemId: number) => {
@@ -18,15 +18,15 @@ const IconBar: React.FC = () => {
 
   return (
     <>
-      <IconBarWrapper
+      <IconListWrapper
         onClick={(e) => {
           setSelectedItemId(null);
         }}
       >
-        <IconBarHeader>
+        <IconListHeader>
           <HeaderTitle>Fleuron Icons</HeaderTitle>
-        </IconBarHeader>
-        <Droppable droppableId="iconBarDroppable" isDropDisabled>
+        </IconListHeader>
+        <Droppable droppableId="IconListDroppable" isDropDisabled>
           {(provided, snapshot) => (
             <List ref={provided.innerRef} {...provided.droppableProps}>
               <Draggable draggableId={`${1}`} index={0}>
@@ -48,20 +48,20 @@ const IconBar: React.FC = () => {
             </List>
           )}
         </Droppable>
-      </IconBarWrapper>
+      </IconListWrapper>
     </>
   );
 };
 
-const IconBarWrapper = styled.section`
-  ${tw`w-full h-full bg-gray-300 relative`}
+const IconListWrapper = styled.section`
+  ${tw`w-full h-full bg-surface-1 relative`}
 
   & * {
     box-sizing: border-box;
   }
 `;
 
-const IconBarHeader = styled.header`
+const IconListHeader = styled.header`
   ${tw`w-full h-16 p-2`}
 `;
 
@@ -74,4 +74,4 @@ const List = styled.div`
   box-sizing: border-box;
 `;
 
-export default IconBar;
+export default IconList;
