@@ -50,6 +50,18 @@ const CustomButton = styled.button<ButtonProps>`
 
   box-sizing: border-box;
 
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      ${tw`bg-black border-transparent text-white`}
+    `}
+
+  ${({ isSetIcon }) =>
+    isSetIcon &&
+    css`
+      ${tw`w-8 p-0`}
+    `}
+
   &:hover {
     ${tw`bg-gray text-white`}
   }
@@ -71,19 +83,6 @@ const CustomButton = styled.button<ButtonProps>`
 
         transform: translateY(2px);
       }
-    `}
-
-  ${({ isActive, mode }) =>
-    isActive &&
-    mode === 'toggle' &&
-    css`
-      ${tw`w-8 p-0`}
-    `}
-
-  ${({ isSetIcon }) =>
-    isSetIcon &&
-    css`
-      ${tw`w-8 p-0`}
     `}
 `;
 

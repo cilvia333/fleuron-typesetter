@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Fleuron, { FleuronState } from '~/components/editor/fleuron';
-import { toolButtonContext, editorContext } from '~/hooks';
+import { toolContext, editorContext } from '~/hooks';
 
 interface Props {
   provided: DroppableProvided;
@@ -15,7 +15,7 @@ interface Props {
 const Editor: React.FC<Props> = (props) => {
   const { provided, snapshot } = props;
 
-  const toolButtonCtx = useContext(toolButtonContext);
+  const toolCtx = useContext(toolContext);
   const editorCtx = useContext(editorContext);
 
   const editorRef = useRef(null);

@@ -12,7 +12,8 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Editor from '~/components/editor/editor';
-import IconList from '~/components/iconbar/iconBar';
+import IconList from '~/components/sidebar/iconList';
+import ToolList from '~/components/sidebar/toolList';
 import ToolBar from '~/components/toolbar/toolBar';
 import { editorContext } from '~/hooks';
 
@@ -57,6 +58,7 @@ const Home: React.FC = () => {
               </EditorWrapper>
             </EditArea>
             <SideBarWrapper>
+              <ToolList />
               <IconList />
             </SideBarWrapper>
           </Wrapper>
@@ -77,7 +79,7 @@ const Main = styled.main`
 `;
 
 const ToolBarWrapper = styled.div`
-  ${tw`w-screen border-0 border-b border-black border-solid`}
+  ${tw`w-screen border-0 border-b border-black border-solid shadow-black`}
 
   height: 128px;
 `;

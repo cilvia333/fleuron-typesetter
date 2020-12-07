@@ -23,9 +23,6 @@ const IconList: React.FC = () => {
           setSelectedItemId(null);
         }}
       >
-        <IconListHeader>
-          <HeaderTitle>Fleuron Icons</HeaderTitle>
-        </IconListHeader>
         <Droppable droppableId="IconListDroppable" isDropDisabled>
           {(provided, snapshot) => (
             <List ref={provided.innerRef} {...provided.droppableProps}>
@@ -61,16 +58,8 @@ const IconListWrapper = styled.section`
   }
 `;
 
-const IconListHeader = styled.header`
-  ${tw`w-full h-16 p-2`}
-`;
-
-const HeaderTitle = styled.h1`
-  ${tw`text-xl font-bold m-0`}
-`;
-
 const List = styled.div`
-  ${tw`bg-white mx-4 overflow-scroll`}
+  ${tw`bg-white px-8 py-8 overflow-scroll`}
   box-sizing: border-box;
 `;
 

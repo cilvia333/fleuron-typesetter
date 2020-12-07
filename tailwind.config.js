@@ -37,8 +37,7 @@ module.exports = {
         0: '0ms',
       },
       boxShadow: {
-        'blur-black': '0 0 2px 4px rgba(#000000)',
-        'blur-ivoly': '0 0 2px 4px rgba(#F2F2F0)',
+        black: '0px 2px 4px rgba(0, 0, 0, 0.25)',
       },
     },
   },

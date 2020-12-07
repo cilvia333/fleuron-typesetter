@@ -1,90 +1,79 @@
 import {
-  faToolbox,
-  faBorderAll,
-  faPaperPlane,
   faMousePointer,
   faPencilAlt,
   faEraser,
-  faTrashAlt,
-  faPrint,
-  faSquare,
-  faTh,
-  faThLarge,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Button from '~/components/share/button';
-import { toolButtonContext } from '~/hooks';
+import ToolListWrapper from '~/components/share/toolListWrapper';
+import { toolContext } from '~/hooks';
 
 const ToolBar: React.FC = () => {
-  const toolButtonCtx = useContext(toolButtonContext);
+  const toolCtx = useContext(toolContext);
 
   return (
     <>
       <Wrapper>
         <AppTitle>Fleuron Typesetter</AppTitle>
-        <ToolList>
-          <ToolListHeader>ツール</ToolListHeader>
-          <ToolButtonList>
-            <Button
-              icon={faMousePointer}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('select');
-              }}
-            />
-            <Button
-              icon={faPencilAlt}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('pen');
-              }}
-            />
-            <Button
-              icon={faEraser}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('eraser');
-              }}
-            />
-          </ToolButtonList>
-        </ToolList>
-        <ToolList>
-          <ToolListHeader>グリッドサイズ</ToolListHeader>
-          <ToolButtonList>
-            <Button
-              text={'4x4'}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('select');
-              }}
-            />
-            <Button
-              text={'8x8'}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('pen');
-              }}
-            />
-            <Button
-              text={'16x16'}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('eraser');
-              }}
-            />
-            <Button
-              text={'custom'}
-              mode={'toggle'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('eraser');
-              }}
-            />
-          </ToolButtonList>
-        </ToolList>
+        <ToolListWrapper title={'ツール'}>
+          <Button
+            icon={faMousePointer}
+            mode={'toggle'}
+            active={toolCtx.currentTool === 'select'}
+            onClick={() => {
+              toolCtx.setCurrentTool('select');
+            }}
+          />
+          <Button
+            icon={faPencilAlt}
+            mode={'toggle'}
+            active={toolCtx.currentTool === 'pen'}
+            onClick={() => {
+              toolCtx.setCurrentTool('pen');
+            }}
+          />
+          <Button
+            icon={faEraser}
+            mode={'toggle'}
+            active={toolCtx.currentTool === 'eraser'}
+            onClick={() => {
+              toolCtx.setCurrentTool('eraser');
+            }}
+          />
+        </ToolListWrapper>
+        <ToolListWrapper title={'グリッドサイズ'}>
+          <Button
+            text={'4×4'}
+            mode={'toggle'}
+            onClick={() => {
+              return;
+            }}
+          />
+          <Button
+            text={'8×8'}
+            mode={'toggle'}
+            onClick={() => {
+              return;
+            }}
+          />
+          <Button
+            text={'16×16'}
+            mode={'toggle'}
+            onClick={() => {
+              return;
+            }}
+          />
+          <Button
+            text={'custom'}
+            mode={'toggle'}
+            onClick={() => {
+              return;
+            }}
+          />
+        </ToolListWrapper>
         <UtilButton>Reset</UtilButton>
         <ExportButton>Export</ExportButton>
       </Wrapper>
