@@ -3,7 +3,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import ListItem from '~/components/sidebar/ListItem';
+import IconItem from '~/components/sidebar/iconItem';
 
 const IconList: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
@@ -29,7 +29,7 @@ const IconList: React.FC = () => {
               <Draggable draggableId={`${1}`} index={0}>
                 {(provided, snapshot) => (
                   <>
-                    <ListItem
+                    <IconItem
                       id={1}
                       size={1}
                       rotate={0}

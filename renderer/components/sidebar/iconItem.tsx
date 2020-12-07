@@ -19,12 +19,13 @@ interface Props {
   snapshot: DraggableStateSnapshot;
 }
 
-const ListItem: React.FC<Props> = (props) => {
+const IconItem: React.FC<Props> = (props) => {
   const { id, size, rotate, selected, onClickItem, provided, snapshot } = props;
   const editorCtx = useContext(editorContext);
   const [customProvidedStyle, setCustomProvidedStyle] = useState<
     DraggableProvided['draggableProps']['style']
   >(provided.draggableProps.style);
+  const [gridLength, setGridLength] = useState(0);
 
   useEffect(() => {
     if (snapshot.isDragging) {
@@ -83,6 +84,10 @@ const ListItem: React.FC<Props> = (props) => {
     }
   }, [provided.draggableProps, editorCtx.currentDraggingState.isDroppable]);
 
+  useEffect(() => {
+    setGridLength(editorCtx.editorSize / editorCtx.gridSize);
+  }, [editorCtx.gridSize, editorCtx.editorSize]);
+
   const isDraggingStyle = (style: any): style is DraggingStyle => {
     return style.position !== undefined;
   };
@@ -102,6 +107,7 @@ const ListItem: React.FC<Props> = (props) => {
         size={size}
         rotate={rotate}
         selected={selected}
+        gridLength={gridLength}
         onClick={(e) => {
           e.stopPropagation();
           onClickItem(id);
@@ -124,14 +130,15 @@ interface ItemState {
   rotate: number;
   selected: boolean;
   isDragging: boolean;
+  gridLength: number;
 }
 
 const Item = styled.div<ItemState>`
-  ${tw`bg-red-500 opacity-100`}
+  ${tw`bg-primary opacity-100`}
 
-  ${({ size, rotate }) => css`
-    width: ${24 * size}px;
-    height: ${24 * size}px;
+  ${({ gridLength, size, rotate }) => css`
+    width: ${gridLength * size}px;
+    height: ${gridLength * size}px;
     transform: rotate(${rotate}deg);
   `}
 
@@ -154,4 +161,4 @@ const Clone = styled(Item)`
   }
 `;
 
-export default ListItem;
+export default IconItem;
