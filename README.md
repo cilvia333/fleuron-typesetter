@@ -1,38 +1,34 @@
-<p align="center"><img src="https://i.imgur.com/NZfsD1p.png"></p>
+# FleuronTypesetter
 
-## Usage
+花形装飾活字組版体験用アプリケーション
 
-### Create an App
 
-```
-# with npx
-$ npx create-nextron-app my-app --example with-typescript
+## インストール方法
 
-# with yarn
-$ yarn create nextron-app my-app --example with-typescript
+[こちら](https://github.com/Cilvia333/fleuron-typesetter)からダウンロード
 
-# with pnpx
-$ pnpx create-nextron-app my-app --example with-typescript
-```
+## 開発方法
+### 開発環境
 
-### Install Dependencies
+- Electron
+- Next.js
+- styled-components
 
-```
-$ cd my-app
 
-# using yarn or npm
-$ yarn (or `npm install`)
+### 依存のインストール
 
-# using pnpm
-$ pnpm install --shamefully-hoist
+```bash
+% yarn
 ```
 
-### Use it
+### 開発環境立ち上げ
 
+```bash
+% yarn dev
 ```
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
 
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
+### ビルド
+
+```bash
+% yarn build
 ```
