@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     padding: 0;
     appearance: none;
+    user-select: none;
   }
 `;
 
