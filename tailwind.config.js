@@ -27,8 +27,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        header: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.sans],
-        text: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.sans],
+        header: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.serif],
+        text: ['Baskerville', 'Noto Serif JP', defaultTheme.fontFamily.serif],
       },
       borderRadius: {
         circle: '50%',

@@ -16,7 +16,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import ToolButton from '~/components/toolbar/toolButton';
+import Button from '~/components/share/button';
 import { toolButtonContext } from '~/hooks';
 
 const ToolBar: React.FC = () => {
@@ -24,30 +24,28 @@ const ToolBar: React.FC = () => {
 
   return (
     <>
-      <ToolBarWrapper>
+      <Wrapper>
+        <AppTitle>Fleuron Typesetter</AppTitle>
         <ToolList>
-          <ToolListHeader>
-            <HeaderIcon icon={faToolbox} />
-            Tools
-          </ToolListHeader>
+          <ToolListHeader>ツール</ToolListHeader>
           <ToolButtonList>
-            <ToolButton
+            <Button
               icon={faMousePointer}
-              text={'選択'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('select');
               }}
             />
-            <ToolButton
+            <Button
               icon={faPencilAlt}
-              text={'ペンツール'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('pen');
               }}
             />
-            <ToolButton
+            <Button
               icon={faEraser}
-              text={'けしごむ'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('eraser');
               }}
@@ -55,88 +53,110 @@ const ToolBar: React.FC = () => {
           </ToolButtonList>
         </ToolList>
         <ToolList>
-          <ToolListHeader>
-            <HeaderIcon icon={faPaperPlane} />
-            Utils
-          </ToolListHeader>
+          <ToolListHeader>グリッドサイズ</ToolListHeader>
           <ToolButtonList>
-            <ToolButton
-              icon={faTrashAlt}
-              text={'リセット'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('select');
-              }}
-            />
-            <ToolButton
-              icon={faPrint}
-              text={'印刷'}
-              onClick={() => {
-                toolButtonCtx.setCurrentTool('pen');
-              }}
-            />
-          </ToolButtonList>
-        </ToolList>
-        <ToolList>
-          <ToolListHeader>
-            <HeaderIcon icon={faBorderAll} />
-            GridSetting
-          </ToolListHeader>
-          <ToolButtonList>
-            <ToolButton
-              icon={faSquare}
+            <Button
               text={'4x4'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('select');
               }}
             />
-            <ToolButton
-              icon={faThLarge}
+            <Button
               text={'8x8'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('pen');
               }}
             />
-            <ToolButton
-              icon={faTh}
+            <Button
               text={'16x16'}
+              mode={'toggle'}
+              onClick={() => {
+                toolButtonCtx.setCurrentTool('eraser');
+              }}
+            />
+            <Button
+              text={'custom'}
+              mode={'toggle'}
               onClick={() => {
                 toolButtonCtx.setCurrentTool('eraser');
               }}
             />
           </ToolButtonList>
         </ToolList>
-      </ToolBarWrapper>
+        <UtilButton>Reset</UtilButton>
+        <ExportButton>Export</ExportButton>
+      </Wrapper>
     </>
   );
 };
 
-const ToolBarWrapper = styled.section`
-  ${tw`w-full h-full bg-gray-300 relative px-4`}
+const Wrapper = styled.section`
+  ${tw`w-full h-full bg-surface-1 relative px-4 flex items-center`}
 
   box-sizing: border-box;
 
   & * {
     box-sizing: border-box;
   }
+
+  & > * {
+    ${tw`mr-8`}
+  }
+`;
+
+const AppTitle = styled.h1`
+  ${tw`font-header text-4xl font-bold`}
 `;
 
 const ToolList = styled.div`
-  ${tw`w-full relative`}
+  ${tw`relative`}
 `;
 
 const ToolListHeader = styled.h2`
-  ${tw`w-full relative m-0 p-0 text-base`}
-`;
+  ${tw`w-full relative m-0 p-0 text-darkGray text-base font-header`}
 
-const HeaderIcon = styled(FontAwesomeIcon)`
-  ${tw`mr-4`}
+  &::before {
+    ${tw`w-full absolute bg-darkGray`}
+
+    content: "";
+    bottom: -4px;
+    height: 1px;
+  }
 `;
 
 const ToolButtonList = styled.ul`
-  ${tw`w-full relative p-0`}
+  ${tw`w-full relative p-0 flex`}
 
   & > button {
-    ${tw`mb-2`}
+    ${tw`mr-2`}
+  }
+`;
+
+const UtilButton = styled.button`
+  ${tw`h-8 px-2 text-center cursor-pointer relative text-xl border border-black border-solid bg-white font-text font-medium text-black font-bold`}
+
+  &:hover {
+    ${tw`bg-gray text-white`}
+  }
+
+  &:active {
+    ${tw`bg-black border-transparent text-white`}
+    transform: translateY(2px);
+  }
+`;
+
+const ExportButton = styled(UtilButton)`
+  ${tw`border-primary text-primary`}
+
+  &:hover {
+    ${tw`bg-primary border-transparent text-white`}
+  }
+
+  &:active {
+    ${tw`bg-primary border-transparent text-white`}
+    transform: translateY(2px);
   }
 `;
 

@@ -15,9 +15,19 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     position: relative;
     box-sizing: border-box;
+    ${tw`font-text`}
   }
   h1 {
     ${tw`font-header text-4xl`}
+  }
+
+  button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
   }
 `;
 

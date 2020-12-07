@@ -117,16 +117,16 @@ const Editor: React.FC<Props> = (props) => {
 
     if (!isSelected && fleuronsMap[position.x][position.y]) {
       setIsSelected(true);
-      updateSelectedFleurons('key1', true);
+      //updateSelectedFleurons('key1', true);
     } else {
-      clearSelectedFleurons();
+      //clearSelectedFleurons();
       setIsSelected(false);
     }
   };
 
   return (
     <div ref={provided.innerRef} {...provided.droppableProps}>
-      <EditorWrapper ref={editorRef} onClick={onClickEditor}>
+      <GridWrapper ref={editorRef} onClick={onClickEditor}>
         {/* 花形装飾描画 */}
         <Grid gridSize={editorCtx.gridSize}>
           {[...editorCtx.fleurons.entries()].map((fleuron, i) => {
@@ -157,13 +157,13 @@ const Editor: React.FC<Props> = (props) => {
             <GridLine key={`grid_${i}`} />
           ))}
         </Grid>
-      </EditorWrapper>
+      </GridWrapper>
       {provided.placeholder}
     </div>
   );
 };
 
-const EditorWrapper = styled.div`
+const GridWrapper = styled.div`
   ${tw`w-full bg-white overflow-hidden relative`};
 
   &::before {

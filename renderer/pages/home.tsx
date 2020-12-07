@@ -12,7 +12,7 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Editor from '~/components/editor/editor';
-import IconBar from '~/components/iconbar/iconBar';
+import IconList from '~/components/iconbar/iconBar';
 import ToolBar from '~/components/toolbar/toolBar';
 import { editorContext } from '~/hooks';
 
@@ -41,23 +41,27 @@ const Home: React.FC = () => {
       <Head>
         <title>Home - Nextron (with-typescript)</title>
       </Head>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Wrapper>
+      <Main>
+        <DragDropContext onDragEnd={onDragEnd}>
           <ToolBarWrapper>
             <ToolBar />
           </ToolBarWrapper>
-          <EditorWrapper>
-            <Droppable droppableId="editorDroppable">
-              {(provided, snapshot) => (
-                <Editor provided={provided} snapshot={snapshot} />
-              )}
-            </Droppable>
-          </EditorWrapper>
-          <IconBarWrapper>
-            <IconBar />
-          </IconBarWrapper>
-        </Wrapper>
-      </DragDropContext>
+          <Wrapper>
+            <EditArea>
+              <EditorWrapper>
+                <Droppable droppableId="editorDroppable">
+                  {(provided, snapshot) => (
+                    <Editor provided={provided} snapshot={snapshot} />
+                  )}
+                </Droppable>
+              </EditorWrapper>
+            </EditArea>
+            <SideBarWrapper>
+              <IconList />
+            </SideBarWrapper>
+          </Wrapper>
+        </DragDropContext>
+      </Main>
     </>
   );
 };
@@ -68,19 +72,39 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return { props: { data: [] } };
 };
 
-const Wrapper = styled.div`
-  ${tw`w-screen h-screen relative flex`}
+const Main = styled.main`
+  ${tw`w-screen h-screen relative`}
 `;
 
 const ToolBarWrapper = styled.div`
-  width: 20%;
+  ${tw`w-screen border-0 border-b border-black border-solid`}
+
+  height: 128px;
+`;
+
+const Wrapper = styled.div`
+  ${tw`w-screen relative flex`}
+
+  height: calc(100% - 128px);
+
+  & > * {
+    box-sizing: border-box;
+  }
+`;
+
+const EditArea = styled.section`
+  ${tw`bg-surface-0 relative`}
+
+  width: 75%;
 `;
 
 const EditorWrapper = styled.div`
-  width: 55%;
+  ${tw`px-24 relative`}
 `;
 
-const IconBarWrapper = styled.div`
+const SideBarWrapper = styled.div`
+  ${tw`bg-surface-0`}
+
   width: 25%;
 `;
 
