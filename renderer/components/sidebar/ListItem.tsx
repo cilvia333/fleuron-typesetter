@@ -3,7 +3,6 @@ import {
   DraggableProvided,
   DraggableStateSnapshot,
   DraggingStyle,
-  NotDraggingStyle,
 } from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
