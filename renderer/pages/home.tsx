@@ -79,9 +79,16 @@ const Main = styled.main`
 `;
 
 const ToolBarWrapper = styled.div`
-  ${tw`w-screen border-0 border-b border-black border-solid shadow-black`}
+  ${tw`w-screen border-0 border-b border-black border-solid shadow-black relative`}
 
   height: 128px;
+
+  &::before {
+    ${tw`w-full h-2 bg-darkGray absolute z-10`}
+
+    content: "";
+    top: 0;
+  }
 `;
 
 const Wrapper = styled.div`

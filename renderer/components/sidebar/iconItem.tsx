@@ -119,6 +119,7 @@ const IconItem: React.FC<Props> = (props) => {
           size={size}
           rotate={rotate}
           selected={selected}
+          gridLength={gridLength}
         />
       )}
     </>

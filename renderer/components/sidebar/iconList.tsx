@@ -5,6 +5,8 @@ import tw from 'twin.macro';
 
 import IconItem from '~/components/sidebar/iconItem';
 
+const mockList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 const IconList: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
@@ -25,24 +27,29 @@ const IconList: React.FC = () => {
       >
         <Droppable droppableId="IconListDroppable" isDropDisabled>
           {(provided, snapshot) => (
-            <List ref={provided.innerRef} {...provided.droppableProps}>
-              <Draggable draggableId={`${1}`} index={0}>
-                {(provided, snapshot) => (
+            <>
+              <List ref={provided.innerRef} {...provided.droppableProps}>
+                {mockList.map((v, i) => (
                   <>
-                    <IconItem
-                      id={1}
-                      size={1}
-                      rotate={0}
-                      selected={selectedItemId === 1}
-                      onClickItem={onClickItem}
-                      provided={provided}
-                      snapshot={snapshot}
-                    />
+                    <Draggable draggableId={`${i}`} index={i}>
+                      {(provided, snapshot) => (
+                        <IconItem
+                          id={i}
+                          size={1}
+                          rotate={0}
+                          selected={selectedItemId === i}
+                          onClickItem={onClickItem}
+                          provided={provided}
+                          snapshot={snapshot}
+                        />
+                      )}
+                    </Draggable>
+                    {`id_${i}`}
                   </>
-                )}
-              </Draggable>
+                ))}
+              </List>
               {provided.placeholder}
-            </List>
+            </>
           )}
         </Droppable>
       </IconListWrapper>
@@ -51,7 +58,7 @@ const IconList: React.FC = () => {
 };
 
 const IconListWrapper = styled.section`
-  ${tw`w-full h-full bg-surface-1 relative`}
+  ${tw`w-full h-full bg-surface-1 relative overflow-y-scroll`}
 
   & * {
     box-sizing: border-box;
