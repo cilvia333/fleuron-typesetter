@@ -9,9 +9,14 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Button from '~/components/share/button';
+import InputNum from '~/components/share/inputNum';
 import ToolListWrapper from '~/components/share/toolListWrapper';
+import { editorContext } from '~/hooks';
 
 const ToolList: React.FC = () => {
+  const [iconSize, setIconSize] = useState(1);
+  const editorCtx = useContext(editorContext);
+
   return (
     <>
       <Wrapper>
@@ -51,6 +56,14 @@ const ToolList: React.FC = () => {
             mode={'action'}
             onClick={() => {
               return;
+            }}
+          />
+          <InputNum
+            value={iconSize}
+            onChangeNumber={(num) => {
+              if (0 < num && num <= editorCtx.gridSize) {
+                setIconSize(num);
+              }
             }}
           />
         </ToolListWrapper>

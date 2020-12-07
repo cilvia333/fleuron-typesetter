@@ -38,9 +38,14 @@ const ToolListHeader = styled.h2`
 const ToolButtonList = styled.ul`
   ${tw`w-full relative p-0 flex`}
 
-  & > button {
+  & > * {
     ${tw`mr-2`}
   }
+`;
+
+export const ToolListDivider = styled.div`
+  ${tw`h-8 bg-black`}
+  width: 1px;
 `;
 
 export default ToolListWrapper;

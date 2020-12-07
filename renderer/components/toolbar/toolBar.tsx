@@ -8,11 +8,27 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Button from '~/components/share/button';
-import ToolListWrapper from '~/components/share/toolListWrapper';
-import { toolContext } from '~/hooks';
+import InputNum from '~/components/share/inputNum';
+import ToolListWrapper, {
+  ToolListDivider,
+} from '~/components/share/toolListWrapper';
+import { toolContext, editorContext } from '~/hooks';
+
+const gridPreset = ['4x4', '8x8', '16x16', 'custom'];
+
+type GridPreset = typeof gridPreset[keyof typeof gridPreset];
 
 const ToolBar: React.FC = () => {
   const toolCtx = useContext(toolContext);
+  const editorCtx = useContext(editorContext);
+  const [gridSize, setGridSize] = useState(4);
+  const [gridSet, setGridSet] = useState<GridPreset>('4x4');
+
+  useEffect(() => {
+    if (gridSet === 'custom') {
+      editorCtx.setGridSize(gridSize);
+    }
+  }, [gridSize, gridSet]);
 
   return (
     <>
@@ -48,29 +64,46 @@ const ToolBar: React.FC = () => {
           <Button
             text={'4×4'}
             mode={'toggle'}
+            active={gridSet === '4x4'}
             onClick={() => {
-              return;
+              setGridSet('4x4');
+              editorCtx.setGridSize(4);
             }}
           />
           <Button
             text={'8×8'}
             mode={'toggle'}
+            active={gridSet === '8x8'}
             onClick={() => {
-              return;
+              setGridSet('8x8');
+              editorCtx.setGridSize(8);
             }}
           />
           <Button
             text={'16×16'}
             mode={'toggle'}
+            active={gridSet === '16x16'}
             onClick={() => {
-              return;
+              setGridSet('16x16');
+              editorCtx.setGridSize(16);
             }}
           />
+          <ToolListDivider />
           <Button
             text={'custom'}
             mode={'toggle'}
+            active={gridSet === 'custom'}
             onClick={() => {
-              return;
+              setGridSet('custom');
+              editorCtx.setGridSize(gridSize);
+            }}
+          />
+          <InputNum
+            value={gridSize}
+            onChangeNumber={(num) => {
+              if (1 < num && num < 100) {
+                setGridSize(num);
+              }
             }}
           />
         </ToolListWrapper>
@@ -97,30 +130,6 @@ const Wrapper = styled.section`
 
 const AppTitle = styled.h1`
   ${tw`font-header text-4xl font-bold`}
-`;
-
-const ToolList = styled.div`
-  ${tw`relative`}
-`;
-
-const ToolListHeader = styled.h2`
-  ${tw`w-full relative m-0 p-0 text-darkGray text-base font-header`}
-
-  &::before {
-    ${tw`w-full absolute bg-darkGray`}
-
-    content: "";
-    bottom: -4px;
-    height: 1px;
-  }
-`;
-
-const ToolButtonList = styled.ul`
-  ${tw`w-full relative p-0 flex`}
-
-  & > button {
-    ${tw`mr-2`}
-  }
 `;
 
 const UtilButton = styled.button`

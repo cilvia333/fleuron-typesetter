@@ -30,6 +30,14 @@ const GlobalStyle = createGlobalStyle`
     appearance: none;
     user-select: none;
   }
+
+  input[type="number"] {
+    appearance: none;
+    --webkit-appearance: none;
+    outline: none;
+    padding: 0;
+    background-color: transparent;
+  }
 `;
 
 export type Props = AppProps;
