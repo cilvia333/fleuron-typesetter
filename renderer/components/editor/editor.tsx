@@ -106,6 +106,24 @@ const Editor: React.FC<Props> = (props) => {
     }
   };
 
+  const updateSelectedFleuron = (key: string, value: boolean) => {
+    setSelectedFleurons((old) => old.set(key, value));
+  };
+
+  const clearSelectedFleurons = () => {
+    setSelectedFleurons((old) => {
+      old.clear();
+      return old;
+    });
+  };
+
+  const deleteSelectedFleuron = (key: string) => {
+    setSelectedFleurons((old) => {
+      old.delete(key);
+      return old;
+    });
+  };
+
   //イベントハンドラ
   const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -117,15 +135,15 @@ const Editor: React.FC<Props> = (props) => {
 
     if (!isSelected && fleuronsMap[position.x][position.y]) {
       setIsSelected(true);
-      //updateSelectedFleurons('key1', true);
+      updateSelectedFleuron('key1', true);
     } else {
-      //clearSelectedFleurons();
+      clearSelectedFleurons();
       setIsSelected(false);
     }
   };
 
   return (
-    <div ref={provided.innerRef} {...provided.droppableProps}>
+    <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
       <GridWrapper ref={editorRef} onClick={onClickEditor}>
         {/* 花形装飾描画 */}
         <Grid gridSize={editorCtx.gridSize}>
@@ -159,9 +177,13 @@ const Editor: React.FC<Props> = (props) => {
         </Grid>
       </GridWrapper>
       {provided.placeholder}
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  ${tw`w-full h-full block absolute inset-0 m-auto`};
+`;
 
 const GridWrapper = styled.div`
   ${tw`w-full bg-white overflow-hidden relative`};

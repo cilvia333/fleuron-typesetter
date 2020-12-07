@@ -85,7 +85,7 @@ const ToolBarWrapper = styled.div`
 const Wrapper = styled.div`
   ${tw`w-screen relative flex`}
 
-  height: calc(100% - 128px);
+  height: calc(100% - 129px);
 
   & > * {
     box-sizing: border-box;
@@ -93,13 +93,13 @@ const Wrapper = styled.div`
 `;
 
 const EditArea = styled.section`
-  ${tw`bg-surface-0 relative`}
+  ${tw`h-full bg-surface-2 relative`}
 
   width: 75%;
 `;
 
 const EditorWrapper = styled.div`
-  ${tw`px-24 relative`}
+  ${tw`h-full mx-48 relative`}
 `;
 
 const SideBarWrapper = styled.div`
