@@ -3,6 +3,7 @@ import {
   DraggableProvided,
   DraggableStateSnapshot,
   DraggingStyle,
+  NotDraggingStyle,
 } from 'react-beautiful-dnd';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
@@ -67,18 +68,23 @@ const IconItem: React.FC<Props> = (props) => {
             editorCtx
           );
 
-          const position =
-            editorCtx.gridPositions[gridPosition.x][gridPosition.y];
+          if (
+            gridPosition.x < editorCtx.gridSize &&
+            gridPosition.y < editorCtx.gridSize
+          ) {
+            const position =
+              editorCtx.gridPositions[gridPosition.x][gridPosition.y];
 
-          const newTransform = `translate(${position.x - left}px, ${
-            position.y - top
-          }px)`;
+            const newTransform = `translate(${position.x - left}px, ${
+              position.y - top
+            }px)`;
 
-          setCustomProvidedStyle({ ...style, transform: newTransform });
-          editorCtx.setCurrentDraggingState({
-            ...editorCtx.currentDraggingState,
-            position: gridPosition,
-          });
+            setCustomProvidedStyle({ ...style, transform: newTransform });
+            editorCtx.setCurrentDraggingState({
+              ...editorCtx.currentDraggingState,
+              position: gridPosition,
+            });
+          }
         }
       }
     }
@@ -92,17 +98,30 @@ const IconItem: React.FC<Props> = (props) => {
     return style.position !== undefined;
   };
 
+  const getStyle = (
+    style: DraggingStyle | NotDraggingStyle | undefined,
+    snapshot: DraggableStateSnapshot
+  ) => {
+    if (snapshot.isDropAnimating && snapshot.dropAnimation) {
+      const { opacity, curve, duration } = snapshot.dropAnimation;
+      return {
+        ...customProvidedStyle,
+        opacity: opacity,
+        transition: `all ${curve} ${duration}s`,
+      };
+    } else if (editorCtx.currentDraggingState.isDroppable) {
+      return customProvidedStyle;
+    } else {
+      return style;
+    }
+  };
   return (
     <>
       <Item
         ref={provided.innerRef}
-        {...{
-          ...provided.draggableProps,
-          style: editorCtx.currentDraggingState.isDroppable
-            ? customProvidedStyle
-            : provided.draggableProps.style,
-        }}
+        {...provided.draggableProps}
         {...provided.dragHandleProps}
+        style={getStyle(provided.draggableProps.style, snapshot)}
         isDragging={snapshot.isDragging}
         size={size}
         rotate={rotate}

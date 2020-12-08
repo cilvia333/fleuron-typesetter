@@ -14,7 +14,14 @@ const InputNum: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <CustomInput type="number" value={value} />
+      <CustomInput
+        type="number"
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = Number(e.target.value);
+          onChangeNumber(value);
+        }}
+      />
       <ButtonWrapper>
         <Button
           onClick={() => {

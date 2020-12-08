@@ -28,10 +28,14 @@ const IconList: React.FC = () => {
         <Droppable droppableId="IconListDroppable" isDropDisabled>
           {(provided, snapshot) => (
             <>
-              <List ref={provided.innerRef} {...provided.droppableProps}>
+              <List
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                key={`iconList_01`}
+              >
                 {mockList.map((v, i) => (
                   <>
-                    <Draggable draggableId={`${i}`} index={i}>
+                    <Draggable draggableId={`${i}`} index={i} key={`icon_${i}`}>
                       {(provided, snapshot) => (
                         <IconItem
                           id={i}

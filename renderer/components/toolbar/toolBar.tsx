@@ -34,6 +34,7 @@ const ToolBar: React.FC = () => {
     <>
       <Wrapper>
         <AppTitle>Fleuron Typesetter</AppTitle>
+        <Divider />
         <ToolListWrapper title={'ツール'}>
           <Button
             icon={faMousePointer}
@@ -101,7 +102,7 @@ const ToolBar: React.FC = () => {
           <InputNum
             value={gridSize}
             onChangeNumber={(num) => {
-              if (1 < num && num < 100) {
+              if (0 < num && num < 100) {
                 setGridSize(num);
               }
             }}
@@ -129,7 +130,13 @@ const Wrapper = styled.section`
 `;
 
 const AppTitle = styled.h1`
-  ${tw`font-header text-4xl font-bold`}
+  ${tw`font-header text-4xl font-bold leading-none`}
+`;
+
+const Divider = styled.div`
+  ${tw`h-1/2 bg-black`}
+
+  width: 1px;
 `;
 
 const UtilButton = styled.button`
