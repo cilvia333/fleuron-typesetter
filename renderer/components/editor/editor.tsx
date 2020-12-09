@@ -64,26 +64,12 @@ const Editor: React.FC<Props> = (props) => {
   }, [displayFleurons]);
 
   const updateEditorState = () => {
-    let array: string[][] = [];
+    let array: typeof fleuronsMap = [];
     for (let y = 0; y < editorCtx.gridSize; y++) {
       array[y] = new Array(editorCtx.gridSize).fill('');
     }
 
-    array = array.map((v, x) => {
-      return v.map((state, y) => {
-        const item = editorCtx.fleurons.get('key1');
-        if (
-          item &&
-          x >= item?.position?.x &&
-          x < item?.position?.x + item?.size &&
-          y >= item?.position?.y &&
-          y < item?.position?.y + item?.size
-        ) {
-          return 'key1';
-        }
-        return null;
-      });
-    });
+    array = array.map((v, x) => v.map((state, y) => null));
 
     setFleuronsMap(array);
 
@@ -102,15 +88,15 @@ const Editor: React.FC<Props> = (props) => {
     if (positionX !== null && positionY !== null) {
       editorCtx.setEditorPosition({ x: positionX, y: positionY });
 
-      const array: { x: number; y: number }[][] = [];
+      const array: Point2D<Pixel>[][] = [];
       const gridLiteralSize = height / editorCtx.gridSize;
       for (let x = 0; x < editorCtx.gridSize; x++) {
-        const tmpArray: { x: number; y: number }[] = [];
+        const tmpArray: Point2D<Pixel>[] = [];
         for (let y = 0; y < editorCtx.gridSize; y++) {
           tmpArray[y] = {
             x: positionX + gridLiteralSize * x,
             y: positionY + gridLiteralSize * y,
-          };
+          } as Point2D<Pixel>;
         }
         array[x] = tmpArray;
       }
@@ -164,15 +150,17 @@ const Editor: React.FC<Props> = (props) => {
     e.stopPropagation();
 
     const position = editorCtx.calcGridPosition(
-      { x: e.clientX, y: e.clientY },
+      { x: e.clientX, y: e.clientY } as Point2D<Pixel>,
       editorCtx
     );
 
     switch (toolCtx.currentTool) {
       case 'select': {
-        if (!isSelected && fleuronsMap[position.x][position.y]) {
+        const fleuronId = fleuronsMap[position.x][position.y];
+
+        if (!isSelected && fleuronId) {
           setIsSelected(true);
-          updateSelectedFleuron('key1', true);
+          updateSelectedFleuron(fleuronId, true);
         } else {
           clearSelectedFleurons();
           setIsSelected(false);
@@ -188,16 +176,31 @@ const Editor: React.FC<Props> = (props) => {
             return;
           }
 
-          const currentSize = {
-            x: fleuron.rect.x,
-            y: fleuron.rect.y,
-          };
+          const currentAngle = editorCtx.currentAngle;
+          let isRotateRect = false;
+
+          if (currentAngle === 90 && currentAngle === 270) {
+            isRotateRect = true;
+          }
+
+          const currentSize: Rectangle<Grid> = {
+            x: isRotateRect ? fleuron.rect.y : fleuron.rect.x,
+            y: isRotateRect ? fleuron.rect.x : fleuron.rect.y,
+          } as Rectangle<Grid>;
 
           if (
             position.x + currentSize.x - 1 >= editorCtx.gridSize ||
             position.y + currentSize.y - 1 >= editorCtx.gridSize
           ) {
             return;
+          }
+
+          for (let i = position.x; i < position.x + currentSize.x; i++) {
+            for (let j = position.y; j < position.y + currentSize.y; j++) {
+              if (fleuronsMap[i][j]) {
+                return;
+              }
+            }
           }
 
           const newFleuronsMap = fleuronsMap;
@@ -207,7 +210,7 @@ const Editor: React.FC<Props> = (props) => {
             fleuron,
             position,
             size: 1,
-            rotate: 0,
+            rotate: editorCtx.currentAngle,
           });
 
           for (let i = position.x; i < position.x + currentSize.x; i++) {
@@ -256,7 +259,7 @@ const Editor: React.FC<Props> = (props) => {
             return (
               <Fleuron
                 state={fleuron[1]}
-                selected={selectedFleurons.has('key1')}
+                selected={selectedFleurons.has(fleuron[0])}
                 key={`fleuron_${i}`}
               />
             );
@@ -268,7 +271,7 @@ const Editor: React.FC<Props> = (props) => {
             return (
               <Fleuron
                 state={fleuron[1]}
-                selected={selectedFleurons.has('key1')}
+                selected={selectedFleurons.has(fleuron[0])}
                 key={`fleuron_${i}`}
               />
             );

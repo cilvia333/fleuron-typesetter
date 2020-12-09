@@ -15,3 +15,7 @@ export type Point2D<U extends UnitOfLength> = {
   x: AxisX<U>;
   y: AxisY<U>;
 };
+
+export type Degree = Branded<number, 'Degree'>;
+
+export type Angle = Degree;

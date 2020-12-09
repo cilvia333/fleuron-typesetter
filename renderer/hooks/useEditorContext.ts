@@ -2,17 +2,13 @@ import { useState, useCallback, createContext } from 'react';
 
 import { FleuronState } from '~/components/editor/fleuron';
 import { Fleuron } from '~/types';
+import { Point2D, Rectangle, Pixel, Grid, Angle } from '~/utils/Geometory';
 
 type DraggingState = {
-  position: { x: number; y: number };
-  editorPosition: { x: number; y: number };
+  position: Point2D<Pixel>;
+  editorPosition: Point2D<Pixel>;
   isDroppable: boolean;
   selectedFleuron: FleuronState | null;
-};
-
-type Position = {
-  x: number;
-  y: number;
 };
 
 const mockFleuron: Fleuron = {
@@ -27,13 +23,6 @@ const mockFleuron2: Fleuron = {
   image: '',
 };
 
-const mockFleuronState: FleuronState = {
-  fleuron: mockFleuron,
-  position: { x: 0, y: 0 },
-  size: 1,
-  rotate: 0,
-};
-
 interface EditorContext {
   fleuronDb: Map<number, Fleuron>;
   currentFleuron: Fleuron['id'] | null;
@@ -42,15 +31,20 @@ interface EditorContext {
   setFleurons: (current: Map<string, FleuronState>) => void;
   currentDraggingState: DraggingState;
   setCurrentDraggingState: (current: DraggingState) => void;
+  currentAngle: Angle;
+  setCurrentAngle: (current: Angle) => void;
   gridSize: number;
   setGridSize: (size: number) => void;
-  gridPositions: Position[][];
-  setGridPositions: (position: Position[][]) => void;
+  gridPositions: Point2D<Pixel>[][];
+  setGridPositions: (position: Point2D<Pixel>[][]) => void;
   editorSize: number;
   setEditorSize: (size: number) => void;
-  editorPosition: Position;
-  setEditorPosition: (position: Position) => void;
-  calcGridPosition: (position: Position, ctx: EditorContext) => Position;
+  editorPosition: Point2D<Pixel>;
+  setEditorPosition: (position: Point2D<Pixel>) => void;
+  calcGridPosition: (
+    position: Point2D<Pixel>,
+    ctx: EditorContext
+  ) => Point2D<Grid>;
 }
 
 export const editorContext = createContext<EditorContext>({
@@ -61,18 +55,21 @@ export const editorContext = createContext<EditorContext>({
   currentFleuron: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentFleuron: () => {},
-  fleurons: new Map<string, FleuronState>([['key1', mockFleuronState]]),
+  fleurons: new Map<string, FleuronState>([]),
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setFleurons: () => {},
 
   currentDraggingState: {
-    position: { x: 0, y: 0 },
-    editorPosition: { x: 0, y: 0 },
+    position: { x: 0, y: 0 } as Point2D<Pixel>,
+    editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
     isDroppable: false,
     selectedFleuron: null,
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentDraggingState: () => {},
+  currentAngle: 0 as Angle,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setCurrentAngle: () => {},
   gridSize: 4,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridSize: () => {},
@@ -101,13 +98,13 @@ export const editorContext = createContext<EditorContext>({
       { x: 0, y: 0 },
       { x: 0, y: 0 },
     ],
-  ],
+  ] as Point2D<Pixel>[][],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridPositions: () => {},
   editorSize: 4,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorSize: () => {},
-  editorPosition: { x: 0, y: 0 },
+  editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorPosition: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -131,7 +128,7 @@ export const useEditorContext = (): EditorContext => {
     []
   );
   const [fleurons, updateFleurons] = useState(
-    new Map<string, FleuronState>([['key1', mockFleuronState]])
+    new Map<string, FleuronState>([])
   );
   const setFleurons = useCallback(
     (current: Map<string, FleuronState>): void => {
@@ -141,8 +138,8 @@ export const useEditorContext = (): EditorContext => {
   );
 
   const [currentDraggingState, setDraggingState] = useState<DraggingState>({
-    position: { x: 0, y: 0 },
-    editorPosition: { x: 0, y: 0 },
+    position: { x: 0, y: 0 } as Point2D<Pixel>,
+    editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
     isDroppable: false,
     selectedFleuron: null,
   });
@@ -152,27 +149,33 @@ export const useEditorContext = (): EditorContext => {
     },
     []
   );
+  const [currentAngle, updateCurrentAngle] = useState<Angle>(0 as Angle);
+  const setCurrentAngle = useCallback((current: Angle): void => {
+    updateCurrentAngle(current);
+  }, []);
   const [gridSize, updateGridSize] = useState(4);
   const setGridSize = useCallback((size: number): void => {
     updateGridSize(size);
   }, []);
-  const [gridPositions, updateGridPositions] = useState<Position[][]>([[]]);
-  const setGridPositions = useCallback((position: Position[][]): void => {
+  const [gridPositions, updateGridPositions] = useState<Point2D<Pixel>[][]>([
+    [],
+  ]);
+  const setGridPositions = useCallback((position: Point2D<Pixel>[][]): void => {
     updateGridPositions(position);
   }, []);
   const [editorSize, updateEditorSize] = useState(4);
   const setEditorSize = useCallback((size: number): void => {
     updateEditorSize(size);
   }, []);
-  const [editorPosition, updateEditorPosition] = useState<Position>({
+  const [editorPosition, updateEditorPosition] = useState<Point2D<Pixel>>({
     x: 0,
     y: 0,
-  });
-  const setEditorPosition = useCallback((position: Position): void => {
+  } as Point2D<Pixel>);
+  const setEditorPosition = useCallback((position: Point2D<Pixel>): void => {
     updateEditorPosition(position);
   }, []);
   const calcGridPosition = useCallback(
-    (position: Position, ctx: EditorContext): Position => {
+    (position: Point2D<Pixel>, ctx: EditorContext): Point2D<Grid> => {
       const currentX = Math.floor(
         ((position.x - ctx.editorPosition.x) / ctx.editorSize) * ctx.gridSize
       );
@@ -180,7 +183,7 @@ export const useEditorContext = (): EditorContext => {
         ((position.y - ctx.editorPosition.y) / ctx.editorSize) * ctx.gridSize
       );
 
-      return { x: currentX, y: currentY };
+      return { x: currentX, y: currentY } as Point2D<Grid>;
     },
     []
   );
@@ -192,6 +195,8 @@ export const useEditorContext = (): EditorContext => {
     setFleurons,
     currentDraggingState,
     setCurrentDraggingState,
+    currentAngle,
+    setCurrentAngle,
     gridSize,
     setGridSize,
     gridPositions,

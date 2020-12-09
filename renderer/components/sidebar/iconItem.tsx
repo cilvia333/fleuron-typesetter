@@ -9,6 +9,8 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import { editorContext } from '~/hooks';
+import { Fleuron } from '~/types';
+import { Point2D, Rectangle, Pixel, Grid } from '~/utils/Geometory';
 
 interface Props {
   id: number;
@@ -23,6 +25,7 @@ interface Props {
 const IconItem: React.FC<Props> = (props) => {
   const { id, size, rotate, selected, onClickItem, provided, snapshot } = props;
   const editorCtx = useContext(editorContext);
+  const [fleuron, setFleuron] = useState<Fleuron>();
   const [customProvidedStyle, setCustomProvidedStyle] = useState<
     DraggableProvided['draggableProps']['style']
   >(provided.draggableProps.style);
@@ -30,13 +33,16 @@ const IconItem: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (snapshot.isDragging) {
+      if (!fleuron) {
+        return;
+      }
+
       editorCtx.setCurrentDraggingState({
         ...editorCtx.currentDraggingState,
         selectedFleuron: {
-          id,
+          fleuron,
           size,
           rotate,
-          selected: false,
           position: { x: 0, y: 0 },
         },
       });
@@ -58,7 +64,7 @@ const IconItem: React.FC<Props> = (props) => {
           .split(',')
           .map((str) => parseInt(str, 10));
         if (transform !== undefined) {
-          const screenPosition = {
+          const screenPosition: Point2D<Pixel> = {
             x: left + transform[0],
             y: top + transform[1],
           };
@@ -94,8 +100,32 @@ const IconItem: React.FC<Props> = (props) => {
     setGridLength(editorCtx.editorSize / editorCtx.gridSize);
   }, [editorCtx.gridSize, editorCtx.editorSize]);
 
+  useEffect(() => {
+    const fleuron = editorCtx.fleuronDb.get(id);
+
+    if (!fleuron) {
+      return;
+    }
+
+    setFleuron(fleuron);
+  }, [id]);
+
   const isDraggingStyle = (style: any): style is DraggingStyle => {
     return style.position !== undefined;
+  };
+
+  const getRect = () => {
+    if (!fleuron) {
+      return {
+        x: 1,
+        y: 1,
+      } as Rectangle<Grid>;
+    }
+
+    return {
+      x: fleuron.rect.x * size,
+      y: fleuron.rect.y * size,
+    } as Rectangle<Grid>;
   };
 
   const getStyle = (
@@ -123,7 +153,7 @@ const IconItem: React.FC<Props> = (props) => {
         {...provided.dragHandleProps}
         style={getStyle(provided.draggableProps.style, snapshot)}
         isDragging={snapshot.isDragging}
-        size={size}
+        rect={getRect()}
         rotate={rotate}
         selected={selected}
         gridLength={gridLength}
@@ -135,7 +165,7 @@ const IconItem: React.FC<Props> = (props) => {
       {snapshot.isDragging && (
         <Clone
           isDragging={false}
-          size={size}
+          rect={getRect()}
           rotate={rotate}
           selected={selected}
           gridLength={gridLength}
@@ -146,7 +176,7 @@ const IconItem: React.FC<Props> = (props) => {
 };
 
 interface ItemState {
-  size: number;
+  rect: Rectangle<Grid>;
   rotate: number;
   selected: boolean;
   isDragging: boolean;
@@ -156,9 +186,9 @@ interface ItemState {
 const Item = styled.div<ItemState>`
   ${tw`bg-primary opacity-100 mr-4 mb-4`}
 
-  ${({ gridLength, size, rotate }) => css`
-    width: ${gridLength * size}px;
-    height: ${gridLength * size}px;
+  ${({ gridLength, rect, rotate }) => css`
+    width: ${gridLength * rect.x}px;
+    height: ${gridLength * rect.y}px;
     transform: rotate(${rotate}deg);
   `}
 

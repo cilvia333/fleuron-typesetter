@@ -6,8 +6,6 @@ import tw from 'twin.macro';
 import IconItem from '~/components/sidebar/iconItem';
 import { editorContext } from '~/hooks';
 
-const mockList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
 const IconList: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const editorCtx = useContext(editorContext);
@@ -38,15 +36,19 @@ const IconList: React.FC = () => {
                 {...provided.droppableProps}
                 key={`iconList_01`}
               >
-                {mockList.map((v, i) => (
+                {[...editorCtx.fleuronDb.entries()].map((fleuron, i) => (
                   <>
-                    <Draggable draggableId={`${i}`} index={i} key={`icon_${i}`}>
+                    <Draggable
+                      draggableId={`${fleuron[0]}`}
+                      index={i}
+                      key={`icon_${i}`}
+                    >
                       {(provided, snapshot) => (
                         <IconItem
-                          id={1}
+                          id={fleuron[0]}
                           size={1}
-                          rotate={0}
-                          selected={selectedItemId === i}
+                          rotate={editorCtx.currentAngle}
+                          selected={selectedItemId === fleuron[0]}
                           onClickItem={onClickItem}
                           provided={provided}
                           snapshot={snapshot}
