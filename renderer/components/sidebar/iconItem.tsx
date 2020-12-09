@@ -67,7 +67,7 @@ const IconItem: React.FC<Props> = (props) => {
           const screenPosition: Point2D<Pixel> = {
             x: left + transform[0],
             y: top + transform[1],
-          };
+          } as Point2D<Pixel>;
 
           const gridPosition = editorCtx.calcGridPosition(
             screenPosition,

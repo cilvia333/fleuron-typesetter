@@ -29,10 +29,10 @@ const Home: React.FC = () => {
     if (destination.droppableId === 'editorDroppable') {
       if (editorCtx.currentDraggingState.selectedFleuron) {
         console.log(editorCtx.currentDraggingState.position);
-        editorCtx.updateFleuron('key2', {
-          ...editorCtx.currentDraggingState.selectedFleuron,
-          position: editorCtx.currentDraggingState.position,
-        });
+        // editorCtx.updateFleuron('key2', {
+        //   ...editorCtx.currentDraggingState.selectedFleuron,
+        //   position: editorCtx.currentDraggingState.position,
+        // });
       }
     }
   };
@@ -68,11 +68,11 @@ const Home: React.FC = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//   resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
 
-  return { props: { data: [] } };
-};
+//   return { props: { data: [] } };
+// };
 
 const Main = styled.main`
   ${tw`w-screen h-screen relative`}

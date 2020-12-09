@@ -5,7 +5,7 @@ import { Fleuron } from '~/types';
 import { Point2D, Rectangle, Pixel, Grid, Angle } from '~/utils/Geometory';
 
 type DraggingState = {
-  position: Point2D<Pixel>;
+  position: Point2D<Grid>;
   editorPosition: Point2D<Pixel>;
   isDroppable: boolean;
   selectedFleuron: FleuronState | null;
@@ -60,7 +60,7 @@ export const editorContext = createContext<EditorContext>({
   setFleurons: () => {},
 
   currentDraggingState: {
-    position: { x: 0, y: 0 } as Point2D<Pixel>,
+    position: { x: 0, y: 0 } as Point2D<Grid>,
     editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
     isDroppable: false,
     selectedFleuron: null,
@@ -108,7 +108,9 @@ export const editorContext = createContext<EditorContext>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorPosition: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  calcGridPosition: () => {},
+  calcGridPosition: (position: Point2D<Pixel>, ctx: EditorContext) => {
+    return { x: 0, y: 0 } as Point2D<Grid>;
+  },
 });
 
 export const useEditorContext = (): EditorContext => {
@@ -138,7 +140,7 @@ export const useEditorContext = (): EditorContext => {
   );
 
   const [currentDraggingState, setDraggingState] = useState<DraggingState>({
-    position: { x: 0, y: 0 } as Point2D<Pixel>,
+    position: { x: 0, y: 0 } as Point2D<Grid>,
     editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
     isDroppable: false,
     selectedFleuron: null,

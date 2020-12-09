@@ -20,7 +20,7 @@ const Editor: React.FC<Props> = (props) => {
   const toolCtx = useContext(toolContext);
   const editorCtx = useContext(editorContext);
 
-  const editorRef = useRef(null);
+  const editorRef = useRef<HTMLDivElement>(null);
 
   const [displayFleurons, setDisplayFleurons] = useState(
     new Map<string, FleuronState>()
@@ -73,20 +73,26 @@ const Editor: React.FC<Props> = (props) => {
 
     setFleuronsMap(array);
 
-    const height: number =
-      editorRef?.current?.getBoundingClientRect()?.height ?? null;
+    const currentEl = editorRef?.current;
+
+    if (!currentEl) {
+      return;
+    }
+
+    const height: number = currentEl.getBoundingClientRect()?.height ?? null;
 
     if (height) {
       editorCtx.setEditorSize(height);
     }
 
-    const positionX: number =
-      editorRef?.current?.getBoundingClientRect()?.left ?? null;
-    const positionY: number =
-      editorRef?.current?.getBoundingClientRect()?.top ?? null;
+    const positionX: number = currentEl.getBoundingClientRect()?.left ?? null;
+    const positionY: number = currentEl.getBoundingClientRect()?.top ?? null;
 
     if (positionX !== null && positionY !== null) {
-      editorCtx.setEditorPosition({ x: positionX, y: positionY });
+      editorCtx.setEditorPosition({
+        x: positionX,
+        y: positionY,
+      } as Point2D<Pixel>);
 
       const array: Point2D<Pixel>[][] = [];
       const gridLiteralSize = height / editorCtx.gridSize;
