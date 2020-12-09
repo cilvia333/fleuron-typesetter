@@ -1,6 +1,7 @@
 import { useState, useCallback, createContext } from 'react';
 
 import { FleuronState } from '~/components/editor/fleuron';
+import { Fleuron } from '~/types';
 
 type DraggingState = {
   position: { x: number; y: number };
@@ -14,19 +15,31 @@ type Position = {
   y: number;
 };
 
-const mockFleuron: FleuronState = {
+const mockFleuron: Fleuron = {
   id: 1,
-  position: { x: 1, y: 1 },
+  rect: { x: 1, y: 1 },
+  image: '',
+};
+
+const mockFleuron2: Fleuron = {
+  id: 2,
+  rect: { x: 1, y: 2 },
+  image: '',
+};
+
+const mockFleuronState: FleuronState = {
+  fleuron: mockFleuron,
+  position: { x: 0, y: 0 },
   size: 1,
   rotate: 0,
-  selected: false,
 };
 
 interface EditorContext {
+  fleuronDb: Map<number, Fleuron>;
+  currentFleuron: Fleuron['id'] | null;
+  setCurrentFleuron: (current: Fleuron['id'] | null) => void;
   fleurons: Map<string, FleuronState>;
-  updateFleuron: (key: string, value: FleuronState) => void;
-  deleteFleuron: (key: string) => void;
-  clearFleurons: () => void;
+  setFleurons: (current: Map<string, FleuronState>) => void;
   currentDraggingState: DraggingState;
   setCurrentDraggingState: (current: DraggingState) => void;
   gridSize: number;
@@ -41,13 +54,16 @@ interface EditorContext {
 }
 
 export const editorContext = createContext<EditorContext>({
-  fleurons: new Map<string, FleuronState>([['key1', mockFleuron]]),
+  fleuronDb: new Map<number, Fleuron>([
+    [1, mockFleuron],
+    [2, mockFleuron2],
+  ]),
+  currentFleuron: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  updateFleuron: () => {},
+  setCurrentFleuron: () => {},
+  fleurons: new Map<string, FleuronState>([['key1', mockFleuronState]]),
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  deleteFleuron: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  clearFleurons: () => {},
+  setFleurons: () => {},
 
   currentDraggingState: {
     position: { x: 0, y: 0 },
@@ -88,7 +104,7 @@ export const editorContext = createContext<EditorContext>({
   ],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridPositions: () => {},
-  editorSize: 8,
+  editorSize: 4,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorSize: () => {},
   editorPosition: { x: 0, y: 0 },
@@ -99,26 +115,30 @@ export const editorContext = createContext<EditorContext>({
 });
 
 export const useEditorContext = (): EditorContext => {
-  const [fleurons, setFleurons] = useState(
-    new Map<string, FleuronState>([['key1', mockFleuron]])
+  const [fleuronDb, setFleuronDb] = useState(
+    new Map<number, Fleuron>([
+      [1, mockFleuron],
+      [2, mockFleuron2],
+    ])
   );
-  const updateFleuron = (key: string, value: FleuronState) => {
-    setFleurons((old) => old.set(key, value));
-  };
-
-  const clearFleurons = () => {
-    setFleurons((old) => {
-      old.clear();
-      return old;
-    });
-  };
-
-  const deleteFleuron = (key: string) => {
-    setFleurons((old) => {
-      old.delete(key);
-      return old;
-    });
-  };
+  const [currentFleuron, updateCurrentFleuron] = useState<Fleuron['id'] | null>(
+    null
+  );
+  const setCurrentFleuron = useCallback(
+    (current: Fleuron['id'] | null): void => {
+      updateCurrentFleuron(current);
+    },
+    []
+  );
+  const [fleurons, updateFleurons] = useState(
+    new Map<string, FleuronState>([['key1', mockFleuronState]])
+  );
+  const setFleurons = useCallback(
+    (current: Map<string, FleuronState>): void => {
+      updateFleurons(current);
+    },
+    []
+  );
 
   const [currentDraggingState, setDraggingState] = useState<DraggingState>({
     position: { x: 0, y: 0 },
@@ -132,7 +152,7 @@ export const useEditorContext = (): EditorContext => {
     },
     []
   );
-  const [gridSize, updateGridSize] = useState(8);
+  const [gridSize, updateGridSize] = useState(4);
   const setGridSize = useCallback((size: number): void => {
     updateGridSize(size);
   }, []);
@@ -165,10 +185,11 @@ export const useEditorContext = (): EditorContext => {
     []
   );
   return {
+    fleuronDb,
+    currentFleuron,
+    setCurrentFleuron,
     fleurons,
-    updateFleuron,
-    deleteFleuron,
-    clearFleurons,
+    setFleurons,
     currentDraggingState,
     setCurrentDraggingState,
     gridSize,

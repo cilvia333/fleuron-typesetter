@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
+import * as Types from '~/types';
+
 export type FleuronState = {
-  id: number;
+  fleuron: Types.Fleuron;
   position: { x: number; y: number };
   size: number;
   rotate: number;
-  selected: boolean;
 };
 
 interface Props {
@@ -18,10 +19,6 @@ interface Props {
 const Fleuron: React.FC<Props> = (props) => {
   const state = props.state;
   const selected = props.selected;
-  const [iconSize, setIconSize] = useState<{ x: number; y: number }>({
-    x: 1,
-    y: 1,
-  });
 
   return (
     <>
@@ -29,7 +26,7 @@ const Fleuron: React.FC<Props> = (props) => {
         position={state.position}
         size={state.size}
         rotate={state.rotate}
-        iconSize={iconSize}
+        iconSize={state.fleuron.rect}
         selected={selected}
       ></Icon>
     </>
@@ -48,10 +45,10 @@ const Icon = styled.div<IconProps>`
   ${tw`w-full h-full bg-red-500`}
 
   ${({ position, size, rotate, iconSize }) => css`
-    grid-column-start: ${position.x};
-    grid-column-end: ${position.x + size * iconSize.x};
-    grid-row-start: ${position.y};
-    grid-row-end: ${position.y + size * iconSize.y};
+    grid-column-start: ${position.x + 1};
+    grid-column-end: ${position.x + 1 + size * iconSize.x};
+    grid-row-start: ${position.y + 1};
+    grid-row-end: ${position.y + 1 + size * iconSize.y};
 
     transform: rotate(${rotate}deg);
   `}

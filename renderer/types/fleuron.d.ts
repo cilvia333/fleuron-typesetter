@@ -3,7 +3,7 @@ import { type } from 'os';
 export type Fleuron = {
   id: number;
   image: string;
-  size: {
+  rect: {
     x: number;
     y: number;
   };

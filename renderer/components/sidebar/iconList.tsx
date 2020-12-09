@@ -4,17 +4,22 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import IconItem from '~/components/sidebar/iconItem';
+import { editorContext } from '~/hooks';
 
 const mockList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const IconList: React.FC = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const editorCtx = useContext(editorContext);
 
   const onClickItem = (itemId: number) => {
     if (itemId === selectedItemId) {
       setSelectedItemId(null);
+      editorCtx.setCurrentFleuron(null);
     } else {
       setSelectedItemId(itemId);
+      console.log(itemId);
+      editorCtx.setCurrentFleuron(itemId);
     }
   };
 
@@ -38,13 +43,14 @@ const IconList: React.FC = () => {
                     <Draggable draggableId={`${i}`} index={i} key={`icon_${i}`}>
                       {(provided, snapshot) => (
                         <IconItem
-                          id={i}
+                          id={1}
                           size={1}
                           rotate={0}
                           selected={selectedItemId === i}
                           onClickItem={onClickItem}
                           provided={provided}
                           snapshot={snapshot}
+                          key={`icon_${i}`}
                         />
                       )}
                     </Draggable>
