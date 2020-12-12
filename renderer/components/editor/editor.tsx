@@ -72,7 +72,7 @@ const Editor: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (selectedFleurons.size <= 0) {
-      setSelectedArea(null);
+      setSelectedArea(undefined);
       return;
     }
 
@@ -214,13 +214,20 @@ const Editor: React.FC<Props> = (props) => {
     switch (toolCtx.currentTool) {
       case 'select': {
         const fleuronId = fleuronsMap[position.x][position.y];
+        const fleuron = fleuronId ? selectedFleurons.get(fleuronId) : null;
+        const isPressKey = e.ctrlKey || e.shiftKey || e.metaKey;
 
-        console.log(position, fleuronId);
-
-        if (fleuronId) {
-          updateSelectedFleuron(fleuronId, true);
-        } else {
+        if (!((fleuronId && isPressKey) || fleuron)) {
           clearSelectedFleurons();
+        }
+        if (fleuronId) {
+          if (fleuron && isPressKey) {
+            deleteSelectedFleuron(fleuronId);
+          }
+
+          if (!fleuron) {
+            updateSelectedFleuron(fleuronId, true);
+          }
         }
         break;
       }
@@ -265,7 +272,7 @@ const Editor: React.FC<Props> = (props) => {
           updateDisplayFleuron(uuid, {
             fleuron,
             position,
-            size: 1,
+            size: 1 as Grid,
             rotate: editorCtx.currentAngle,
           });
 
