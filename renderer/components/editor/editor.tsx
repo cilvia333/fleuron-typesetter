@@ -351,7 +351,7 @@ const Wrapper = styled.div`
 `;
 
 const GridWrapper = styled.div`
-  ${tw`w-full bg-white overflow-hidden relative border border-black border-solid`};
+  ${tw`w-full bg-white relative border border-black border-solid`};
 
   &::before {
     ${tw`block`};
