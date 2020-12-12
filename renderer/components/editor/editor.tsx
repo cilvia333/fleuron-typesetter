@@ -215,6 +215,8 @@ const Editor: React.FC<Props> = (props) => {
       case 'select': {
         const fleuronId = fleuronsMap[position.x][position.y];
 
+        console.log(position, fleuronId);
+
         if (fleuronId) {
           updateSelectedFleuron(fleuronId, true);
         } else {
@@ -316,18 +318,18 @@ const Editor: React.FC<Props> = (props) => {
             );
           })}
         </GridStyle>
+        {/* グリッドライン描画 */}
+        <GridStyle gridSize={editorCtx.gridSize}>
+          {[...Array(editorCtx.gridSize ** 2).keys()].map((v, i) => (
+            <GridLine key={`grid_${i}`} />
+          ))}
+        </GridStyle>
         {/* 選択中花形装飾描画 */}
         <GridStyle gridSize={editorCtx.gridSize}>
           <SelectedArea
             area={selectedArea}
             select={selectedFleurons.size > 0}
           />
-        </GridStyle>
-        {/* グリッドライン描画 */}
-        <GridStyle gridSize={editorCtx.gridSize}>
-          {[...Array(editorCtx.gridSize ** 2).keys()].map((v, i) => (
-            <GridLine key={`grid_${i}`} />
-          ))}
         </GridStyle>
       </GridWrapper>
       {provided.placeholder}

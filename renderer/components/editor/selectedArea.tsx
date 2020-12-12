@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 import { Area, Grid } from '~/utils/Geometory';
 
 interface Props {
-  area: Area<Grid>;
+  area?: Area<Grid>;
   select: boolean;
 }
 
@@ -30,7 +30,7 @@ interface SelectedBaseProps {
 }
 
 const SelectedBase = styled.div<SelectedBaseProps>`
-  ${tw`w-full h-full bg-primary opacity-50 hidden relative`}
+  ${tw`w-full h-full border border-primary border-solid hidden relative`}
 
   ${({ area }) =>
     area &&
@@ -49,23 +49,19 @@ const SelectedBase = styled.div<SelectedBaseProps>`
 `;
 
 const ToolHandle = styled.div`
-  ${tw`w-8 h-8 bg-white border border-primary border-solid absolute m-0`}
+  ${tw`w-2 h-2 bg-white border border-primary border-solid absolute m-0`}
 
   &:nth-child(1) {
-    top: 0;
-    left: 0;
+    ${tw`-top-1 -left-1`}
   }
   &:nth-child(2) {
-    top: 0;
-    right: 0;
+    ${tw`-top-1 -right-1`}
   }
   &:nth-child(3) {
-    bottom: 0;
-    left: 0;
+    ${tw`-bottom-1 -left-1`}
   }
   &:nth-child(4) {
-    bottom: 0;
-    right: 0;
+    ${tw`-bottom-1 -right-1`}
   }
 `;
 

@@ -61,7 +61,7 @@ const Icon = styled.div<IconProps>`
   ${({ selected }) =>
     selected &&
     css`
-      ${tw`bg-blue-500`}
+      ${tw`bg-primary bg-opacity-50`}
     `}
 `;
 
