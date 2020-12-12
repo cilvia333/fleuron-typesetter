@@ -75,22 +75,26 @@ const IconItem: React.FC<Props> = (props) => {
           );
 
           if (
-            gridPosition.x < editorCtx.gridSize &&
-            gridPosition.y < editorCtx.gridSize
+            0 > gridPosition.x ||
+            gridPosition.x >= editorCtx.gridSize ||
+            0 > gridPosition.y ||
+            gridPosition.y >= editorCtx.gridSize
           ) {
-            const position =
-              editorCtx.gridPositions[gridPosition.x][gridPosition.y];
-
-            const newTransform = `translate(${position.x - left}px, ${
-              position.y - top
-            }px)`;
-
-            setCustomProvidedStyle({ ...style, transform: newTransform });
-            editorCtx.setCurrentDraggingState({
-              ...editorCtx.currentDraggingState,
-              position: gridPosition,
-            });
+            return;
           }
+
+          const position =
+            editorCtx.gridPositions[gridPosition.x][gridPosition.y];
+
+          const newTransform = `translate(${position.x - left}px, ${
+            position.y - top
+          }px)`;
+
+          setCustomProvidedStyle({ ...style, transform: newTransform });
+          editorCtx.setCurrentDraggingState({
+            ...editorCtx.currentDraggingState,
+            position: gridPosition,
+          });
         }
       }
     }
@@ -132,6 +136,9 @@ const IconItem: React.FC<Props> = (props) => {
     style: DraggingStyle | NotDraggingStyle | undefined,
     snapshot: DraggableStateSnapshot
   ) => {
+    if (editorCtx.currentDraggingState.selectedFleuron?.fleuron.id !== id) {
+      return style;
+    }
     if (snapshot.isDropAnimating && snapshot.dropAnimation) {
       const { opacity, curve, duration } = snapshot.dropAnimation;
       return {
@@ -141,9 +148,9 @@ const IconItem: React.FC<Props> = (props) => {
       };
     } else if (editorCtx.currentDraggingState.isDroppable) {
       return customProvidedStyle;
-    } else {
-      return style;
     }
+
+    return style;
   };
   return (
     <>
@@ -163,7 +170,7 @@ const IconItem: React.FC<Props> = (props) => {
         }}
       ></Item>
       {snapshot.isDragging && (
-        <Clone
+        <Item
           isDragging={false}
           rect={getRect()}
           rotate={rotate}

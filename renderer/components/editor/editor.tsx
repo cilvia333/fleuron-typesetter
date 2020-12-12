@@ -6,8 +6,17 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import Fleuron, { FleuronState } from '~/components/editor/fleuron';
+import SelectedArea from '~/components/editor/selectedArea';
 import { toolContext, editorContext } from '~/hooks';
-import { Point2D, Rectangle, Pixel, Grid } from '~/utils/Geometory';
+import {
+  Point2D,
+  Rectangle,
+  Pixel,
+  Grid,
+  Area,
+  AxisX,
+  AxisY,
+} from '~/utils/Geometory';
 
 interface Props {
   provided: DroppableProvided;
@@ -29,9 +38,8 @@ const Editor: React.FC<Props> = (props) => {
   const [selectedFleurons, setSelectedFleurons] = useState(
     new Map<string, boolean>()
   );
-  const [isSelected, setIsSelected] = useState(false);
+  const [selectedArea, setSelectedArea] = useState<Area<Grid>>();
   const [fleuronsMap, setFleuronsMap] = useState<(string | null)[][]>([[]]);
-  const [isMultiSelect, setIsMultiSelect] = useState(false);
 
   //useEffect
   useEffectOnce(() => {
@@ -59,9 +67,52 @@ const Editor: React.FC<Props> = (props) => {
   }, [snapshot]);
 
   useEffect(() => {
-    console.log('changeFleuron');
     editorCtx.setFleurons(displayFleurons);
   }, [displayFleurons]);
+
+  useEffect(() => {
+    if (selectedFleurons.size <= 0) {
+      setSelectedArea(null);
+      return;
+    }
+
+    const minPosition: Point2D<Grid> = { x: 100, y: 100 } as Point2D<Grid>;
+    const maxPosition: Point2D<Grid> = { x: -1, y: -1 } as Point2D<Grid>;
+    selectedFleurons.forEach((v, key) => {
+      const fleuronState = displayFleurons.get(key);
+      if (!fleuronState) {
+        return;
+      }
+
+      const position = fleuronState.position;
+      const rect = fleuronState.fleuron.rect;
+      const size = {
+        x: rect.x * fleuronState.size,
+        y: rect.y * fleuronState.size,
+      } as Rectangle<Grid>;
+
+      if (minPosition.x > position.x) {
+        minPosition.x = position.x;
+      }
+      if (minPosition.y > position.y) {
+        minPosition.y = position.y;
+      }
+      if (maxPosition.x < position.x + size.x) {
+        maxPosition.x = (position.x + size.x) as AxisX<Grid>;
+      }
+      if (maxPosition.y < position.y + size.y) {
+        maxPosition.y = (position.y + size.y) as AxisY<Grid>;
+      }
+    });
+
+    setSelectedArea({
+      position: minPosition,
+      size: {
+        x: maxPosition.x - minPosition.x,
+        y: maxPosition.y - minPosition.y,
+      } as Rectangle<Grid>,
+    });
+  }, [selectedFleurons]);
 
   const updateEditorState = () => {
     let array: typeof fleuronsMap = [];
@@ -164,17 +215,14 @@ const Editor: React.FC<Props> = (props) => {
       case 'select': {
         const fleuronId = fleuronsMap[position.x][position.y];
 
-        if (!isSelected && fleuronId) {
-          setIsSelected(true);
+        if (fleuronId) {
           updateSelectedFleuron(fleuronId, true);
         } else {
           clearSelectedFleurons();
-          setIsSelected(false);
         }
         break;
       }
       case 'pen': {
-        console.log('pen');
         if (editorCtx.currentFleuron) {
           const fleuron = editorCtx.fleuronDb.get(editorCtx.currentFleuron);
 
@@ -230,9 +278,6 @@ const Editor: React.FC<Props> = (props) => {
         break;
       }
       case 'eraser': {
-        console.log('eraser');
-        console.log(position, fleuronsMap);
-
         const fleuronId = fleuronsMap[position.x][position.y];
 
         if (!fleuronId) {
@@ -273,15 +318,10 @@ const Editor: React.FC<Props> = (props) => {
         </GridStyle>
         {/* 選択中花形装飾描画 */}
         <GridStyle gridSize={editorCtx.gridSize}>
-          {[...displayFleurons.entries()].map((fleuron, i) => {
-            return (
-              <Fleuron
-                state={fleuron[1]}
-                selected={selectedFleurons.has(fleuron[0])}
-                key={`fleuron_${i}`}
-              />
-            );
-          })}
+          <SelectedArea
+            area={selectedArea}
+            select={selectedFleurons.size > 0}
+          />
         </GridStyle>
         {/* グリッドライン描画 */}
         <GridStyle gridSize={editorCtx.gridSize}>

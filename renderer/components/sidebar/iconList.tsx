@@ -16,7 +16,6 @@ const IconList: React.FC = () => {
       editorCtx.setCurrentFleuron(null);
     } else {
       setSelectedItemId(itemId);
-      console.log(itemId);
       editorCtx.setCurrentFleuron(itemId);
     }
   };

@@ -16,6 +16,11 @@ export type Point2D<U extends UnitOfLength> = {
   y: AxisY<U>;
 };
 
+export type Area<U extends UnitOfLength> = {
+  position: Point2D<U>;
+  size: Rectangle<U>;
+};
+
 export type Degree = Branded<number, 'Degree'>;
 
 export type Angle = Degree;

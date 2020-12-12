@@ -2,65 +2,71 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-export type FleuronState = {
-  id: number;
-  position: { x: number; y: number };
-  size: number;
-  rotate: number;
-  selected: boolean;
-};
+import { Area, Grid } from '~/utils/Geometory';
 
 interface Props {
-  state: FleuronState;
-  selected: boolean;
+  area: Area<Grid>;
+  select: boolean;
 }
 
 const SelectedArea: React.FC<Props> = (props) => {
-  const state = props.state;
-  const selected = props.selected;
-  const [iconSize, setIconSize] = useState<{ x: number; y: number }>({
-    x: 1,
-    y: 1,
-  });
+  const { area, select } = props;
 
   return (
     <>
-      <Icon
-        position={state.position}
-        size={state.size}
-        rotate={state.rotate}
-        iconSize={iconSize}
-        selected={selected}
-      ></Icon>
+      <SelectedBase area={area} select={select}>
+        <ToolHandle />
+        <ToolHandle />
+        <ToolHandle />
+        <ToolHandle />
+      </SelectedBase>
     </>
   );
 };
 
-interface IconProps {
-  position: { x: number; y: number };
-  size: number;
-  rotate: number;
-  iconSize: { x: number; y: number };
-  selected: boolean;
+interface SelectedBaseProps {
+  area?: Area<Grid>;
+  select: boolean;
 }
 
-const Icon = styled.div<IconProps>`
-  ${tw`w-full h-full bg-red-500`}
+const SelectedBase = styled.div<SelectedBaseProps>`
+  ${tw`w-full h-full bg-primary opacity-50 hidden relative`}
 
-  ${({ position, size, rotate, iconSize }) => css`
-    grid-column-start: ${position.x};
-    grid-column-end: ${position.x + size * iconSize.x};
-    grid-row-start: ${position.y};
-    grid-row-end: ${position.y + size * iconSize.y};
-
-    transform: rotate(${rotate}deg);
-  `}
-
-  ${({ selected }) =>
-    selected &&
+  ${({ area }) =>
+    area &&
     css`
-      ${tw`bg-blue-500`}
+      grid-column-start: ${area.position.x + 1};
+      grid-column-end: ${area.position.x + area.size.x + 1};
+      grid-row-start: ${area.position.y + 1};
+      grid-row-end: ${area.position.y + area.size.y + 1};
     `}
+
+  ${({ select }) =>
+    select &&
+    css`
+      ${tw`block`}
+    `}
+`;
+
+const ToolHandle = styled.div`
+  ${tw`w-8 h-8 bg-white border border-primary border-solid absolute m-0`}
+
+  &:nth-child(1) {
+    top: 0;
+    left: 0;
+  }
+  &:nth-child(2) {
+    top: 0;
+    right: 0;
+  }
+  &:nth-child(3) {
+    bottom: 0;
+    left: 0;
+  }
+  &:nth-child(4) {
+    bottom: 0;
+    right: 0;
+  }
 `;
 
 export default SelectedArea;

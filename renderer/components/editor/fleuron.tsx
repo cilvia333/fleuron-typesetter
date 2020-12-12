@@ -1,14 +1,17 @@
+import { faBlender } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import * as Types from '~/types';
+import * as fleuron from '~/utils/fleuron';
+import { Point2D, Rectangle, Grid, Angle } from '~/utils/Geometory';
 
 export type FleuronState = {
-  fleuron: Types.Fleuron;
-  position: { x: number; y: number };
-  size: number;
-  rotate: number;
+  fleuron: fleuron.Fleuron;
+  position: Point2D<Grid>;
+  size: Grid;
+  rotate: Angle;
 };
 
 interface Props {
@@ -28,21 +31,23 @@ const Fleuron: React.FC<Props> = (props) => {
         rotate={state.rotate}
         iconSize={state.fleuron.rect}
         selected={selected}
-      ></Icon>
+      >
+        <StyledIcon icon={faBlender} />
+      </Icon>
     </>
   );
 };
 
 interface IconProps {
-  position: { x: number; y: number };
-  size: number;
-  rotate: number;
-  iconSize: { x: number; y: number };
+  position: Point2D<Grid>;
+  size: Grid;
+  rotate: Angle;
+  iconSize: Rectangle<Grid>;
   selected: boolean;
 }
 
 const Icon = styled.div<IconProps>`
-  ${tw`w-full h-full bg-red-500`}
+  ${tw`w-full h-full relative`}
 
   ${({ position, size, rotate, iconSize }) => css`
     grid-column-start: ${position.x + 1};
@@ -58,6 +63,10 @@ const Icon = styled.div<IconProps>`
     css`
       ${tw`bg-blue-500`}
     `}
+`;
+
+const StyledIcon = styled(FontAwesomeIcon)`
+  ${tw`w-full h-full`}
 `;
 
 export default Fleuron;
