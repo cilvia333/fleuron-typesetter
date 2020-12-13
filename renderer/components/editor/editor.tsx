@@ -38,6 +38,9 @@ const Editor: React.FC<Props> = (props) => {
   const [selectedFleurons, setSelectedFleurons] = useState(
     new Map<string, boolean>()
   );
+  const [tmpSelectedFleurons, setTmpSelectedFleurons] = useState(
+    new Map<string, boolean>()
+  );
   const [selectedArea, setSelectedArea] = useState<Area<Grid>>();
   const [fleuronsMap, setFleuronsMap] = useState<(string | null)[][]>([[]]);
   const [dragSelectArea, setDragSelectArea] = useState<Area<Pixel>>();
@@ -167,6 +170,79 @@ const Editor: React.FC<Props> = (props) => {
     }
   };
 
+  const getRawPosition = (position: Point2D<Pixel>): Point2D<Pixel> => {
+    const rawPosition = JSON.parse(JSON.stringify(position));
+
+    if (rawPosition.x < editorCtx.editorPosition.x) {
+      rawPosition.x = editorCtx.editorPosition.x as AxisX<Pixel>;
+    }
+    if (rawPosition.x > editorCtx.editorPosition.x + editorCtx.editorSize) {
+      rawPosition.x = (editorCtx.editorPosition.x +
+        editorCtx.editorSize) as AxisX<Pixel>;
+    }
+    if (rawPosition.y < editorCtx.editorPosition.y) {
+      rawPosition.y = editorCtx.editorPosition.y as AxisY<Pixel>;
+    }
+    if (rawPosition.y > editorCtx.editorPosition.y + editorCtx.editorSize) {
+      rawPosition.y = (editorCtx.editorPosition.y +
+        editorCtx.editorSize) as AxisY<Pixel>;
+    }
+
+    return rawPosition;
+  };
+
+  const getArea = (
+    posi1: Point2D<Pixel>,
+    posi2: Point2D<Pixel>
+  ): [Area<Pixel>, Area<Grid>] => {
+    const fixedStartPosition = JSON.parse(JSON.stringify(posi1));
+    if (fixedStartPosition.x > posi2.x) {
+      fixedStartPosition.x = posi2.x;
+    }
+    if (fixedStartPosition.y > posi2.y) {
+      fixedStartPosition.y = posi2.y;
+    }
+
+    const fixedEndPosition = JSON.parse(JSON.stringify(posi2));
+    if (fixedEndPosition.x < posi1.x) {
+      fixedEndPosition.x = posi1.x;
+    }
+    if (fixedEndPosition.y < posi1.y) {
+      fixedEndPosition.y = posi1.y;
+    }
+
+    const fixedSize = {
+      x: Math.abs(posi1.x - posi2.x),
+      y: Math.abs(posi1.y - posi2.y),
+    } as Rectangle<Pixel>;
+
+    const pixelArea = {
+      position: fixedStartPosition,
+      size: fixedSize,
+    } as Area<Pixel>;
+
+    const startGridPosition = editorCtx.calcGridPosition(
+      fixedStartPosition,
+      editorCtx
+    );
+    const endGridPosition = editorCtx.calcGridPosition(
+      fixedEndPosition,
+      editorCtx
+    );
+
+    const gridSize = {
+      x: Math.abs(startGridPosition.x - endGridPosition.x),
+      y: Math.abs(startGridPosition.y - endGridPosition.y),
+    } as Rectangle<Grid>;
+
+    const gridArea = {
+      position: startGridPosition,
+      size: gridSize,
+    } as Area<Grid>;
+
+    return [pixelArea, gridArea];
+  };
+
   const updateDisplayFleuron = (key: string, value: FleuronState) => {
     setDisplayFleurons((old) => {
       return new Map(old.set(key, value));
@@ -210,8 +286,6 @@ const Editor: React.FC<Props> = (props) => {
   //イベントハンドラ
   const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
-
-    console.log('click');
 
     const position = editorCtx.calcGridPosition(
       { x: e.clientX, y: e.clientY } as Point2D<Pixel>,
@@ -322,117 +396,89 @@ const Editor: React.FC<Props> = (props) => {
       return;
     }
 
-    console.log('start');
-
-    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
-    const fixedPosition = startSelectDragPosition;
-
-    if (fixedPosition.x > rawPosition.x) {
-      fixedPosition.x = rawPosition.x;
-    }
-    if (fixedPosition.y > rawPosition.y) {
-      fixedPosition.y = rawPosition.y;
-    }
+    const rawPosition = getRawPosition({
+      x: e.clientX,
+      y: e.clientY,
+    } as Point2D<Pixel>);
 
     setIsSelectDragging(true);
-    setDragSelectArea({
-      position: fixedPosition,
-      size: { x: 0, y: 0 } as Rectangle<Pixel>,
-    });
     setStartSelectDragPosition(rawPosition);
   };
   const onMouseMove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!isSelectDragging) {
       return;
     }
-    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
 
-    if (rawPosition.x < editorCtx.editorPosition.x) {
-      rawPosition.x = editorCtx.editorPosition.x as AxisX<Pixel>;
-    }
-    if (rawPosition.x > editorCtx.editorPosition.x + editorCtx.editorSize) {
-      rawPosition.x = (editorCtx.editorPosition.x +
-        editorCtx.editorSize) as AxisX<Pixel>;
-    }
-    if (rawPosition.y < editorCtx.editorPosition.y) {
-      rawPosition.y = editorCtx.editorPosition.y as AxisY<Pixel>;
-    }
-    if (rawPosition.y > editorCtx.editorPosition.y + editorCtx.editorSize) {
-      rawPosition.y = (editorCtx.editorPosition.y +
-        editorCtx.editorSize) as AxisY<Pixel>;
-    }
+    const rawPosition = getRawPosition({
+      x: e.clientX,
+      y: e.clientY,
+    } as Point2D<Pixel>);
+    const [pixelArea, gridArea] = getArea(startSelectDragPosition, rawPosition);
 
-    const fixedPosition = JSON.parse(JSON.stringify(startSelectDragPosition));
-
-    if (fixedPosition.x > rawPosition.x) {
-      fixedPosition.x = rawPosition.x;
-    }
-    if (fixedPosition.y > rawPosition.y) {
-      fixedPosition.y = rawPosition.y;
-    }
-
-    const fixedSize = {
-      x: Math.abs(startSelectDragPosition.x - rawPosition.x),
-      y: Math.abs(startSelectDragPosition.y - rawPosition.y),
-    } as Rectangle<Pixel>;
-
-    console.log(startSelectDragPosition, rawPosition, {
-      position: fixedPosition,
-      size: fixedSize,
-    });
-
-    setDragSelectArea({ position: fixedPosition, size: fixedSize });
+    setDragSelectArea(pixelArea);
   };
   const onMouseUp = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    console.log('end');
     setIsSelectDragging(false);
 
-    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
-
-    if (rawPosition.x < editorCtx.editorPosition.x) {
-      rawPosition.x = editorCtx.editorPosition.x as AxisX<Pixel>;
-    }
-    if (rawPosition.x > editorCtx.editorPosition.x + editorCtx.editorSize) {
-      rawPosition.x = (editorCtx.editorPosition.x +
-        editorCtx.editorSize) as AxisX<Pixel>;
-    }
-    if (rawPosition.y < editorCtx.editorPosition.y) {
-      rawPosition.y = editorCtx.editorPosition.y as AxisY<Pixel>;
-    }
-    if (rawPosition.y > editorCtx.editorPosition.y + editorCtx.editorSize) {
-      rawPosition.y = (editorCtx.editorPosition.y +
-        editorCtx.editorSize) as AxisY<Pixel>;
+    if (
+      !dragSelectArea ||
+      (dragSelectArea?.size.x < 10 && dragSelectArea?.size.y < 10)
+    ) {
+      onClickEditor(e);
+      return;
     }
 
-    const fixedPosition = JSON.parse(JSON.stringify(startSelectDragPosition));
+    setDragSelectArea(undefined);
 
-    if (fixedPosition.x > rawPosition.x) {
-      fixedPosition.x = rawPosition.x;
+    const rawPosition = getRawPosition({
+      x: e.clientX,
+      y: e.clientY,
+    } as Point2D<Pixel>);
+    const [pixelArea, gridArea] = getArea(startSelectDragPosition, rawPosition);
+    const isPressKey = e.ctrlKey || e.shiftKey || e.metaKey;
+
+    switch (toolCtx.currentTool) {
+      case 'select': {
+        if (!isPressKey) {
+          clearSelectedFleurons();
+        }
+        for (
+          let i = gridArea.position.x;
+          i < gridArea.position.x + gridArea.size.x + 1;
+          i++
+        ) {
+          for (
+            let j = gridArea.position.y;
+            j < gridArea.position.y + gridArea.size.y + 1;
+            j++
+          ) {
+            const fleuronId = fleuronsMap[i][j];
+            const fleuron = fleuronId ? selectedFleurons.get(fleuronId) : null;
+            if (fleuronId && !fleuron) {
+              updateSelectedFleuron(fleuronId, true);
+            }
+            if (fleuronId && fleuron) {
+              deleteSelectedFleuron(fleuronId);
+            }
+          }
+        }
+        break;
+      }
+      case 'pen': {
+        break;
+      }
+      case 'eraser': {
+        break;
+      }
+      default:
+        break;
     }
-    if (fixedPosition.y > rawPosition.y) {
-      fixedPosition.y = rawPosition.y;
-    }
-
-    const fixedSize = {
-      x: Math.abs(startSelectDragPosition.x - rawPosition.x),
-      y: Math.abs(startSelectDragPosition.y - rawPosition.y),
-    } as Rectangle<Pixel>;
-
-    console.log(startSelectDragPosition, rawPosition, {
-      position: fixedPosition,
-      size: fixedSize,
-    });
-
-    setDragSelectArea({ position: fixedPosition, size: fixedSize });
-
-    const position = editorCtx.calcGridPosition(fixedPosition, editorCtx);
   };
 
   return (
     <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
       <GridWrapper
         ref={editorRef}
-        onClick={onClickEditor}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -443,7 +489,10 @@ const Editor: React.FC<Props> = (props) => {
             return (
               <Fleuron
                 state={fleuron[1]}
-                selected={selectedFleurons.has(fleuron[0])}
+                selected={
+                  selectedFleurons.has(fleuron[0]) ||
+                  tmpSelectedFleurons.has(fleuron[0])
+                }
                 key={`fleuron_${i}`}
               />
             );
