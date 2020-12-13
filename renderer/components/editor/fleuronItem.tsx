@@ -44,6 +44,8 @@ const Wrapper = styled.div<IconProps>`
     grid-column-end: ${position.x + 1 + size * iconSize.x};
     grid-row-start: ${position.y + 1};
     grid-row-end: ${position.y + 1 + size * iconSize.y};
+
+    transform: rotate(${rotate}deg);
   `}
 
   ${({ select }) =>
