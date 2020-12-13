@@ -1,7 +1,8 @@
 import { useState, useCallback, createContext } from 'react';
 
+import data from '~/assets/fleurons/fleurons.json';
 import { FleuronState } from '~/components/editor/fleuron';
-import { Fleuron } from '~/types';
+import { Fleuron } from '~/utils/fleuron';
 import { Point2D, Rectangle, Pixel, Grid, Angle } from '~/utils/Geometory';
 
 type DraggingState = {
@@ -11,17 +12,8 @@ type DraggingState = {
   selectedFleuron: FleuronState | null;
 };
 
-const mockFleuron: Fleuron = {
-  id: 1,
-  rect: { x: 1, y: 1 },
-  image: '',
-};
-
-const mockFleuron2: Fleuron = {
-  id: 2,
-  rect: { x: 1, y: 2 },
-  image: '',
-};
+const mockFleuron: Fleuron = data[0] as Fleuron;
+const mockFleuron2: Fleuron = data[1] as Fleuron;
 
 interface EditorContext {
   fleuronDb: Map<number, Fleuron>;
@@ -49,8 +41,8 @@ interface EditorContext {
 
 export const editorContext = createContext<EditorContext>({
   fleuronDb: new Map<number, Fleuron>([
-    [1, mockFleuron],
-    [2, mockFleuron2],
+    [mockFleuron.id, mockFleuron],
+    [mockFleuron2.id, mockFleuron2],
   ]),
   currentFleuron: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function

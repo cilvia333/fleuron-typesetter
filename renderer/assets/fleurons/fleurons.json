@@ -1,0 +1,20 @@
+[
+  {
+    "id":466,
+    "image":"svgs/466",
+    "rect": {
+      "x": 1,
+      "y": 1
+    },
+    "position": "bottom"
+  },
+  {
+    "id":268,
+    "image":"svgs/268",
+    "rect": {
+      "x": 1,
+      "y": 1
+    },
+    "position": "center"
+  }
+]

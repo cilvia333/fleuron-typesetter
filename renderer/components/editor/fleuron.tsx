@@ -1,9 +1,8 @@
-import { faBlender } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
+import fleuronIcon from '~/assets/fleurons/svgs/268.svg';
 import * as fleuron from '~/utils/fleuron';
 import { Point2D, Rectangle, Grid, Angle } from '~/utils/Geometory';
 
@@ -16,57 +15,61 @@ export type FleuronState = {
 
 interface Props {
   state: FleuronState;
-  selected: boolean;
 }
 
 const Fleuron: React.FC<Props> = (props) => {
-  const state = props.state;
-  const selected = props.selected;
+  const { state } = props;
+
+  const [image, setImage] = useState('');
+
+  useEffect(() => {
+    const getImage = async () => {
+      const svgImage = await require(`~/assets/fleurons/${state.fleuron.image}.svg`);
+      console.log(svgImage.default);
+      setImage(svgImage.default);
+    };
+
+    getImage();
+  }, [state]);
 
   return (
     <>
       <Icon
+        image={image}
+        imagePosition={state.fleuron.position}
         position={state.position}
         size={state.size}
         rotate={state.rotate}
         iconSize={state.fleuron.rect}
-        selected={selected}
-      >
-        <StyledIcon icon={faBlender} />
-      </Icon>
+      />
     </>
   );
 };
 
 interface IconProps {
+  image: string;
+  imagePosition: fleuron.Fleuron['position'];
   position: Point2D<Grid>;
   size: Grid;
   rotate: Angle;
   iconSize: Rectangle<Grid>;
-  selected: boolean;
 }
 
 const Icon = styled.div<IconProps>`
-  ${tw`w-full h-full relative`}
+  ${tw`w-full h-full relative bg-no-repeat bg-center`}
 
-  ${({ position, size, rotate, iconSize }) => css`
-    grid-column-start: ${position.x + 1};
-    grid-column-end: ${position.x + 1 + size * iconSize.x};
-    grid-row-start: ${position.y + 1};
-    grid-row-end: ${position.y + 1 + size * iconSize.y};
-
-    transform: rotate(${rotate}deg);
+  ${({ image }) => css`
+    background-image: url(\"${image}\");
   `}
 
-  ${({ selected }) =>
-    selected &&
-    css`
-      ${tw`bg-primary bg-opacity-50`}
-    `}
-`;
-
-const StyledIcon = styled(FontAwesomeIcon)`
-  ${tw`w-full h-full`}
+  ${({ imagePosition }) =>
+    imagePosition === 'center'
+      ? css`
+          ${tw`bg-center`}
+        `
+      : css`
+          ${tw`bg-bottom`}
+        `}
 `;
 
 export default Fleuron;

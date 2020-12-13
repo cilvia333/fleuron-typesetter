@@ -5,7 +5,8 @@ import { useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Fleuron, { FleuronState } from '~/components/editor/fleuron';
+import { FleuronState } from '~/components/editor/fleuron';
+import FleuronItem from '~/components/editor/fleuronItem';
 import SelectedArea from '~/components/editor/selectedArea';
 import { toolContext, editorContext } from '~/hooks';
 import {
@@ -487,9 +488,9 @@ const Editor: React.FC<Props> = (props) => {
         <GridStyle gridSize={editorCtx.gridSize}>
           {[...editorCtx.fleurons.entries()].map((fleuron, i) => {
             return (
-              <Fleuron
+              <FleuronItem
                 state={fleuron[1]}
-                selected={
+                select={
                   selectedFleurons.has(fleuron[0]) ||
                   tmpSelectedFleurons.has(fleuron[0])
                 }
