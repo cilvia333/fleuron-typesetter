@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Fleuron, { FleuronState } from '~/components/editor/fleuron';
+import Fleuron, { FleuronState } from '~/components/share/fleuron';
 import { Point2D, Rectangle, Grid, Angle } from '~/utils/Geometory';
 
 interface Props {
@@ -49,7 +49,7 @@ const Wrapper = styled.div<IconProps>`
   ${({ select }) =>
     select &&
     css`
-      ${tw`bg-primary bg-opacity-50`}
+      ${tw`bg-primary bg-opacity-10`}
     `}
 `;
 

@@ -5,9 +5,9 @@ import { useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import { FleuronState } from '~/components/editor/fleuron';
 import FleuronItem from '~/components/editor/fleuronItem';
 import SelectedArea from '~/components/editor/selectedArea';
+import { FleuronState } from '~/components/share/fleuron';
 import { toolContext, editorContext } from '~/hooks';
 import {
   Point2D,
@@ -561,7 +561,7 @@ const GridLine = styled.div`
 `;
 
 const MultiSelectArea = styled.div`
-  ${tw`bg-primary bg-opacity-50 border-primary border border-solid border-opacity-70 fixed top-0 left-0 pointer-events-none`};
+  ${tw`bg-primary bg-opacity-10 border-primary border border-solid border-opacity-70 fixed top-0 left-0 pointer-events-none`};
 `;
 
 export default Editor;

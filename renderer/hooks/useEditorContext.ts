@@ -1,7 +1,7 @@
 import { useState, useCallback, createContext } from 'react';
 
 import data from '~/assets/fleurons/fleurons.json';
-import { FleuronState } from '~/components/editor/fleuron';
+import { FleuronState } from '~/components/share/fleuron';
 import { Fleuron } from '~/utils/fleuron';
 import { Point2D, Rectangle, Pixel, Grid, Angle } from '~/utils/Geometory';
 
