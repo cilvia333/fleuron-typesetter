@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import fleuronIcon from '~/assets/fleurons/svgs/268.svg';
 import * as fleuron from '~/utils/fleuron';
 import { Point2D, Rectangle, Grid, Angle } from '~/utils/Geometory';
 
