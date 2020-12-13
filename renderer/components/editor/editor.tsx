@@ -329,8 +329,12 @@ const Editor: React.FC<Props> = (props) => {
           }
 
           const currentSize: Rectangle<Grid> = {
-            x: isRotateRect ? fleuron.rect.y : fleuron.rect.x,
-            y: isRotateRect ? fleuron.rect.x : fleuron.rect.y,
+            x: isRotateRect
+              ? fleuron.rect.y * editorCtx.currentDefState.size
+              : fleuron.rect.x * editorCtx.currentDefState.size,
+            y: isRotateRect
+              ? fleuron.rect.x * editorCtx.currentDefState.size
+              : fleuron.rect.y * editorCtx.currentDefState.size,
           } as Rectangle<Grid>;
 
           if (

@@ -49,6 +49,30 @@ const ToolList: React.FC = () => {
     });
   };
 
+  const incrementSize = () => {
+    const num = iconSize + 1;
+
+    if (0 < num && num <= editorCtx.gridSize) {
+      setIconSize(num);
+      changeSize(num);
+    }
+  };
+
+  const decrementSize = () => {
+    const num = iconSize - 1;
+
+    if (0 < num && num <= editorCtx.gridSize) {
+      setIconSize(num);
+      changeSize(num);
+    }
+  };
+
+  const changeSize = (num: number) => {
+    editorCtx.setCurrentDefState((old) => {
+      return { ...old, size: num } as DefState;
+    });
+  };
+
   return (
     <>
       <Wrapper>
@@ -81,14 +105,14 @@ const ToolList: React.FC = () => {
             icon={faMousePointer}
             mode={'action'}
             onClick={() => {
-              return;
+              incrementSize();
             }}
           />
           <Button
             icon={faMousePointer}
             mode={'action'}
             onClick={() => {
-              return;
+              decrementSize();
             }}
           />
           <InputNum
@@ -96,6 +120,7 @@ const ToolList: React.FC = () => {
             onChangeNumber={(num) => {
               if (0 < num && num <= editorCtx.gridSize) {
                 setIconSize(num);
+                changeSize(num);
               }
             }}
           />
