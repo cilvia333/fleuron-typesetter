@@ -33,12 +33,12 @@ interface EditorContext {
   setCurrentDraggingState: (current: DraggingState) => void;
   currentAngle: Angle;
   setCurrentAngle: (current: Angle) => void;
-  gridSize: number;
-  setGridSize: (size: number) => void;
+  gridSize: Grid;
+  setGridSize: (size: Grid) => void;
   gridPositions: Point2D<Pixel>[][];
   setGridPositions: (position: Point2D<Pixel>[][]) => void;
-  editorSize: number;
-  setEditorSize: (size: number) => void;
+  editorSize: Pixel;
+  setEditorSize: (size: Pixel) => void;
   editorPosition: Point2D<Pixel>;
   setEditorPosition: (position: Point2D<Pixel>) => void;
   calcGridPosition: (
@@ -70,7 +70,7 @@ export const editorContext = createContext<EditorContext>({
   currentAngle: 0 as Angle,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentAngle: () => {},
-  gridSize: 4,
+  gridSize: 4 as Grid,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridSize: () => {},
   gridPositions: [
@@ -101,7 +101,7 @@ export const editorContext = createContext<EditorContext>({
   ] as Point2D<Pixel>[][],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridPositions: () => {},
-  editorSize: 4,
+  editorSize: 4 as Pixel,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEditorSize: () => {},
   editorPosition: { x: 0, y: 0 } as Point2D<Pixel>,
@@ -155,8 +155,8 @@ export const useEditorContext = (): EditorContext => {
   const setCurrentAngle = useCallback((current: Angle): void => {
     updateCurrentAngle(current);
   }, []);
-  const [gridSize, updateGridSize] = useState(4);
-  const setGridSize = useCallback((size: number): void => {
+  const [gridSize, updateGridSize] = useState(4 as Grid);
+  const setGridSize = useCallback((size: Grid): void => {
     updateGridSize(size);
   }, []);
   const [gridPositions, updateGridPositions] = useState<Point2D<Pixel>[][]>([
@@ -165,8 +165,8 @@ export const useEditorContext = (): EditorContext => {
   const setGridPositions = useCallback((position: Point2D<Pixel>[][]): void => {
     updateGridPositions(position);
   }, []);
-  const [editorSize, updateEditorSize] = useState(4);
-  const setEditorSize = useCallback((size: number): void => {
+  const [editorSize, updateEditorSize] = useState(4 as Pixel);
+  const setEditorSize = useCallback((size: Pixel): void => {
     updateEditorSize(size);
   }, []);
   const [editorPosition, updateEditorPosition] = useState<Point2D<Pixel>>({

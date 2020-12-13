@@ -10,7 +10,7 @@ import tw from 'twin.macro';
 
 import { editorContext } from '~/hooks';
 import { Fleuron } from '~/types';
-import { Point2D, Rectangle, Pixel, Grid } from '~/utils/Geometory';
+import { Angle, Point2D, Rectangle, Pixel, Grid } from '~/utils/Geometory';
 
 interface Props {
   id: number;
@@ -41,9 +41,9 @@ const IconItem: React.FC<Props> = (props) => {
         ...editorCtx.currentDraggingState,
         selectedFleuron: {
           fleuron,
-          size,
-          rotate,
-          position: { x: 0, y: 0 },
+          size: size as Grid,
+          rotate: rotate as Angle,
+          position: { x: 0, y: 0 } as Point2D<Grid>,
         },
       });
     }

@@ -40,6 +40,11 @@ const Editor: React.FC<Props> = (props) => {
   );
   const [selectedArea, setSelectedArea] = useState<Area<Grid>>();
   const [fleuronsMap, setFleuronsMap] = useState<(string | null)[][]>([[]]);
+  const [dragSelectArea, setDragSelectArea] = useState<Area<Pixel>>();
+  const [isSelectDragging, setIsSelectDragging] = useState(false);
+  const [startSelectDragPosition, setStartSelectDragPosition] = useState<
+    Point2D<Pixel>
+  >({ x: 0, y: 0 } as Point2D<Pixel>);
 
   //useEffect
   useEffectOnce(() => {
@@ -130,7 +135,7 @@ const Editor: React.FC<Props> = (props) => {
       return;
     }
 
-    const height: number = currentEl.getBoundingClientRect()?.height ?? null;
+    const height = (currentEl.getBoundingClientRect()?.height as Pixel) ?? null;
 
     if (height) {
       editorCtx.setEditorSize(height);
@@ -205,6 +210,8 @@ const Editor: React.FC<Props> = (props) => {
   //イベントハンドラ
   const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
+
+    console.log('click');
 
     const position = editorCtx.calcGridPosition(
       { x: e.clientX, y: e.clientY } as Point2D<Pixel>,
@@ -310,9 +317,126 @@ const Editor: React.FC<Props> = (props) => {
     }
   };
 
+  const onMouseDown = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (isSelectDragging) {
+      return;
+    }
+
+    console.log('start');
+
+    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
+    const fixedPosition = startSelectDragPosition;
+
+    if (fixedPosition.x > rawPosition.x) {
+      fixedPosition.x = rawPosition.x;
+    }
+    if (fixedPosition.y > rawPosition.y) {
+      fixedPosition.y = rawPosition.y;
+    }
+
+    setIsSelectDragging(true);
+    setDragSelectArea({
+      position: fixedPosition,
+      size: { x: 0, y: 0 } as Rectangle<Pixel>,
+    });
+    setStartSelectDragPosition(rawPosition);
+  };
+  const onMouseMove = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!isSelectDragging) {
+      return;
+    }
+    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
+
+    if (rawPosition.x < editorCtx.editorPosition.x) {
+      rawPosition.x = editorCtx.editorPosition.x as AxisX<Pixel>;
+    }
+    if (rawPosition.x > editorCtx.editorPosition.x + editorCtx.editorSize) {
+      rawPosition.x = (editorCtx.editorPosition.x +
+        editorCtx.editorSize) as AxisX<Pixel>;
+    }
+    if (rawPosition.y < editorCtx.editorPosition.y) {
+      rawPosition.y = editorCtx.editorPosition.y as AxisY<Pixel>;
+    }
+    if (rawPosition.y > editorCtx.editorPosition.y + editorCtx.editorSize) {
+      rawPosition.y = (editorCtx.editorPosition.y +
+        editorCtx.editorSize) as AxisY<Pixel>;
+    }
+
+    const fixedPosition = JSON.parse(JSON.stringify(startSelectDragPosition));
+
+    if (fixedPosition.x > rawPosition.x) {
+      fixedPosition.x = rawPosition.x;
+    }
+    if (fixedPosition.y > rawPosition.y) {
+      fixedPosition.y = rawPosition.y;
+    }
+
+    const fixedSize = {
+      x: Math.abs(startSelectDragPosition.x - rawPosition.x),
+      y: Math.abs(startSelectDragPosition.y - rawPosition.y),
+    } as Rectangle<Pixel>;
+
+    console.log(startSelectDragPosition, rawPosition, {
+      position: fixedPosition,
+      size: fixedSize,
+    });
+
+    setDragSelectArea({ position: fixedPosition, size: fixedSize });
+  };
+  const onMouseUp = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    console.log('end');
+    setIsSelectDragging(false);
+
+    const rawPosition = { x: e.clientX, y: e.clientY } as Point2D<Pixel>;
+
+    if (rawPosition.x < editorCtx.editorPosition.x) {
+      rawPosition.x = editorCtx.editorPosition.x as AxisX<Pixel>;
+    }
+    if (rawPosition.x > editorCtx.editorPosition.x + editorCtx.editorSize) {
+      rawPosition.x = (editorCtx.editorPosition.x +
+        editorCtx.editorSize) as AxisX<Pixel>;
+    }
+    if (rawPosition.y < editorCtx.editorPosition.y) {
+      rawPosition.y = editorCtx.editorPosition.y as AxisY<Pixel>;
+    }
+    if (rawPosition.y > editorCtx.editorPosition.y + editorCtx.editorSize) {
+      rawPosition.y = (editorCtx.editorPosition.y +
+        editorCtx.editorSize) as AxisY<Pixel>;
+    }
+
+    const fixedPosition = JSON.parse(JSON.stringify(startSelectDragPosition));
+
+    if (fixedPosition.x > rawPosition.x) {
+      fixedPosition.x = rawPosition.x;
+    }
+    if (fixedPosition.y > rawPosition.y) {
+      fixedPosition.y = rawPosition.y;
+    }
+
+    const fixedSize = {
+      x: Math.abs(startSelectDragPosition.x - rawPosition.x),
+      y: Math.abs(startSelectDragPosition.y - rawPosition.y),
+    } as Rectangle<Pixel>;
+
+    console.log(startSelectDragPosition, rawPosition, {
+      position: fixedPosition,
+      size: fixedSize,
+    });
+
+    setDragSelectArea({ position: fixedPosition, size: fixedSize });
+
+    const position = editorCtx.calcGridPosition(fixedPosition, editorCtx);
+  };
+
   return (
     <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
-      <GridWrapper ref={editorRef} onClick={onClickEditor}>
+      <GridWrapper
+        ref={editorRef}
+        onClick={onClickEditor}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+      >
         {/* 花形装飾描画 */}
         <GridStyle gridSize={editorCtx.gridSize}>
           {[...editorCtx.fleurons.entries()].map((fleuron, i) => {
@@ -339,7 +463,18 @@ const Editor: React.FC<Props> = (props) => {
           />
         </GridStyle>
       </GridWrapper>
-      {provided.placeholder}
+      {/* {provided.placeholder} */}
+      {isSelectDragging && (
+        <MultiSelectArea
+          style={
+            dragSelectArea && {
+              width: `${dragSelectArea.size.x}px`,
+              height: `${dragSelectArea.size.y}px`,
+              transform: `translate(${dragSelectArea.position.x}px, ${dragSelectArea.position.y}px)`,
+            }
+          }
+        />
+      )}
     </Wrapper>
   );
 };
@@ -373,6 +508,10 @@ const GridLine = styled.div`
   ${tw`w-full h-full border-black border border-solid border-opacity-70`};
 
   box-sizing: content-box;
+`;
+
+const MultiSelectArea = styled.div`
+  ${tw`bg-primary bg-opacity-50 border-primary border border-solid border-opacity-70 fixed top-0 left-0 pointer-events-none`};
 `;
 
 export default Editor;

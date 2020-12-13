@@ -68,7 +68,7 @@ const IconList: React.FC = () => {
 };
 
 const IconListWrapper = styled.section`
-  ${tw`w-full h-full bg-surface-1 relative overflow-y-scroll`}
+  ${tw`w-full bg-surface-1 relative overflow-y-scroll`}
 
   & * {
     box-sizing: border-box;
