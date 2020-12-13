@@ -45,8 +45,9 @@ const IconList: React.FC = () => {
                       {(provided, snapshot) => (
                         <IconItem
                           id={fleuron[0]}
-                          size={1}
-                          rotate={editorCtx.currentAngle}
+                          size={editorCtx.currentDefState.size}
+                          rotate={editorCtx.currentDefState.rotate}
+                          flip={editorCtx.currentDefState.flip}
                           selected={selectedItemId === fleuron[0]}
                           onClickItem={onClickItem}
                           provided={provided}

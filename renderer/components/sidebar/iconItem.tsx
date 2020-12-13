@@ -16,6 +16,7 @@ interface Props {
   id: number;
   size: Grid;
   rotate: Angle;
+  flip: boolean;
   selected: boolean;
   onClickItem: (itemId: number) => void;
   provided: DraggableProvided;
@@ -23,7 +24,16 @@ interface Props {
 }
 
 const IconItem: React.FC<Props> = (props) => {
-  const { id, size, rotate, selected, onClickItem, provided, snapshot } = props;
+  const {
+    id,
+    size,
+    rotate,
+    flip,
+    selected,
+    onClickItem,
+    provided,
+    snapshot,
+  } = props;
   const editorCtx = useContext(editorContext);
   const [fleuronState, setFleuronState] = useState<FleuronState>();
   const [customProvidedStyle, setCustomProvidedStyle] = useState<
@@ -39,12 +49,7 @@ const IconItem: React.FC<Props> = (props) => {
 
       editorCtx.setCurrentDraggingState({
         ...editorCtx.currentDraggingState,
-        selectedFleuron: {
-          fleuron,
-          size: size as Grid,
-          rotate: rotate as Angle,
-          position: { x: 0, y: 0 } as Point2D<Grid>,
-        },
+        selectedFleuron: fleuronState,
       });
     }
   }, [snapshot.isDragging]);
@@ -117,8 +122,9 @@ const IconItem: React.FC<Props> = (props) => {
       size,
       rotate,
       position: { x: -1, y: -1 } as Point2D<Grid>,
+      flip,
     });
-  }, [id, size, rotate]);
+  }, [id, size, rotate, flip]);
 
   const isDraggingStyle = (style: any): style is DraggingStyle => {
     return style.position !== undefined;

@@ -321,7 +321,7 @@ const Editor: React.FC<Props> = (props) => {
             return;
           }
 
-          const currentAngle = editorCtx.currentAngle;
+          const currentAngle = editorCtx.currentDefState.rotate;
           let isRotateRect = false;
 
           if (currentAngle === 90 && currentAngle === 270) {
@@ -354,8 +354,9 @@ const Editor: React.FC<Props> = (props) => {
           updateDisplayFleuron(uuid, {
             fleuron,
             position,
-            size: 1 as Grid,
-            rotate: editorCtx.currentAngle,
+            size: editorCtx.currentDefState.size,
+            rotate: editorCtx.currentDefState.rotate,
+            flip: editorCtx.currentDefState.flip,
           });
 
           for (let i = position.x; i < position.x + currentSize.x; i++) {

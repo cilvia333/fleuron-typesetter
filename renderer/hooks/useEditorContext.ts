@@ -12,6 +12,12 @@ type DraggingState = {
   selectedFleuron: FleuronState | null;
 };
 
+export type DefState = {
+  size: FleuronState['size'];
+  rotate: FleuronState['rotate'];
+  flip: FleuronState['flip'];
+};
+
 const mockFleuron: Fleuron = data[0] as Fleuron;
 const mockFleuron2: Fleuron = data[1] as Fleuron;
 
@@ -23,8 +29,8 @@ interface EditorContext {
   setFleurons: (current: Map<string, FleuronState>) => void;
   currentDraggingState: DraggingState;
   setCurrentDraggingState: (current: DraggingState) => void;
-  currentAngle: Angle;
-  setCurrentAngle: (current: Angle) => void;
+  currentDefState: DefState;
+  setCurrentDefState: (current: DefState) => void;
   gridSize: Grid;
   setGridSize: (size: Grid) => void;
   gridPositions: Point2D<Pixel>[][];
@@ -59,9 +65,9 @@ export const editorContext = createContext<EditorContext>({
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setCurrentDraggingState: () => {},
-  currentAngle: 0 as Angle,
+  currentDefState: { size: 1, rotate: 0, flip: false } as DefState,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setCurrentAngle: () => {},
+  setCurrentDefState: () => {},
   gridSize: 4 as Grid,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setGridSize: () => {},
@@ -143,9 +149,13 @@ export const useEditorContext = (): EditorContext => {
     },
     []
   );
-  const [currentAngle, updateCurrentAngle] = useState<Angle>(0 as Angle);
-  const setCurrentAngle = useCallback((current: Angle): void => {
-    updateCurrentAngle(current);
+  const [currentDefState, updateCurrentDefState] = useState<DefState>({
+    size: 1,
+    rotate: 0,
+    flip: false,
+  } as DefState);
+  const setCurrentDefState = useCallback((current: DefState): void => {
+    updateCurrentDefState(current);
   }, []);
   const [gridSize, updateGridSize] = useState(4 as Grid);
   const setGridSize = useCallback((size: Grid): void => {
@@ -189,8 +199,8 @@ export const useEditorContext = (): EditorContext => {
     setFleurons,
     currentDraggingState,
     setCurrentDraggingState,
-    currentAngle,
-    setCurrentAngle,
+    currentDefState,
+    setCurrentDefState,
     gridSize,
     setGridSize,
     gridPositions,

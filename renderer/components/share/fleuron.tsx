@@ -10,6 +10,7 @@ export type FleuronState = {
   position: Point2D<Grid>;
   size: Grid;
   rotate: Angle;
+  flip: boolean;
 };
 
 interface Props {
@@ -39,6 +40,7 @@ const Fleuron: React.FC<Props> = (props) => {
         position={state.position}
         size={state.size}
         rotate={state.rotate}
+        flip={state.flip}
         iconSize={state.fleuron.rect}
       />
     </>
@@ -51,6 +53,7 @@ interface IconProps {
   position: Point2D<Grid>;
   size: Grid;
   rotate: Angle;
+  flip: boolean;
   iconSize: Rectangle<Grid>;
 }
 
@@ -69,6 +72,12 @@ const Icon = styled.div<IconProps>`
       : css`
           ${tw`bg-bottom`}
         `}
+
+  ${({ flip }) =>
+    flip &&
+    css`
+      transform: scaleX(-1);
+    `}
 `;
 
 export default Fleuron;

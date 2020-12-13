@@ -12,7 +12,7 @@ import tw from 'twin.macro';
 import Button from '~/components/share/button';
 import InputNum from '~/components/share/inputNum';
 import ToolListWrapper from '~/components/share/toolListWrapper';
-import { editorContext } from '~/hooks';
+import { editorContext, DefState } from '~/hooks';
 import { Angle } from '~/utils/Geometory';
 
 const ToolList: React.FC = () => {
@@ -20,23 +20,33 @@ const ToolList: React.FC = () => {
   const editorCtx = useContext(editorContext);
 
   const rotateRight = () => {
-    let angle = editorCtx.currentAngle + 90;
+    let angle = editorCtx.currentDefState.rotate + 90;
 
     if (angle >= 360) {
       angle = 0;
     }
 
-    editorCtx.setCurrentAngle(angle as Angle);
+    editorCtx.setCurrentDefState((old) => {
+      return { ...old, rotate: angle as Angle } as DefState;
+    });
   };
 
   const rotateLeft = () => {
-    let angle = editorCtx.currentAngle - 90;
+    let angle = editorCtx.currentDefState.rotate - 90;
 
     if (angle < 0) {
       angle = 270;
     }
 
-    editorCtx.setCurrentAngle(angle as Angle);
+    editorCtx.setCurrentDefState((old) => {
+      return { ...old, rotate: angle as Angle } as DefState;
+    });
+  };
+
+  const changeFlip = () => {
+    editorCtx.setCurrentDefState((old) => {
+      return { ...old, flip: !old.flip } as DefState;
+    });
   };
 
   return (
@@ -59,9 +69,10 @@ const ToolList: React.FC = () => {
           />
           <Button
             icon={faMousePointer}
-            mode={'action'}
+            mode={'toggle'}
+            active={editorCtx.currentDefState.flip}
             onClick={() => {
-              return;
+              changeFlip();
             }}
           />
         </ToolListWrapper>
