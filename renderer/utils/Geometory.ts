@@ -11,6 +11,11 @@ export type Rectangle<U extends UnitOfLength> = {
   y: AxisY<U>;
 };
 
+export type Vec2D<U extends UnitOfLength> = {
+  x: AxisX<U>;
+  y: AxisY<U>;
+};
+
 export type Point2D<U extends UnitOfLength> = {
   x: AxisX<U>;
   y: AxisY<U>;

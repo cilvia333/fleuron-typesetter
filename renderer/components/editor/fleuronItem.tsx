@@ -7,11 +7,12 @@ import { Point2D, Rectangle, Grid, Angle } from '~/utils/Geometory';
 
 interface Props {
   state: FleuronState;
-  select: boolean;
+  select?: boolean;
+  move?: boolean;
 }
 
 const FleuronItem: React.FC<Props> = (props) => {
-  const { state, select } = props;
+  const { state, select, move } = props;
 
   return (
     <>
@@ -38,6 +39,7 @@ interface IconProps {
 
 const Wrapper = styled.div<IconProps>`
   ${tw`w-full h-full relative`}
+  cursor: grab;
 
   ${({ position, size, rotate, iconSize }) => css`
     grid-column-start: ${position.x + 1};
