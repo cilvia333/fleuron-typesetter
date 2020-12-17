@@ -26,9 +26,10 @@ const ToolList: React.FC = () => {
       angle = 0;
     }
 
-    editorCtx.setCurrentDefState((old) => {
-      return { ...old, rotate: angle as Angle } as DefState;
-    });
+    editorCtx.setCurrentDefState({
+      ...editorCtx.currentDefState,
+      rotate: angle as Angle,
+    } as DefState);
   };
 
   const rotateLeft = () => {
@@ -38,15 +39,17 @@ const ToolList: React.FC = () => {
       angle = 270;
     }
 
-    editorCtx.setCurrentDefState((old) => {
-      return { ...old, rotate: angle as Angle } as DefState;
-    });
+    editorCtx.setCurrentDefState({
+      ...editorCtx.currentDefState,
+      rotate: angle as Angle,
+    } as DefState);
   };
 
   const changeFlip = () => {
-    editorCtx.setCurrentDefState((old) => {
-      return { ...old, flip: !old.flip } as DefState;
-    });
+    editorCtx.setCurrentDefState({
+      ...editorCtx.currentDefState,
+      flip: !editorCtx.currentDefState.flip,
+    } as DefState);
   };
 
   const incrementSize = () => {
@@ -68,9 +71,10 @@ const ToolList: React.FC = () => {
   };
 
   const changeSize = (num: number) => {
-    editorCtx.setCurrentDefState((old) => {
-      return { ...old, size: num } as DefState;
-    });
+    editorCtx.setCurrentDefState({
+      ...editorCtx.currentDefState,
+      size: num,
+    } as DefState);
   };
 
   return (

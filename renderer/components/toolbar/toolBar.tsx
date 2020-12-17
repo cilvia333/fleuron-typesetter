@@ -13,6 +13,7 @@ import ToolListWrapper, {
   ToolListDivider,
 } from '~/components/share/toolListWrapper';
 import { toolContext, editorContext } from '~/hooks';
+import { Grid } from '~/utils/Geometory';
 
 const gridPreset = ['4x4', '8x8', '16x16', 'custom'];
 
@@ -26,7 +27,7 @@ const ToolBar: React.FC = () => {
 
   useEffect(() => {
     if (gridSet === 'custom') {
-      editorCtx.setGridSize(gridSize);
+      editorCtx.setGridSize(gridSize as Grid);
     }
   }, [gridSize, gridSet]);
 
@@ -68,7 +69,7 @@ const ToolBar: React.FC = () => {
             active={gridSet === '4x4'}
             onClick={() => {
               setGridSet('4x4');
-              editorCtx.setGridSize(4);
+              editorCtx.setGridSize(4 as Grid);
             }}
           />
           <Button
@@ -77,7 +78,7 @@ const ToolBar: React.FC = () => {
             active={gridSet === '8x8'}
             onClick={() => {
               setGridSet('8x8');
-              editorCtx.setGridSize(8);
+              editorCtx.setGridSize(8 as Grid);
             }}
           />
           <Button
@@ -86,7 +87,7 @@ const ToolBar: React.FC = () => {
             active={gridSet === '16x16'}
             onClick={() => {
               setGridSet('16x16');
-              editorCtx.setGridSize(16);
+              editorCtx.setGridSize(16 as Grid);
             }}
           />
           <ToolListDivider />
@@ -96,7 +97,7 @@ const ToolBar: React.FC = () => {
             active={gridSet === 'custom'}
             onClick={() => {
               setGridSet('custom');
-              editorCtx.setGridSize(gridSize);
+              editorCtx.setGridSize(gridSize as Grid);
             }}
           />
           <InputNum

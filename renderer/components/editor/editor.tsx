@@ -45,10 +45,12 @@ const Editor: React.FC<Props> = (props) => {
     new Map<string, FleuronState>()
   );
   const [selectedArea, setSelectedArea] = useState<Area<Grid>>(); //選択されたfleuronsを内包するグリッドエリア
+  const [displaySelectedArea, setDisplaySelectedArea] = useState<Area<Grid>>(); //選択されたfleuronsを内包するグリッドエリア
   const [fleuronsMap, setFleuronsMap] = useState<(string | null)[][]>([[]]);
   const [moveAreaFleuronsMap, setMoveAreaFleuronsMap] = useState<
     (string | null)[][]
-  >([[]]);
+  >();
+  const [isSeletedPosition, setIsSelectedPosition] = useState(false);
   const [dragSelectArea, setDragSelectArea] = useState<Area<Pixel>>();
   const [isDragging, setIsDragging] = useState(false);
   const [dragMode, setDragMode] = useState<DragMode>();
@@ -66,6 +68,12 @@ const Editor: React.FC<Props> = (props) => {
   useEffect(() => {
     updateEditorState();
   }, [editorRef?.current, editorCtx.gridSize]);
+
+  useEffect(() => {
+    console.log('displayFleurons', displayFleurons);
+    console.log('selectedFleurons', selectedFleurons);
+    console.log('fleuronsMap', fleuronsMap);
+  }, [displayFleurons, selectedFleurons, fleuronsMap]);
 
   useEffect(() => {
     if (snapshot.isDraggingOver) {
@@ -123,15 +131,21 @@ const Editor: React.FC<Props> = (props) => {
         y: maxPosition.y - minPosition.y,
       } as Rectangle<Grid>,
     });
+
+    setDisplaySelectedArea({
+      position: minPosition,
+      size: {
+        x: maxPosition.x - minPosition.x,
+        y: maxPosition.y - minPosition.y,
+      } as Rectangle<Grid>,
+    });
   }, [selectedFleurons]);
 
   const updateEditorState = () => {
-    let array: typeof fleuronsMap = [];
+    const array: typeof fleuronsMap = [];
     for (let y = 0; y < editorCtx.gridSize; y++) {
-      array[y] = new Array(editorCtx.gridSize).fill('');
+      array[y] = new Array(editorCtx.gridSize).fill(null);
     }
-
-    array = array.map((v, x) => v.map((state, y) => null));
 
     setFleuronsMap(array);
 
@@ -289,123 +303,170 @@ const Editor: React.FC<Props> = (props) => {
     });
   };
 
-  //イベントハンドラ
-  const onClickEditor = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.stopPropagation();
+  const useSelectTool = (gridArea: Area<Grid>, isPressKey: boolean) => {
+    if (
+      !dragSelectArea ||
+      (dragSelectArea?.size.x < 10 && dragSelectArea?.size.y < 10)
+    ) {
+      console.log('single');
 
-    const position = editorCtx.calcGridPosition(
-      { x: e.clientX, y: e.clientY } as Point2D<Pixel>,
-      editorCtx
-    );
+      const fleuronId = fleuronsMap[gridArea.position.x][gridArea.position.y];
+      const isSelected = fleuronId ? selectedFleurons.has(fleuronId) : false;
+      const fleuron = fleuronId ? displayFleurons.get(fleuronId) : null;
 
-    switch (toolCtx.currentTool) {
-      case 'select': {
-        const fleuronId = fleuronsMap[position.x][position.y];
-        const isSelected = fleuronId ? selectedFleurons.has(fleuronId) : false;
-        const fleuron = fleuronId ? displayFleurons.get(fleuronId) : null;
-        const isPressKey = e.ctrlKey || e.shiftKey || e.metaKey;
-
-        if (!((fleuronId && isPressKey) || isSelected)) {
-          clearSelectedFleurons();
+      if (!((fleuronId && isPressKey) || isSelected)) {
+        console.log('clear');
+        clearSelectedFleurons();
+      }
+      if (fleuronId) {
+        if (isSelected && isPressKey && isSeletedPosition) {
+          console.log('delete');
+          deleteSelectedFleuron(fleuronId);
         }
-        if (fleuronId) {
-          if (isSelected && isPressKey) {
-            deleteSelectedFleuron(fleuronId);
-          }
 
-          if (!isSelected && fleuron) {
+        if (!isSelected && fleuron) {
+          console.log('add');
+          updateSelectedFleuron(fleuronId, fleuron);
+        }
+      }
+    } else {
+      console.log('multi');
+
+      for (
+        let i = gridArea.position.x;
+        i < gridArea.position.x + gridArea.size.x + 1;
+        i++
+      ) {
+        for (
+          let j = gridArea.position.y;
+          j < gridArea.position.y + gridArea.size.y + 1;
+          j++
+        ) {
+          const fleuronId = fleuronsMap[i][j];
+          const isSelected = fleuronId
+            ? selectedFleurons.has(fleuronId)
+            : false;
+          const fleuron = fleuronId ? displayFleurons.get(fleuronId) : null;
+
+          if (fleuronId && !isSelected && fleuron) {
             updateSelectedFleuron(fleuronId, fleuron);
           }
+          if (fleuronId && isSelected) {
+            deleteSelectedFleuron(fleuronId);
+          }
         }
-        break;
       }
-      case 'pen': {
-        if (editorCtx.currentFleuron) {
-          const fleuron = editorCtx.fleuronDb.get(editorCtx.currentFleuron);
-
-          if (!fleuron) {
-            return;
-          }
-
-          const currentAngle = editorCtx.currentDefState.rotate;
-          let isRotateRect = false;
-
-          if (currentAngle === 90 && currentAngle === 270) {
-            isRotateRect = true;
-          }
-
-          const currentSize: Rectangle<Grid> = {
-            x: isRotateRect
-              ? fleuron.rect.y * editorCtx.currentDefState.size
-              : fleuron.rect.x * editorCtx.currentDefState.size,
-            y: isRotateRect
-              ? fleuron.rect.x * editorCtx.currentDefState.size
-              : fleuron.rect.y * editorCtx.currentDefState.size,
-          } as Rectangle<Grid>;
-
-          if (
-            position.x + currentSize.x - 1 >= editorCtx.gridSize ||
-            position.y + currentSize.y - 1 >= editorCtx.gridSize
-          ) {
-            return;
-          }
-
-          for (let i = position.x; i < position.x + currentSize.x; i++) {
-            for (let j = position.y; j < position.y + currentSize.y; j++) {
-              if (fleuronsMap[i][j]) {
-                return;
-              }
-            }
-          }
-
-          const newFleuronsMap = fleuronsMap;
-          const uuid = nanoid();
-
-          updateDisplayFleuron(uuid, {
-            fleuron,
-            position,
-            size: editorCtx.currentDefState.size,
-            rotate: editorCtx.currentDefState.rotate,
-            flip: editorCtx.currentDefState.flip,
-          });
-
-          for (let i = position.x; i < position.x + currentSize.x; i++) {
-            for (let j = position.y; j < position.y + currentSize.y; j++) {
-              newFleuronsMap[i][j] = uuid;
-            }
-          }
-
-          setFleuronsMap(newFleuronsMap);
-          editorCtx.setFleurons(displayFleurons);
-        }
-        break;
-      }
-      case 'eraser': {
-        const fleuronId = fleuronsMap[position.x][position.y];
-
-        if (!fleuronId) {
-          return;
-        }
-
-        deleteDisplayFleuron(fleuronId);
-
-        setFleuronsMap((old) =>
-          old.map((yAxis) =>
-            yAxis.map((v) => {
-              return v === fleuronId ? null : v;
-            })
-          )
-        );
-
-        editorCtx.setFleurons(displayFleurons);
-
-        break;
-      }
-      default:
-        break;
     }
   };
 
+  const usePenTool = (gridArea: Area<Grid>, isPressKey: boolean) => {
+    if (
+      !dragSelectArea ||
+      (dragSelectArea?.size.x < 10 && dragSelectArea?.size.y < 10)
+    ) {
+      if (editorCtx.currentFleuron) {
+        const fleuron = editorCtx.fleuronDb.get(editorCtx.currentFleuron);
+
+        if (!fleuron) {
+          return;
+        }
+
+        const currentAngle = editorCtx.currentDefState.rotate;
+        let isRotateRect = false;
+
+        if (currentAngle === 90 && currentAngle === 270) {
+          isRotateRect = true;
+        }
+
+        const currentSize: Rectangle<Grid> = {
+          x: isRotateRect
+            ? fleuron.rect.y * editorCtx.currentDefState.size
+            : fleuron.rect.x * editorCtx.currentDefState.size,
+          y: isRotateRect
+            ? fleuron.rect.x * editorCtx.currentDefState.size
+            : fleuron.rect.y * editorCtx.currentDefState.size,
+        } as Rectangle<Grid>;
+
+        if (
+          gridArea.position.x + currentSize.x - 1 >= editorCtx.gridSize ||
+          gridArea.position.y + currentSize.y - 1 >= editorCtx.gridSize
+        ) {
+          return;
+        }
+
+        for (
+          let i = gridArea.position.x;
+          i < gridArea.position.x + currentSize.x;
+          i++
+        ) {
+          for (
+            let j = gridArea.position.y;
+            j < gridArea.position.y + currentSize.y;
+            j++
+          ) {
+            if (fleuronsMap[i][j]) {
+              return;
+            }
+          }
+        }
+
+        const newFleuronsMap = fleuronsMap;
+        const uuid = nanoid();
+
+        updateDisplayFleuron(uuid, {
+          fleuron,
+          position: gridArea.position,
+          size: editorCtx.currentDefState.size,
+          rotate: editorCtx.currentDefState.rotate,
+          flip: editorCtx.currentDefState.flip,
+        });
+
+        for (
+          let i = gridArea.position.x;
+          i < gridArea.position.x + currentSize.x;
+          i++
+        ) {
+          for (
+            let j = gridArea.position.y;
+            j < gridArea.position.y + currentSize.y;
+            j++
+          ) {
+            newFleuronsMap[i][j] = uuid;
+          }
+        }
+
+        setFleuronsMap(newFleuronsMap);
+        editorCtx.setFleurons(displayFleurons);
+      }
+    }
+  };
+
+  const useEraserTool = (gridArea: Area<Grid>, isPressKey: boolean) => {
+    if (
+      !dragSelectArea ||
+      (dragSelectArea?.size.x < 10 && dragSelectArea?.size.y < 10)
+    ) {
+      const fleuronId = fleuronsMap[gridArea.position.x][gridArea.position.y];
+
+      if (!fleuronId) {
+        return;
+      }
+
+      deleteDisplayFleuron(fleuronId);
+
+      setFleuronsMap((old) =>
+        old.map((yAxis) =>
+          yAxis.map((v) => {
+            return v === fleuronId ? null : v;
+          })
+        )
+      );
+
+      editorCtx.setFleurons(displayFleurons);
+    }
+  };
+
+  //イベントハンドラ
   const onMouseDown = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (isDragging) {
       return;
@@ -419,39 +480,19 @@ const Editor: React.FC<Props> = (props) => {
     const gridPosition = editorCtx.calcGridPosition(rawPosition, editorCtx);
     const fleuronId = fleuronsMap[gridPosition.x][gridPosition.y];
     const fleuron = fleuronId ? displayFleurons.get(fleuronId) : null;
+    const isPressKey = e.ctrlKey || e.shiftKey || e.metaKey;
 
     if (fleuronId && fleuron) {
-      updateSelectedFleuron(fleuronId, fleuron);
-
-      if (selectedArea) {
-        setDragMode('move');
-
-        const tmpMap: (string | null)[][] = new Array(selectedArea?.size.x);
-        for (let x = 0; x < selectedArea?.size.x; x++) {
-          tmpMap[x] = new Array(selectedArea?.size.y).fill(null);
-        }
-
-        const copyFleuronsMap = fleuronsMap;
-
-        for (let i = 0; i < selectedArea?.size.x; i++) {
-          for (let j = 0; j < selectedArea?.size.y; j++) {
-            const fleuronId =
-              copyFleuronsMap[selectedArea?.position.x + i][
-                selectedArea?.position.y + j
-              ];
-
-            if (fleuronId && selectedFleurons.has(fleuronId)) {
-              tmpMap[i][j] = fleuronId;
-              copyFleuronsMap[selectedArea?.position.x + i][
-                selectedArea?.position.y + j
-              ] = null;
-            }
-          }
-        }
-
-        setFleuronsMap(copyFleuronsMap);
-        setMoveAreaFleuronsMap(tmpMap);
+      if (!isPressKey && !selectedFleurons.has(fleuronId)) {
+        clearSelectedFleurons();
       }
+
+      if (isPressKey && selectedFleurons.has(fleuronId)) {
+        setIsSelectedPosition(true);
+      }
+
+      updateSelectedFleuron(fleuronId, fleuron);
+      setDragMode('move');
     } else {
       setDragMode('select');
     }
@@ -476,6 +517,42 @@ const Editor: React.FC<Props> = (props) => {
       case 'move': {
         const gridDiff = getGridDiff(startSelectDragPosition, rawPosition);
 
+        if (selectedArea && !moveAreaFleuronsMap) {
+          const tmpMap: (string | null)[][] = new Array(selectedArea?.size.x);
+          for (let x = 0; x < selectedArea?.size.x; x++) {
+            tmpMap[x] = new Array(selectedArea?.size.y).fill(null);
+          }
+
+          const copyFleuronsMap = fleuronsMap;
+
+          for (let i = 0; i < selectedArea?.size.x; i++) {
+            for (let j = 0; j < selectedArea?.size.y; j++) {
+              const fleuronId =
+                copyFleuronsMap[selectedArea?.position.x + i][
+                  selectedArea?.position.y + j
+                ];
+
+              if (fleuronId && selectedFleurons.has(fleuronId)) {
+                tmpMap[i][j] = fleuronId;
+                copyFleuronsMap[selectedArea?.position.x + i][
+                  selectedArea?.position.y + j
+                ] = null;
+              }
+            }
+          }
+
+          setDisplaySelectedArea({
+            ...selectedArea,
+            position: {
+              x: selectedArea.position.x + gridDiff.x,
+              y: selectedArea.position.y + gridDiff.y,
+            } as Point2D<Grid>,
+          } as Area<Grid>);
+
+          setFleuronsMap(copyFleuronsMap);
+          setMoveAreaFleuronsMap(tmpMap);
+        }
+
         selectedFleurons.forEach((fleuron, key) => {
           updateDisplayFleuron(key, {
             ...fleuron,
@@ -487,27 +564,12 @@ const Editor: React.FC<Props> = (props) => {
         });
         break;
       }
-      case 'select': {
-        break;
-      }
       default:
         break;
     }
-
-    console.log(displayFleurons);
   };
   const onMouseUp = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     setIsDragging(false);
-
-    if (
-      !dragSelectArea ||
-      (dragSelectArea?.size.x < 10 && dragSelectArea?.size.y < 10)
-    ) {
-      onClickEditor(e);
-      setDragSelectArea(undefined);
-      setDragMode(undefined);
-      return;
-    }
 
     const rawPosition = getRawPosition({
       x: e.clientX,
@@ -516,9 +578,9 @@ const Editor: React.FC<Props> = (props) => {
     const [pixelArea, gridArea] = getArea(startSelectDragPosition, rawPosition);
     const isPressKey = e.ctrlKey || e.shiftKey || e.metaKey;
 
-    switch (dragMode) {
-      case 'move': {
-        if (selectedArea) {
+    switch (toolCtx.currentTool) {
+      case 'select': {
+        if (dragMode === 'move' && moveAreaFleuronsMap && selectedArea) {
           const gridDiff = getGridDiff(startSelectDragPosition, rawPosition);
 
           let isOverlapping = false;
@@ -538,6 +600,8 @@ const Editor: React.FC<Props> = (props) => {
           }
 
           if (isOverlapping) {
+            console.log('overlapped', selectedArea, moveAreaFleuronsMap);
+
             for (let i = 0; i < selectedArea?.size.x; i++) {
               for (let j = 0; j < selectedArea?.size.y; j++) {
                 fleuronsMap[selectedArea?.position.x + i][
@@ -547,10 +611,6 @@ const Editor: React.FC<Props> = (props) => {
             }
 
             selectedFleurons.forEach((fleuron, key) => {
-              const gridDiff = getGridDiff(
-                startSelectDragPosition,
-                rawPosition
-              );
               updateDisplayFleuron(key, {
                 ...fleuron,
                 position: {
@@ -560,6 +620,7 @@ const Editor: React.FC<Props> = (props) => {
               });
             });
           } else {
+            console.log('正常');
             const copyFleuronsMap = fleuronsMap;
 
             for (let i = 0; i < selectedArea?.size.x; i++) {
@@ -595,62 +656,32 @@ const Editor: React.FC<Props> = (props) => {
 
             editorCtx.setFleurons(displayFleurons);
           }
-        }
-        console.log('結果だよ', displayFleurons, fleuronsMap, selectedFleurons);
 
-        break;
-      }
-      case 'select': {
-        switch (toolCtx.currentTool) {
-          case 'select': {
-            if (!isPressKey) {
-              clearSelectedFleurons();
-            }
-            for (
-              let i = gridArea.position.x;
-              i < gridArea.position.x + gridArea.size.x + 1;
-              i++
-            ) {
-              for (
-                let j = gridArea.position.y;
-                j < gridArea.position.y + gridArea.size.y + 1;
-                j++
-              ) {
-                const fleuronId = fleuronsMap[i][j];
-                const isSelected = fleuronId
-                  ? selectedFleurons.has(fleuronId)
-                  : false;
-                const fleuron = fleuronId
-                  ? displayFleurons.get(fleuronId)
-                  : null;
-
-                if (fleuronId && !isSelected && fleuron) {
-                  updateSelectedFleuron(fleuronId, fleuron);
-                }
-                if (fleuronId && isSelected) {
-                  deleteSelectedFleuron(fleuronId);
-                }
-              }
-            }
-            break;
-          }
-          case 'pen': {
-            break;
-          }
-          case 'eraser': {
-            break;
-          }
-          default:
-            break;
+          console.log(
+            '結果だよ',
+            displayFleurons,
+            fleuronsMap,
+            selectedFleurons
+          );
+        } else {
+          useSelectTool(gridArea, isPressKey);
         }
         break;
       }
-      default:
+      case 'pen': {
+        usePenTool(gridArea, isPressKey);
         break;
+      }
+      case 'eraser': {
+        useEraserTool(gridArea, isPressKey);
+        break;
+      }
     }
 
     setDragSelectArea(undefined);
     setDragMode(undefined);
+    setMoveAreaFleuronsMap(undefined);
+    setIsSelectedPosition(false);
   };
 
   return (

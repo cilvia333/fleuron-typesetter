@@ -21,7 +21,7 @@ const FleuronItem: React.FC<Props> = (props) => {
         size={state.size}
         rotate={state.rotate}
         iconSize={state.fleuron.rect}
-        select={select}
+        select={select ?? false}
       >
         <Fleuron state={state} />
       </Wrapper>
