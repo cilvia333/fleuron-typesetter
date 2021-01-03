@@ -15,10 +15,16 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     position: relative;
     box-sizing: border-box;
+
+    & * {
+    box-sizing: border-box;
+    }
+
     ${tw`font-text`}
   }
+
   h1 {
-    ${tw`font-header text-4xl`}
+    ${tw`font-header text-3xl font-semibold`}
   }
 
   button{
