@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Fleuron from '~/components/architecture/atoms/fleuron';
+import Fleuron from '~/components/architecture/share/fleuron';
 
 interface Props {
   id: number;
@@ -35,17 +35,17 @@ const Wrapper = styled.div`
 `;
 
 const FleuronWrapper = styled.div`
-  ${tw`bg-no-repeat bg-bottom border border-solid`}
+  ${tw`bg-no-repeat bg-bottom border border-solid text-black hover:text-primary`}
 
   width: 56px;
 
   & > svg {
-    ${tw`block`}
+    ${tw`block fill-current`}
   }
 `;
 
 const Id = styled.div`
-  ${tw`ml-4 font-text text-2xl select-none text-black hover:text-primary`}
+  ${tw`ml-4 font-text text-3xl select-none text-black hover:text-primary`}
 `;
 
 const LinkIcon = styled(FontAwesomeIcon)`

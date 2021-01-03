@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import AtomList from '~/components/architecture/interface/atomList';
+import GarallyButton from '~/components/architecture/share/garallyButton';
 
 const Architecture: React.FC = () => {
   return (
@@ -25,6 +26,9 @@ const Architecture: React.FC = () => {
               <Reference>p.{128}, PrintersOrnaments, Frederic Warde</Reference>
             </Information>
           </InformationWrapper>
+          <ButtonWrapper>
+            <GarallyButton />
+          </ButtonWrapper>
         </Grid>
       </Main>
     </>
@@ -48,11 +52,15 @@ const Information = styled.section`
 `;
 
 const InformationTitle = styled.h1`
-  ${tw`font-header font-semibold italic text-3xl m-0 mb-4`}
+  ${tw`font-header font-semibold italic text-2xl m-0 mb-4`}
 `;
 
 const Reference = styled.p`
   ${tw`font-text italic`}
+`;
+
+const ButtonWrapper = styled.section`
+  ${tw`col-start-5 col-end-6 row-span-4`}
 `;
 
 export default Architecture;
