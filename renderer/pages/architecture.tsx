@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import AtomList from '~/components/architecture/interface/atomList';
-import GarallyButton from '~/components/architecture/interface/garallyButton';
+import GalleryButton from '~/components/architecture/interface/galleryButton';
 import P21B from '~/components/architecture/moleculars/p21b';
 
 const Architecture: React.FC = () => {
@@ -30,7 +30,7 @@ const Architecture: React.FC = () => {
           <OrnamentWrapper>
             <P21B />
           </OrnamentWrapper>
-          <GarallyButton />
+          <GalleryButton />
         </Grid>
       </Main>
     </>

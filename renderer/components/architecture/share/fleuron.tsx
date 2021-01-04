@@ -18,8 +18,8 @@ export const iconTypes = {
 
 interface Props {
   name: string;
-  border: boolean;
-  className: string;
+  border?: boolean;
+  className?: string;
 }
 
 const Fleuron: React.FC<Props> = ({ name, border, className, ...props }) => {
@@ -37,10 +37,11 @@ const Wrapper = styled.div<{ border: boolean }>`
   ${tw`border-0 border-solid`}
 
   & > svg {
-    ${tw`block`}
+    ${tw`block fill-current`}
   }
 
   ${({ border }) =>
+    border &&
     css`
       ${tw`border`}
     `}

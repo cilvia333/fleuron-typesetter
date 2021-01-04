@@ -44,6 +44,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     background-color: transparent;
   }
+
+  li {
+    ${tw`list-none`}
+  }
 `;
 
 export type Props = AppProps;
