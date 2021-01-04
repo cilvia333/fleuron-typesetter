@@ -6,7 +6,8 @@ import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
 import AtomList from '~/components/architecture/interface/atomList';
-import GarallyButton from '~/components/architecture/share/garallyButton';
+import GarallyButton from '~/components/architecture/interface/garallyButton';
+import P21B from '~/components/architecture/moleculars/p21b';
 
 const Architecture: React.FC = () => {
   return (
@@ -26,9 +27,10 @@ const Architecture: React.FC = () => {
               <Reference>p.{128}, PrintersOrnaments, Frederic Warde</Reference>
             </Information>
           </InformationWrapper>
-          <ButtonWrapper>
-            <GarallyButton />
-          </ButtonWrapper>
+          <OrnamentWrapper>
+            <P21B />
+          </OrnamentWrapper>
+          <GarallyButton />
         </Grid>
       </Main>
     </>
@@ -40,7 +42,7 @@ const Main = styled.main`
 `;
 
 const Grid = styled.div`
-  ${tw`w-full h-full grid grid-rows-5 grid-rows-4 grid-cols-5 gap-12 items-center`}
+  ${tw`w-full h-full grid grid-rows-4 grid-cols-5 gap-12 items-center`}
 `;
 
 const InformationWrapper = styled.section`
@@ -57,6 +59,10 @@ const InformationTitle = styled.h1`
 
 const Reference = styled.p`
   ${tw`font-text italic`}
+`;
+
+const OrnamentWrapper = styled.section`
+  ${tw`col-start-2 col-end-5 row-span-4`}
 `;
 
 const ButtonWrapper = styled.section`

@@ -13,6 +13,21 @@ module.exports = {
   },
   theme: {
     extend: {
+      spacing: {
+        pt: {
+          3: '24px',
+          6: '48px',
+          8: '64px',
+          10: '80px',
+          12: '96px',
+          18: '144px',
+          24: '196px',
+          30: '240px',
+          31: '248px',
+          36: '288px',
+          54: '432px',
+        },
+      },
       colors: {
         primary: '#FF15AB',
         success: '#09E85E',
@@ -38,6 +53,7 @@ module.exports = {
       },
       boxShadow: {
         black: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+        pink: '0px 0px 32px rgba(208, 161, 191, 0.25)',
       },
     },
   },
