@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
 const svg002: React.FC = () => {
@@ -96,6 +96,46 @@ const svg002: React.FC = () => {
   );
 };
 
+const SpreadSpin = (
+  number: number,
+  spX: number,
+  spY: number,
+  rotY: number,
+  rotZ: number
+) => keyframes`
+    0% {
+      transform: rotateZ(${number * 90 - 0}deg) translate(0px, -0px);
+    }
+    30% {
+      transform: rotateZ(${
+        number * 90 - 0
+      }deg) translate(${spX}px, ${spY}px) rotateY(${rotY}deg);
+    }
+    70% {
+      transform: rotateZ(${
+        number * 90 - rotZ
+      }deg) translate(${spX}px, ${spY}px) rotateY(${rotY}deg);
+    }
+    100% {
+      transform: rotateZ(${number * 90 - rotZ}deg) translate(0px, -0px);
+    }
+`;
+
+const Spin = () => keyframes`
+    0% {
+      transform: rotateZ(0deg);
+    }
+    30% {
+      transform: rotateZ(45deg);
+    }
+    70% {
+      transform: rotateZ(135deg);
+    }
+    100% {
+      transform: rotateZ(180deg);
+    }
+`;
+
 const Svg = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
 ))`
@@ -111,6 +151,8 @@ const Hanabira = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg) translateY(-0px);
+  animation: ${(props) => SpreadSpin(props.number, 0, -160, 180, 90)} 3s
+    cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff2cd7;
   }
@@ -122,12 +164,15 @@ const Mannaka = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg) translate(0px, 0px);
+  animation: ${(props) => SpreadSpin(props.number, 20, 20, 0, -90)} 3s
+    cubic-bezier(0.9, 0, 0.1, 1);
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 323.836px 323.836px;
     transform: rotateZ(90deg);
+    animation: ${Spin} 3s cubic-bezier(0.9, 0, 0.1, 1);
   }
   svg {
     fill: #3985ff;

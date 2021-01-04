@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
 const svg001: React.FC = () => {
@@ -45,6 +45,25 @@ const svg001: React.FC = () => {
   );
 };
 
+const SpreadSpin = (number: number, spX: number, spY: number) => keyframes`
+    0% {
+      transform: rotateZ(${number * 90 - 0}deg) translate(0px, -0px);
+    }
+    30% {
+      transform: rotateZ(${
+        number * 90 - 0
+      }deg) translate(${spX}px, ${spY}px) rotateY(30deg)rotateX(-30deg);
+    }
+    70% {
+      transform: rotateZ(${
+        number * 90 - 90
+      }deg) translate(${spX}px, ${spY}px) rotateY(30deg)rotateX(-30deg) ;
+    }
+    100% {
+      transform: rotateZ(${number * 90 - 90}deg) translate(0px, -0px);
+    }
+`;
+
 const Svg = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
 ))`
@@ -61,6 +80,8 @@ const Hanabira = styled.div<{ number: number }>`
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg)
     translate(0px, -0px);
+  animation: ${(props) => SpreadSpin(props.number, 160, -160)} 3s
+    cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff2cd7;
   }
