@@ -39,11 +39,6 @@ const Wrapper = styled.div<{ border: boolean }>`
   & > svg {
     ${tw`block`}
   }
-
-  ${({ border }) =>
-    css`
-      ${tw`border`}
-    `}
 `;
 
 export default Fleuron;
