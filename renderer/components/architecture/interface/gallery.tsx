@@ -23,7 +23,7 @@ const mockItems = [
   214,
 ];
 
-const GalleryButton: React.FC = () => {
+const Gallery: React.FC = () => {
   const selectRef = useRef<HTMLLIElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -228,4 +228,4 @@ const ListItem = styled.li<ListItemProps>`
     `}
 `;
 
-export default GalleryButton;
+export default Gallery;

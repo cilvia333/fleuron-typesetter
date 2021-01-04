@@ -35,7 +35,7 @@ const Wrapper = styled.div`
 `;
 
 const FleuronWrapper = styled.div`
-  ${tw`bg-no-repeat bg-bottom border border-solid text-black hover:text-primary`}
+  ${tw`bg-no-repeat bg-bottom border border-solid text-darkGray hover:text-primary`}
 
   width: 56px;
 
@@ -45,7 +45,7 @@ const FleuronWrapper = styled.div`
 `;
 
 const Id = styled.div`
-  ${tw`ml-4 font-text text-3xl select-none text-black hover:text-primary`}
+  ${tw`ml-4 font-text text-3xl text-darkGray select-none hover:text-primary`}
 `;
 
 const LinkIcon = styled(FontAwesomeIcon)`

@@ -2,7 +2,9 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
-const svg002: React.FC = () => {
+import { MolecularProps } from '~/components/architecture/share/molecular';
+
+const svg002: React.FC<MolecularProps> = (props) => {
   return (
     <>
       <Box>

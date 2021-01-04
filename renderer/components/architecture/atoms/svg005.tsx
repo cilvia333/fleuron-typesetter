@@ -1,6 +1,8 @@
 import React from 'react';
 
-const svg005: React.FC = () => {
+import { MolecularProps } from '~/components/architecture/share/molecular';
+
+const svg005: React.FC<MolecularProps> = (props) => {
   return (
     <svg
       id="レイヤー_1"
