@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
+import Svg003 from '~/components/architecture/atoms/svg003';
 import AtomList from '~/components/architecture/interface/atomList';
 import GalleryButton from '~/components/architecture/interface/galleryButton';
 import P21B from '~/components/architecture/moleculars/p21b';
@@ -29,6 +30,7 @@ const Architecture: React.FC = () => {
           </InformationWrapper>
           <OrnamentWrapper>
             <P21B />
+            <Svg003 />
           </OrnamentWrapper>
           <GalleryButton />
         </Grid>
