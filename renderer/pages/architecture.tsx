@@ -12,7 +12,7 @@ import Molecular, {
 } from '~/components/architecture/share/molecular';
 
 const Architecture: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(4);
 
   return (
     <>
