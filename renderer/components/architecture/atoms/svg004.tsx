@@ -7,7 +7,13 @@ import {
 
 export const svg004Info: MolecularInfo = {
   id: 'svg004',
-  atoms: [{ id: 310, type: 0 }],
+  atoms: [
+    { id: 310, type: 0 },
+    { id: 311, type: 0 },
+    { id: 312, type: 0 },
+    { id: 219, type: 0 },
+    { id: 219, type: 1 },
+  ],
   page: 128,
 };
 
