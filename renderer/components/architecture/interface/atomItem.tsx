@@ -20,9 +20,7 @@ const AtomItem: React.FC<Props> = (props) => {
         <FleuronWrapper>
           <Fleuron name={`F${id}`} />
         </FleuronWrapper>
-        <Id>
-          {`#${id}`} <LinkIcon icon={faLink} />
-        </Id>
+        <Id>{`#${id}`}</Id>
       </Wrapper>
     </>
   );
