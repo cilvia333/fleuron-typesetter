@@ -2,9 +2,31 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
-import { MolecularProps } from '~/components/architecture/share/molecular';
+import {
+  MolecularProps,
+  MolecularInfo,
+} from '~/components/architecture/share/molecular';
+
+export const svg003Info: MolecularInfo = {
+  id: 'svg003',
+  atoms: [
+    { id: 214, type: 0 },
+    { id: 215, type: 0 },
+    { id: 467, type: 0 },
+    { id: 467, type: 1 },
+    { id: 466, type: 0 },
+  ],
+  page: 21,
+};
 
 const svg003: React.FC<MolecularProps> = (props) => {
+  const {
+    animationAtom,
+    animation,
+    onAnimationEnd,
+    borderActive,
+    className,
+  } = props;
   return (
     <>
       <Box>

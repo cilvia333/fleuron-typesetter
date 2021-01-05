@@ -5,30 +5,20 @@ import { useWindowSize, useScroll } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Fleuron from '~/components/architecture/share/fleuron';
+import { molecularList } from '~/components/architecture/share/molecular';
+import MolecularIcon from '~/components/architecture/share/molecularIcon';
 
-const mockItems = [
-  214,
-  214,
-  215,
-  214,
-  214,
-  214,
-  214,
-  214,
-  214,
-  214,
-  268,
-  214,
-  214,
-];
+interface Props {
+  currentId: number;
+  onChangeId: (id: number) => void;
+}
 
-const Gallery: React.FC = () => {
+const Gallery: React.FC<Props> = (props) => {
+  const { currentId, onChangeId } = props;
   const selectRef = useRef<HTMLLIElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const [isHoverring, setIsHoverring] = useState(false);
-  const [currentId, setCurrentId] = useState(268);
   const [isChangeId, setIsChangeId] = useState(false);
   const { width, height } = useWindowSize();
   const { x, y } = useScroll(listRef);
@@ -40,8 +30,6 @@ const Gallery: React.FC = () => {
         selectRef.current?.offsetTop +
         selectRef.current?.offsetHeight / 2 -
         height / 2;
-
-      console.log('sc', scrollPosition, 'tr', targetPosition);
 
       if (isChangeId && targetPosition > scrollPosition) {
         targetPosition -= selectRef.current?.offsetHeight / 2;
@@ -77,7 +65,7 @@ const Gallery: React.FC = () => {
         });
       }
     } else {
-      setCurrentId(id);
+      onChangeId(id);
       setIsChangeId(true);
     }
   };
@@ -99,17 +87,17 @@ const Gallery: React.FC = () => {
           >
             <SideBarBG />
             <ListWrapper ref={listRef}>
-              {mockItems.map((value, index) => (
+              {molecularList.map((value, index) => (
                 <>
                   <ListItem
-                    select={currentId === value}
-                    ref={currentId === value ? selectRef : null}
+                    select={currentId === index}
+                    ref={currentId === index ? selectRef : null}
                     onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                      handleClickItem(e, value);
+                      handleClickItem(e, index);
                     }}
                     key={`list_${index}`}
                   >
-                    <Fleuron name={`F${value}`} />
+                    <MolecularIcon name={`${value}`} />
                   </ListItem>
                   <ListDivider key={`divider_${index}`} />
                 </>
@@ -167,6 +155,17 @@ const SideBarBG = styled.div`
 
 const ListWrapper = styled.ul`
   ${tw`absolute h-screen w-0 group-hover:w-56 overflow-y-scroll inset-0 m-auto p-0 opacity-0 group-hover:opacity-100`}
+
+  ::-webkit-scrollbar {
+    ${tw`w-2`}
+  }
+  ::-webkit-scrollbar-track {
+    ${tw`bg-white`}
+  }
+  ::-webkit-scrollbar-thumb {
+    ${tw`bg-darkGray rounded-full`}
+    box-shadow: inset 0 0 0 2px #fff;
+  }
 
   & > * {
     ${tw`mt-8 relative inset-x-0 mx-auto`}
