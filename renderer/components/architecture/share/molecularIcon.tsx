@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
 import Svg001 from '../../../assets/moleculars/svg001.svg';
 import Svg002 from '../../../assets/moleculars/svg002.svg';
@@ -16,13 +18,26 @@ export const iconTypes = {
 
 interface Props {
   name: string;
+  className?: string;
 }
 
-const MolecularIcon: React.FC<Props> = ({ name, ...props }) => {
+const MolecularIcon: React.FC<Props> = ({ name, className, ...props }) => {
   const IconList = Object.entries(iconTypes).find(([id, data]) => id === name);
   const Icon: typeof React.Component = IconList ? IconList[1] : null;
 
-  return <Icon {...props} />;
+  return (
+    <Wrapper>
+      <Icon className={className} {...props} />
+    </Wrapper>
+  );
 };
+
+const Wrapper = styled.div`
+  ${tw`w-full h-full`}
+
+  & > svg {
+    ${tw`block fill-current w-full h-full`}
+  }
+`;
 
 export default MolecularIcon;

@@ -29,7 +29,7 @@ module.exports = {
         },
       },
       colors: {
-        primary: '#FF15AB',
+        primary: '#FF2CD7',
         success: '#09E85E',
         lightGray: '#757780',
         darkGray: '#45474C',

@@ -188,14 +188,27 @@ const TransitionButtonWrapper = styled.section`
     }
 
     ${TransitionBar} {
-      ${tw`-top-2 group-hover:top-0`}
+      ${tw`-top-2`}
     }
   }
   &:nth-child(2) {
     ${tw`bottom-0`}
 
     ${TransitionBar} {
-      ${tw`-bottom-2 group-hover:bottom-0`}
+      ${tw`-bottom-2`}
+    }
+  }
+
+  &:hover {
+    &:nth-child(1) {
+      ${TransitionBar} {
+        ${tw`top-0`}
+      }
+    }
+    &:nth-child(2) {
+      ${TransitionBar} {
+        ${tw`bottom-0`}
+      }
     }
   }
 `;
