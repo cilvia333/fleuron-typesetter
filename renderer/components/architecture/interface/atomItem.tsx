@@ -9,14 +9,16 @@ import Fleuron from '~/components/architecture/share/fleuron';
 
 interface Props {
   id: number;
+  className?: string;
+  onAnimationEnd?: () => void;
 }
 
 const AtomItem: React.FC<Props> = (props) => {
-  const { id } = props;
+  const { id, className, onAnimationEnd } = props;
 
   return (
     <>
-      <Wrapper>
+      <Wrapper className={className} onAnimationEnd={onAnimationEnd}>
         <FleuronWrapper>
           <Fleuron name={`F${id}`} />
         </FleuronWrapper>
