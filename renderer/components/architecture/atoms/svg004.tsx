@@ -253,7 +253,7 @@ const Mannaka = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 200, 200, 0, 0, 90)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 240, 240, 0, 0, 90)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #2effa5;
@@ -266,7 +266,7 @@ const Hanabira1 = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 60, 135, 0, 0, 90)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 80, 155, 0, 0, 90)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff2cd7;
@@ -279,7 +279,7 @@ const Hanabira2 = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 60, -135, 0, 0, -90)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 80, -155, 0, 0, -90)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #2e83ff;
@@ -292,8 +292,7 @@ const Aida = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) =>
-      SpreadSpin(props.number, 100, 100, 38.4, 38.4, -45.38)}
+  animation: ${(props) => SpreadSpin(props.number, 90, 90, 38.4, 38.4, -45.38)}
     3s cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff2e65;
@@ -306,7 +305,7 @@ const Sumi = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, 100, 0, -54.3, -44.58)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 0, 90, 0, -54.3, -44.58)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #662eff;

@@ -483,12 +483,14 @@ const SpreadSpin = (
       transform: rotateZ(${number * rotGap}deg) translate(0px, 0px);
     }
     30% {
-      transform: rotateZ(${number * rotGap}deg) translate(${spX}px, ${spY}px);
+      transform: rotateZ(${
+        number * rotGap
+      }deg) translate(${spX}px, ${spY}px) scale(1.1);
     }
     70% {
       transform: rotateZ(${
         number * rotGap + rotZ
-      }deg) translate(${spX}px, ${spY}px);
+      }deg) translate(${spX}px, ${spY}px) scale(1.1);
     }
     100% {
       transform: rotateZ(${
@@ -503,7 +505,7 @@ const Top = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -160, 0, 0, 180, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 0, -140, 0, 0, 180, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff2e6f;
@@ -516,7 +518,7 @@ const TateLine = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 160, 0, 0, 0, -180, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 170, 0, 0, 0, -180, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #2e5bff;
@@ -529,7 +531,7 @@ const YokoLine = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -160, 0, 0, -180, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 0, -170, 0, 0, -180, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #8631ff;
@@ -544,13 +546,13 @@ const Wind1 = styled.div<{ number: number }>`
   transform: rotateZ(${(props) => props.number * 180}deg);
   animation: ${(props) => {
       if (props.number === 0 || props.number === 1) {
-        return SpreadSpin(props.number, -140, -100, 33.223, -25.619, -90, 180);
+        return SpreadSpin(props.number, -120, -100, 33.223, -25.619, -90, 180);
       }
       if (props.number === 2 || props.number === 3) {
         return SpreadSpin(
           props.number,
           100,
-          -160,
+          -120,
           -25.6457,
           -33.2233,
           -90,
@@ -587,12 +589,12 @@ const Wind2 = styled.div<{ number: number }>`
   transform: rotateZ(${(props) => props.number * 180}deg);
   animation: ${(props) => {
       if (props.number === 2 || props.number === 3) {
-        return SpreadSpin(props.number, -100, -160, 25.619, -33.223, -90, 180);
+        return SpreadSpin(props.number, -100, -120, 25.619, -33.223, -90, 180);
       }
       if (props.number === 0 || props.number === 1) {
         return SpreadSpin(
           props.number,
-          160,
+          120,
           -100,
           -33.2233,
           -25.6457,
@@ -628,7 +630,7 @@ const ShoulderRight = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -160, 0, 0, 180, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 0, -100, 0, 0, 180, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ffb92e;
@@ -641,7 +643,7 @@ const ShoulderLeft = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -160, 0, 0, 180, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 0, -100, 0, 0, 180, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
     fill: #ff73eb;
@@ -654,7 +656,7 @@ const MokomokoRight = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 100, -120, 0, 0, 0, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, 70, -86, 0, 0, 0, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   .inner {
     width: 600px;
@@ -675,7 +677,7 @@ const MokomokoLeft = styled.div<{ number: number }>`
   height: 600px;
   transition: 1s;
   transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, -100, -120, 0, 0, 0, 180)} 3s
+  animation: ${(props) => SpreadSpin(props.number, -70, -86, 0, 0, 0, 180)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   .inner {
     width: 600px;
