@@ -1,8 +1,24 @@
 import React from 'react';
 
-import { MolecularProps } from '~/components/architecture/share/molecular';
+import {
+  MolecularProps,
+  MolecularInfo,
+} from '~/components/architecture/share/molecular';
+
+export const svg004Info: MolecularInfo = {
+  id: 'svg004',
+  atoms: [{ id: 310, type: 0 }],
+  page: 128,
+};
 
 const svg004: React.FC<MolecularProps> = (props) => {
+  const {
+    animationAtom,
+    animation,
+    onAnimationEnd,
+    borderActive,
+    className,
+  } = props;
   return (
     <svg
       id="レイヤー_1"

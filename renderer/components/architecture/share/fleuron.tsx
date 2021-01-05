@@ -5,6 +5,7 @@ import tw from 'twin.macro';
 import F214 from '../../../assets/fleurons/svgs/214.svg';
 import F215 from '../../../assets/fleurons/svgs/215.svg';
 import F268 from '../../../assets/fleurons/svgs/268.svg';
+import F310 from '../../../assets/fleurons/svgs/310.svg';
 import F466 from '../../../assets/fleurons/svgs/466.svg';
 import F467 from '../../../assets/fleurons/svgs/467.svg';
 
@@ -14,6 +15,7 @@ export const iconTypes = {
   F467,
   F214,
   F215,
+  F310,
 };
 
 interface Props {
@@ -27,7 +29,7 @@ const Fleuron: React.FC<Props> = ({ name, border, className, ...props }) => {
   const Icon: typeof React.Component = IconList ? IconList[1] : null;
 
   return (
-    <Wrapper border={border} className={className}>
+    <Wrapper border={border ?? false} className={className}>
       <Icon {...props} />
     </Wrapper>
   );

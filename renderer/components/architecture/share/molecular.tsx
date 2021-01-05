@@ -2,11 +2,11 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Svg001 from '~/components/architecture/atoms/svg001';
-import Svg002 from '~/components/architecture/atoms/svg002';
-import Svg003 from '~/components/architecture/atoms/svg003';
-import Svg004 from '~/components/architecture/atoms/svg004';
-import Svg005 from '~/components/architecture/atoms/svg005';
+import Svg001, { svg001Info } from '~/components/architecture/atoms/svg001';
+import Svg002, { svg002Info } from '~/components/architecture/atoms/svg002';
+import Svg003, { svg003Info } from '~/components/architecture/atoms/svg003';
+import Svg004, { svg004Info } from '~/components/architecture/atoms/svg004';
+import Svg005, { svg005Info } from '~/components/architecture/atoms/svg005';
 
 export type Atom = {
   id: number;
@@ -23,6 +23,12 @@ export interface MolecularProps {
   className?: string;
 }
 
+export type MolecularInfo = {
+  id: string;
+  atoms: Atoms;
+  page: number;
+};
+
 export const molecularTypes = {
   Svg001,
   Svg002,
@@ -30,6 +36,14 @@ export const molecularTypes = {
   Svg004,
   Svg005,
 };
+
+export const molecularInfos: MolecularInfo[] = [
+  svg001Info,
+  svg002Info,
+  svg003Info,
+  svg004Info,
+  svg005Info,
+];
 
 export const molecularList = Object.entries(molecularTypes).map(
   ([id, data]) => id

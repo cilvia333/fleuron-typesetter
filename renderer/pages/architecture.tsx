@@ -1,27 +1,48 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useMouseWheel, useToggle } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
+
+import Arrow from '../assets/svgs/arrow.svg';
 
 import AtomList from '~/components/architecture/interface/atomList';
 import Gallery from '~/components/architecture/interface/gallery';
 import Molecular, {
   molecularList,
+  molecularInfos,
 } from '~/components/architecture/share/molecular';
 
 const Architecture: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef<HTMLElement>(null);
+  const [scrolling, toggleScrolling] = useToggle(false);
+  const [onceScrolling, toggleOnceScrolling] = useToggle(false);
+  const mouseWheel = useMouseWheel();
+
+  useEffect(() => {
+    if (scrolling && !onceScrolling) {
+      toggleOnceScrolling(true);
+    } else if (!scrolling && onceScrolling) {
+      toggleOnceScrolling(false);
+    }
+  }, [scrolling]);
+
+  useEffect(() => {
+    console.log(mouseWheel);
+  }, [mouseWheel]);
 
   return (
     <>
       <Head>
         <title>THE ARCHITECTURE OF PRINTES ORNAMENTS</title>
       </Head>
-      <Main>
+      <Main ref={scrollRef}>
         <Grid>
           <TransitionButtonWrapper
+            className="group"
             onClick={() => {
               setCurrentIndex((old) => {
                 if (old > 0) {
@@ -31,9 +52,13 @@ const Architecture: React.FC = () => {
               });
             }}
           >
-            <TransitionButton />
+            <TransitionButton>
+              <Arrow />
+            </TransitionButton>
+            <TransitionBar />
           </TransitionButtonWrapper>
           <TransitionButtonWrapper
+            className="group"
             onClick={() => {
               setCurrentIndex((old) => {
                 if (old < molecularList.length - 1) {
@@ -43,16 +68,37 @@ const Architecture: React.FC = () => {
               });
             }}
           >
-            <TransitionButton />
+            <TransitionButton>
+              <Arrow />
+            </TransitionButton>
+            <TransitionBar />
           </TransitionButtonWrapper>
+          <PageWrapper>
+            <PageList position={currentIndex} max={molecularInfos.length}>
+              {molecularInfos.map((molecular, index) => (
+                <Page
+                  current={index === currentIndex}
+                  key={`page_${index}`}
+                >{`${index + 1}`}</Page>
+              ))}
+            </PageList>
+            <MaxPage>/ {molecularInfos.length}</MaxPage>
+          </PageWrapper>
           <InformationWrapper>
             <Information>
               <InformationTitle>Ornament Atoms</InformationTitle>
-              <AtomList ids={[268, 466]} />
+              <AtomList
+                ids={molecularInfos[currentIndex].atoms
+                  .map((atom) => atom.id)
+                  .filter((x, i, self) => self.indexOf(x) === i)}
+              />
             </Information>
             <Information>
               <InformationTitle>Reference from</InformationTitle>
-              <Reference>p.{128}, PrintersOrnaments, Frederic Warde</Reference>
+              <Reference>
+                p.{molecularInfos[currentIndex].page}, PrintersOrnaments,
+                Frederic Warde
+              </Reference>
             </Information>
           </InformationWrapper>
           <OrnamentWrapper>
@@ -66,7 +112,7 @@ const Architecture: React.FC = () => {
 };
 
 const Main = styled.main`
-  ${tw`w-screen h-screen relative p-12`}
+  ${tw`w-screen h-screen relative p-12 overflow-hidden`}
 `;
 
 const Grid = styled.div`
@@ -90,26 +136,70 @@ const Reference = styled.p`
 `;
 
 const OrnamentWrapper = styled.section`
-  ${tw`col-start-2 col-end-5 row-span-4`}
+  ${tw`col-start-2 col-end-5 row-start-1 row-end-5`}
+`;
+
+const PageWrapper = styled.section`
+  ${tw`col-start-3 col-end-4 row-start-4 row-end-5 flex justify-center items-center`}
+`;
+
+const PageList = styled.div<{ position: number; max: number }>`
+  ${tw`flex flex-col mr-2 transition-all duration-300`}
+  ${({ position, max }) => css`
+    transform: translateY(${(Math.floor(max / 2) - position) * 32}px);
+  `}
+`;
+
+const Page = styled.div<{ current: boolean }>`
+  ${tw`font-bold text-2xl opacity-0 transition-all duration-300`}
+
+  transform: scale(0.4);
+
+  ${({ current }) =>
+    current &&
+    css`
+      ${tw`opacity-100`}
+      transform: scale(1);
+    `}
+`;
+
+const MaxPage = styled.div`
+  ${tw`font-bold text-2xl`}
+`;
+
+const TransitionButton = styled.div`
+  ${tw`absolute inset-0 m-auto h-8 w-8 text-lightGray group-hover:text-primary transition-all duration-300`}
+
+  svg {
+    ${tw`fill-current`}
+  }
+`;
+
+const TransitionBar = styled.div`
+  ${tw`absolute inset-x-0 h-2 w-full bg-primary transition-all duration-300`}
 `;
 
 const TransitionButtonWrapper = styled.section`
-  ${tw`absolute inset-x-0 w-full h-24 hover:bg-primary`}
+  ${tw`absolute inset-x-0 w-full h-24 cursor-pointer`}
 
   &:nth-child(1) {
     ${tw`top-0`}
+
+    ${TransitionButton} {
+      transform: rotate(180deg);
+    }
+
+    ${TransitionBar} {
+      ${tw`-top-2 group-hover:top-0`}
+    }
   }
   &:nth-child(2) {
     ${tw`bottom-0`}
+
+    ${TransitionBar} {
+      ${tw`-bottom-2 group-hover:bottom-0`}
+    }
   }
-`;
-
-const TransitionButton = styled.button`
-  ${tw`absolute`}
-`;
-
-const ButtonWrapper = styled.section`
-  ${tw`col-start-5 col-end-6 row-span-4`}
 `;
 
 export default Architecture;

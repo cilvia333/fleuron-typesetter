@@ -41,8 +41,6 @@ const Gallery: React.FC = () => {
         selectRef.current?.offsetHeight / 2 -
         height / 2;
 
-      console.log('sc', scrollPosition, 'tr', targetPosition);
-
       if (isChangeId && targetPosition > scrollPosition) {
         targetPosition -= selectRef.current?.offsetHeight / 2;
       }
@@ -167,6 +165,17 @@ const SideBarBG = styled.div`
 
 const ListWrapper = styled.ul`
   ${tw`absolute h-screen w-0 group-hover:w-56 overflow-y-scroll inset-0 m-auto p-0 opacity-0 group-hover:opacity-100`}
+
+  ::-webkit-scrollbar {
+    ${tw`w-2`}
+  }
+  ::-webkit-scrollbar-track {
+    ${tw`bg-white`}
+  }
+  ::-webkit-scrollbar-thumb {
+    ${tw`bg-darkGray rounded-full`}
+    box-shadow: inset 0 0 0 2px #fff;
+  }
 
   & > * {
     ${tw`mt-8 relative inset-x-0 mx-auto`}
