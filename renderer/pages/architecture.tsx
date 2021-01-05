@@ -173,9 +173,6 @@ const PageList = styled.div<{ position: number; max: number }>`
   ${({ position, max }) => css`
     transform: translateY(${(Math.floor(max / 2) - position) * 32}px);
   `}
-
-    transform: translateY(${(Math.floor(max / 2) - position) * 32}px);
-  `}
 `;
 
 const Page = styled.div<{ current: boolean }>`
@@ -186,10 +183,6 @@ const Page = styled.div<{ current: boolean }>`
   ${({ current }) =>
     current &&
     css`
-      ${tw`opacity-100`}
-      transform: scale(1);
-    `}
-
       ${tw`opacity-100`}
       transform: scale(1);
     `}
