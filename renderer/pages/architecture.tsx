@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+import Router from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
-import { useMouseWheel, useToggle } from 'react-use';
+import { useMouseWheel, useToggle, useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -17,21 +17,48 @@ import Molecular, {
 
 const Architecture: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [timerId, setTimerId] = useState<number>();
   const scrollRef = useRef<HTMLElement>(null);
   const [scrolling, toggleScrolling] = useToggle(false);
   const [onceScrolling, toggleOnceScrolling] = useToggle(false);
   const mouseWheel = useMouseWheel();
+  const timerLimit = 3 * 60 * 1000; // 3分
+
+  useEffectOnce(() => {
+    const timerId = setTimeout(() => {
+      Router.push('/architecture');
+    }, timerLimit);
+
+    setTimerId(timerId);
+  });
 
   useEffect(() => {
     console.log(mouseWheel);
   }, [mouseWheel]);
+
+  const handleAlive = () => {
+    clearTimeout(timerId);
+    const newTimerId = setTimeout(() => {
+      Router.push('/architecture');
+    }, timerLimit);
+
+    setTimerId(newTimerId);
+  };
 
   return (
     <>
       <Head>
         <title>THE ARCHITECTURE OF PRINTES ORNAMENTS</title>
       </Head>
-      <Main ref={scrollRef}>
+      <Main
+        ref={scrollRef}
+        onMouseMove={() => {
+          handleAlive();
+        }}
+        onKeyDown={() => {
+          handleAlive();
+        }}
+      >
         <Grid>
           <TransitionButtonWrapper
             className="group"
