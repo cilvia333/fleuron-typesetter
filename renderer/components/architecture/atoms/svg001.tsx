@@ -66,7 +66,7 @@ const svg001: React.FC<MolecularProps> = (props) => {
 
 const SpreadSpin = (number: number, spX: number, spY: number) => keyframes`
     0% {
-      transform: rotateZ(${number * 90 - 0}deg) translate(0px, -0px);
+      transform: rotateZ(${number * 90 - 0}deg) translate(0px, 0px);
     }
     30% {
       transform: rotateZ(${
@@ -79,7 +79,7 @@ const SpreadSpin = (number: number, spX: number, spY: number) => keyframes`
       }deg) translate(${spX}px, ${spY}px) rotateY(30deg)rotateX(-30deg) ;
     }
     100% {
-      transform: rotateZ(${number * 90 - 90}deg) translate(0px, -0px);
+      transform: rotateZ(${number * 90 - 90}deg) translate(0px, 0px);
     }
 `;
 
@@ -90,6 +90,13 @@ const Svg = styled((props) => (
   width: 600px;
   height: 600px;
   pointer-events: none;
+  path {
+    pointer-events: auto;
+    cursor: pointer;
+    &:hover {
+      fill: #a7a7a7;
+    }
+  }
 `;
 
 const Hanabira = styled.div<{ number: number }>`
@@ -97,8 +104,7 @@ const Hanabira = styled.div<{ number: number }>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90 - 0}deg)
-    translate(0px, -0px);
+  transform: rotateZ(${(props) => props.number * 90}deg);
   animation: ${(props) => SpreadSpin(props.number, 160, -160)} 3s
     cubic-bezier(0.9, 0, 0.1, 1);
   svg {
@@ -110,6 +116,7 @@ const Box = styled.div`
   ${tw`absolute inset-0 m-auto`}
   width: 600px;
   height: 600px;
+  pointer-events: none;
   svg {
     fill: #ff2cd7;
   }
@@ -119,5 +126,6 @@ const Shape = styled.div`
   ${tw`absolute inset-0 m-auto`}
   width: 600px;
   height: 600px;
+  pointer-events: none;
 `;
 export default svg001;
