@@ -29,13 +29,13 @@ const AtomItem: React.FC<Props> = (props) => {
 };
 
 const Wrapper = styled.div`
-  ${tw`flex items-center cursor-pointer`}
+  ${tw`flex items-center`}
 
   height: 56px;
 `;
 
 const FleuronWrapper = styled.div`
-  ${tw`bg-no-repeat bg-bottom border border-solid text-darkGray hover:text-primary`}
+  ${tw`bg-no-repeat bg-bottom border border-solid text-darkGray hover:text-primary cursor-pointer transition-all duration-300`}
 
   width: 56px;
 
@@ -45,7 +45,7 @@ const FleuronWrapper = styled.div`
 `;
 
 const Id = styled.div`
-  ${tw`ml-4 font-text text-3xl text-darkGray select-none hover:text-primary`}
+  ${tw`ml-4 font-text text-3xl text-darkGray select-none`}
 `;
 
 const LinkIcon = styled(FontAwesomeIcon)`

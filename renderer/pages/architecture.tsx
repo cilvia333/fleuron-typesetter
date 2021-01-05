@@ -6,8 +6,7 @@ import { useMouseWheel, useToggle, useEffectOnce } from 'react-use';
 import styled, { css } from 'styled-components';
 import tw from 'twin.macro';
 
-import Arrow from '../assets/svgs/arrow.svg';
-
+import Arrow from '~/assets/svgs/arrow.svg';
 import AtomList from '~/components/architecture/interface/atomList';
 import Gallery from '~/components/architecture/interface/gallery';
 import Molecular, {

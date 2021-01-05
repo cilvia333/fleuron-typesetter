@@ -65,4 +65,28 @@ const Molecular: React.FC<Props> = ({ name, className, ...props }) => {
   return <Molecular className={className} {...props} />;
 };
 
+export const Svg = styled((props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
+))`
+  ${tw`absolute inset-0 m-auto`}
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+`;
+
+export const Box = styled.div`
+  ${tw`absolute inset-0 m-auto`}
+  width: 600px;
+  height: 600px;
+  svg {
+    fill: #ff2cd7;
+  }
+`;
+
+export const Shape = styled.div`
+  ${tw`absolute inset-0 m-auto`}
+  width: 600px;
+  height: 600px;
+`;
+
 export default Molecular;
