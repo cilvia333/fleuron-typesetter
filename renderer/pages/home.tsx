@@ -22,9 +22,12 @@ const Home: React.FC = () => {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
+
     if (!destination) {
       return;
     }
+
+    console.log('hoge');
 
     if (destination.droppableId === 'editorDroppable') {
       if (editorCtx.currentDraggingState.selectedFleuron) {

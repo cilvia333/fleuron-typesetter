@@ -1,4 +1,3 @@
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Router from 'next/router';
 import React, { useEffect, useState, useRef } from 'react';
