@@ -73,17 +73,6 @@ const Architecture: React.FC = () => {
             </TransitionButton>
             <TransitionBar />
           </TransitionButtonWrapper>
-          <PageWrapper>
-            <PageList position={currentIndex} max={molecularInfos.length}>
-              {molecularInfos.map((molecular, index) => (
-                <Page
-                  current={index === currentIndex}
-                  key={`page_${index}`}
-                >{`${index + 1}`}</Page>
-              ))}
-            </PageList>
-            <MaxPage>/ {molecularInfos.length}</MaxPage>
-          </PageWrapper>
           <InformationWrapper>
             <Information>
               <InformationTitle>Ornament Atoms</InformationTitle>
@@ -104,6 +93,17 @@ const Architecture: React.FC = () => {
           <OrnamentWrapper>
             <Molecular name={molecularList[currentIndex]} />
           </OrnamentWrapper>
+          <PageWrapper>
+            <PageList position={currentIndex} max={molecularInfos.length}>
+              {molecularInfos.map((molecular, index) => (
+                <Page
+                  current={index === currentIndex}
+                  key={`page_${index}`}
+                >{`${index + 1}`}</Page>
+              ))}
+            </PageList>
+            <MaxPage>/ {molecularInfos.length}</MaxPage>
+          </PageWrapper>
           <Gallery />
         </Grid>
       </Main>
@@ -140,7 +140,7 @@ const OrnamentWrapper = styled.section`
 `;
 
 const PageWrapper = styled.section`
-  ${tw`col-start-3 col-end-4 row-start-4 row-end-5 flex justify-center items-center`}
+  ${tw`col-start-3 col-end-4 row-start-4 row-end-5 flex justify-center items-center z-10`}
 `;
 
 const PageList = styled.div<{ position: number; max: number }>`
