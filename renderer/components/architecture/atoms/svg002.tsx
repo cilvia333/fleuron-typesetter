@@ -13,7 +13,7 @@ export const svg002Info: MolecularInfo = {
     { id: 218, type: 0 },
     { id: 29, type: 0 },
   ],
-  page: 128,
+  page: 19,
 };
 
 const svg002: React.FC<MolecularProps> = (props) => {

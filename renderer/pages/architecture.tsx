@@ -23,14 +23,6 @@ const Architecture: React.FC = () => {
   const mouseWheel = useMouseWheel();
 
   useEffect(() => {
-    if (scrolling && !onceScrolling) {
-      toggleOnceScrolling(true);
-    } else if (!scrolling && onceScrolling) {
-      toggleOnceScrolling(false);
-    }
-  }, [scrolling]);
-
-  useEffect(() => {
     console.log(mouseWheel);
   }, [mouseWheel]);
 
@@ -77,6 +69,7 @@ const Architecture: React.FC = () => {
             <Information>
               <InformationTitle>Ornament Atoms</InformationTitle>
               <AtomList
+                molecularId={currentIndex}
                 ids={molecularInfos[currentIndex].atoms
                   .map((atom) => atom.id)
                   .filter((x, i, self) => self.indexOf(x) === i)}
@@ -104,7 +97,12 @@ const Architecture: React.FC = () => {
             </PageList>
             <MaxPage>/ {molecularInfos.length}</MaxPage>
           </PageWrapper>
-          <Gallery />
+          <Gallery
+            currentId={currentIndex}
+            onChangeId={(id) => {
+              setCurrentIndex(id);
+            }}
+          />
         </Grid>
       </Main>
     </>

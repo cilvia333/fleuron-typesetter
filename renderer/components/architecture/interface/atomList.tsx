@@ -7,19 +7,24 @@ import AtomItem from './atomItem';
 
 interface Props {
   ids: number[];
+  molecularId: number;
 }
 
 const AtomList: React.FC<Props> = (props) => {
-  const { ids } = props;
+  const { ids, molecularId } = props;
+  const [postId, setPostId] = useState(molecularId);
   const [displayIds, setDisplayIds] = useState(ids);
   const [animeState, toggleAnimeState] = useToggle(true);
   const [activeAnime, toggleActiveAnime] = useToggle(true);
-  const [rectRef, rect] = useMeasure();
+  const [rectRef, rect] = useMeasure<HTMLDivElement>();
 
   useEffect(() => {
-    toggleAnimeState(false);
-    toggleActiveAnime(true);
-  }, [ids]);
+    if (postId !== molecularId) {
+      toggleAnimeState(false);
+      toggleActiveAnime(true);
+      setPostId(molecularId);
+    }
+  }, [ids, molecularId]);
 
   return (
     <>
@@ -29,7 +34,7 @@ const AtomList: React.FC<Props> = (props) => {
             <StyledItem
               animeState={animeState}
               activeAnime={activeAnime}
-              delay={index * 100 + (animeState ? 500 : 0)}
+              delay={animeState ? index * 100 + 500 : 0}
               onAnimationEnd={() => {
                 if (!animeState) {
                   toggleAnimeState(true);
