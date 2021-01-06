@@ -9,10 +9,11 @@ interface Props {
   ids: number[];
   molecularId: number;
   onClick: (id: number) => void;
+  selectAtom: number | null;
 }
 
 const AtomList: React.FC<Props> = (props) => {
-  const { ids, molecularId, onClick } = props;
+  const { ids, molecularId, onClick, selectAtom } = props;
   const [postId, setPostId] = useState(molecularId);
   const [displayIds, setDisplayIds] = useState(ids);
   const [animeState, toggleAnimeState] = useToggle(true);
@@ -46,6 +47,7 @@ const AtomList: React.FC<Props> = (props) => {
                 }
               }}
               id={id}
+              select={selectAtom === id}
               key={`atomItem_${index}`}
             />
           ))}

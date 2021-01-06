@@ -12,10 +12,11 @@ interface Props {
   className?: string;
   onAnimationEnd?: () => void;
   onClick: (id: number) => void;
+  select: boolean;
 }
 
 const AtomItem: React.FC<Props> = (props) => {
-  const { id, className, onAnimationEnd, onClick } = props;
+  const { id, className, onAnimationEnd, onClick, select } = props;
 
   return (
     <>
@@ -26,7 +27,7 @@ const AtomItem: React.FC<Props> = (props) => {
           onClick(id);
         }}
       >
-        <FleuronWrapper>
+        <FleuronWrapper select={select}>
           <Fleuron name={`F${id}`} />
         </FleuronWrapper>
         <Id>{`#${id}`}</Id>
@@ -41,7 +42,7 @@ const Wrapper = styled.div`
   height: 56px;
 `;
 
-const FleuronWrapper = styled.div`
+const FleuronWrapper = styled.div<{ select: boolean }>`
   ${tw`bg-no-repeat bg-bottom border border-solid text-darkGray hover:text-primary cursor-pointer transition-all duration-300`}
 
   width: 56px;
@@ -49,14 +50,16 @@ const FleuronWrapper = styled.div`
   & > svg {
     ${tw`block fill-current`}
   }
+
+  ${({ select }) =>
+    select &&
+    css`
+      ${tw`text-primary`}
+    `}
 `;
 
 const Id = styled.div`
   ${tw`ml-4 font-text text-3xl text-darkGray select-none`}
-`;
-
-const LinkIcon = styled(FontAwesomeIcon)`
-  ${tw`text-base`}
 `;
 
 export default AtomItem;

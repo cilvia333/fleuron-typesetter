@@ -7,6 +7,7 @@ import {
   MolecularInfo,
   Svg,
   Box,
+  BoxSvg,
   Shape,
   AtomsProps,
 } from '~/components/architecture/share/molecular';
@@ -31,18 +32,18 @@ const svg001: React.FC<MolecularProps> = (props) => {
   return (
     <>
       <Box className="box" active={grid}>
-        <Svg>
+        <BoxSvg select={selectAtom === 310}>
           <path d="M474.69,300.82V474.87H304.23v-174H474.69m1-1H303.23V475.87H475.69v-176Z" />
-        </Svg>
-        <Svg>
+        </BoxSvg>
+        <BoxSvg select={selectAtom === 310}>
           <path d="M299.36,304.41V474.87h-174V304.41H299.36m1-1h-176V475.87H300.36V303.41Z" />
-        </Svg>
-        <Svg>
+        </BoxSvg>
+        <BoxSvg select={selectAtom === 310}>
           <path d="M295.77,125.13V299.18H125.31v-174H295.77m1-1H124.31V300.18H296.77v-176Z" />
-        </Svg>
-        <Svg>
+        </BoxSvg>
+        <BoxSvg select={selectAtom === 310}>
           <path d="M474.69,125.13v171h-174v-171H474.69m1-1h-176v173H475.69v-173Z" />
-        </Svg>
+        </BoxSvg>
       </Box>
       <Shape className="shape">
         <Hanabira

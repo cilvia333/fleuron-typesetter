@@ -67,7 +67,7 @@ const Molecular: React.FC<Props> = ({ name, ...props }) => {
 export const Svg = styled((props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
 ))`
-  ${tw`absolute inset-0 m-auto fill-current transition-all duration-300`}
+  ${tw`absolute inset-0 m-auto fill-current transition-all duration-300 hover:text-primary`}
   width: 600px;
   height: 600px;
   pointer-events: none;
@@ -75,9 +75,6 @@ export const Svg = styled((props) => (
     ${tw`transition-all duration-300`}
     pointer-events: auto;
     cursor: pointer;
-    &:hover {
-      fill: #ff2cd7;
-    }
   }
 `;
 
@@ -92,8 +89,6 @@ export const Box = styled.div<{ active: boolean }>`
       ? css`
           svg {
             ${tw`fill-current`}
-
-            fill: #ff2cd7;
           }
         `
       : css`
@@ -101,6 +96,16 @@ export const Box = styled.div<{ active: boolean }>`
             fill: transparent;
           }
         `}
+`;
+
+export const BoxSvg = styled(Svg)<{ select: boolean }>`
+  ${tw`text-black`}
+
+  ${({ select }) =>
+    select &&
+    css`
+      ${tw`text-primary`}
+    `}
 `;
 
 export const Shape = styled.div`

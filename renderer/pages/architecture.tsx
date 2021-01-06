@@ -119,6 +119,7 @@ const Architecture: React.FC = () => {
                 ids={molecularInfos[currentIndex].atoms.filter(
                   (x, i, self) => self.indexOf(x) === i
                 )}
+                selectAtom={currentAtom}
               />
             </Information>
             <Information>
