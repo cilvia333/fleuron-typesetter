@@ -25,26 +25,25 @@ const Architecture: React.FC = () => {
   const mouseWheel = useMouseWheel();
   const timerLimit = 3 * 60 * 1000; // 3分
 
-  useEffectOnce(() => {
-    const timerId = setTimeout(() => {
-      Router.push('/');
-    }, timerLimit);
-
-    setTimerId(timerId);
-  });
+  // useEffectOnce(() => {
+  //   // const timerId = setTimeout(() => {
+  //   //   Router.push('/');
+  //   // }, timerLimit);
+  //   // setTimerId(timerId);
+  // });
 
   useEffect(() => {
     console.log(mouseWheel);
   }, [mouseWheel]);
 
-  const handleAlive = () => {
-    clearTimeout(timerId);
-    const newTimerId = setTimeout(() => {
-      Router.push('/');
-    }, timerLimit);
+  // const handleAlive = () => {
+  //   clearTimeout(timerId);
+  //   const newTimerId = setTimeout(() => {
+  //     Router.push('/');
+  //   }, timerLimit);
 
-    setTimerId(newTimerId);
-  };
+  //   setTimerId(newTimerId);
+  // };
 
   const handleClickAtom = (id: number) => {
     if (molecularInfos[currentIndex].atoms.includes(id)) {
@@ -61,16 +60,17 @@ const Architecture: React.FC = () => {
       </Head>
       <Main
         ref={scrollRef}
-        onMouseMove={() => {
-          handleAlive();
-        }}
-        onKeyDown={() => {
-          handleAlive();
-        }}
+        // onMouseMove={() => {
+        //   handleAlive();
+        // }}
+        // onKeyDown={() => {
+        //   handleAlive();
+        // }}
       >
         <Grid>
           <TransitionButtonWrapper
             className="group"
+            active={currentIndex !== 0}
             onClick={() => {
               setCurrentAtom(null);
               setCurrentIndex((old) => {
@@ -88,6 +88,7 @@ const Architecture: React.FC = () => {
           </TransitionButtonWrapper>
           <TransitionButtonWrapper
             className="group"
+            active={currentIndex !== molecularList.length - 1}
             onClick={() => {
               setCurrentAtom(null);
               setCurrentIndex((old) => {
@@ -104,13 +105,6 @@ const Architecture: React.FC = () => {
             <TransitionBar />
           </TransitionButtonWrapper>
           <InformationWrapper>
-            <BackButton
-              onClick={() => {
-                Router.push('/');
-              }}
-            >
-              Back to Top
-            </BackButton>
             <Information>
               <InformationTitle>Ornaments</InformationTitle>
               <AtomList
@@ -138,6 +132,13 @@ const Architecture: React.FC = () => {
                 }}
               />
             </Information>
+            <BackButton
+              onClick={() => {
+                Router.push('/');
+              }}
+            >
+              ← Back to Top
+            </BackButton>
           </InformationWrapper>
           <OrnamentWrapper>
             <Molecular
@@ -180,19 +181,19 @@ const Grid = styled.div`
 `;
 
 const InformationWrapper = styled.section`
-  ${tw`col-span-1 row-span-4 `}
+  ${tw`col-span-1 row-span-4`}
 `;
 
 const Information = styled.section`
-  ${tw`mb-6`}
+  ${tw`mb-12`}
 `;
 
 const InformationTitle = styled.h1`
-  ${tw`font-header font-semibold italic text-2xl m-0 mb-4 text-darkGray`}
+  ${tw`font-header font-semibold italic text-2xl m-0 mb-6 text-darkGray select-none`}
 `;
 
 const Reference = styled.p`
-  ${tw`font-text italic text-darkGray`}
+  ${tw`font-text italic text-darkGray select-none`}
 `;
 
 const OrnamentWrapper = styled.section`
@@ -211,7 +212,7 @@ const PageList = styled.div<{ position: number; max: number }>`
 `;
 
 const Page = styled.div<{ current: boolean }>`
-  ${tw`font-bold text-2xl opacity-0 transition-all duration-300`}
+  ${tw`font-bold text-2xl opacity-0 transition-all duration-300 select-none`}
 
   transform: scale(0.4);
 
@@ -224,7 +225,7 @@ const Page = styled.div<{ current: boolean }>`
 `;
 
 const MaxPage = styled.div`
-  ${tw`font-bold text-2xl`}
+  ${tw`font-bold text-2xl select-none`}
 `;
 
 const TransitionButton = styled.div`
@@ -239,8 +240,8 @@ const TransitionBar = styled.div`
   ${tw`absolute inset-x-0 h-2 w-full bg-primary transition-all duration-300`}
 `;
 
-const TransitionButtonWrapper = styled.section`
-  ${tw`absolute inset-x-0 w-full h-24 cursor-pointer`}
+const TransitionButtonWrapper = styled.section<{ active: boolean }>`
+  ${tw`absolute inset-x-0 w-full h-24 cursor-pointer hidden`}
 
   &:nth-child(1) {
     ${tw`top-0`}
@@ -273,8 +274,27 @@ const TransitionButtonWrapper = styled.section`
       }
     }
   }
+
+  ${({ active }) =>
+    active &&
+    css`
+      ${tw`block`}
+    `}
 `;
 
-const BackButton = styled.button``;
+const BackButton = styled.button`
+  ${tw`font-text text-xl italic relative select-none`}
+
+  &::before {
+    ${tw`w-0 h-px bg-black absolute -bottom-1 left-0 transition-all duration-300`}
+    content: "";
+  }
+
+  &:hover {
+    &::before {
+      ${tw`w-full`}
+    }
+  }
+`;
 
 export default Architecture;
