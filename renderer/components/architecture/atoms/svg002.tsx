@@ -5,28 +5,22 @@ import tw from 'twin.macro';
 import {
   MolecularProps,
   MolecularInfo,
+  Svg,
+  Box,
+  Shape,
 } from '~/components/architecture/share/molecular';
 
 export const svg002Info: MolecularInfo = {
   id: 'svg002',
-  atoms: [
-    { id: 218, type: 0 },
-    { id: 29, type: 0 },
-  ],
+  atoms: [218, 29],
   page: 19,
 };
 
 const svg002: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    borderActive,
-    className,
-  } = props;
+  const { animationAtom, animation, onAnimationEnd, grid, className } = props;
   return (
     <>
-      <Box>
+      <Box active={grid}>
         <Svg className="svg002-mannnaka">
           <path d="M346.59,253.56v45.52H301.08V253.56h45.51m1-1H300.08v47.52h47.51V252.56Z" />
         </Svg>
@@ -149,22 +143,6 @@ const Spin = () => keyframes`
     }
 `;
 
-const Svg = styled((props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
-))`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  path {
-    pointer-events: auto;
-    cursor: pointer;
-    &:hover {
-      fill: #a7a7a7;
-    }
-  }
-`;
-
 const Hanabira = styled.div<{ number: number }>`
   ${tw`absolute inset-0 m-auto`}
   width: 600px;
@@ -199,24 +177,17 @@ const Mannaka = styled.div<{ number: number }>`
   }
 `;
 
-const Box = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  .svg002-hanabira {
-    fill: #ff2cd7;
-  }
-  .svg002-mannnaka {
-    fill: #3985ff;
-  }
-`;
-
-const Shape = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-`;
+// const Box = styled.div`
+//   ${tw`absolute inset-0 m-auto`}
+//   width: 600px;
+//   height: 600px;
+//   pointer-events: none;
+//   .svg002-hanabira {
+//     fill: #ff2cd7;
+//   }
+//   .svg002-mannnaka {
+//     fill: #3985ff;
+//   }
+// `;
 
 export default svg002;

@@ -8,10 +8,11 @@ import AtomItem from './atomItem';
 interface Props {
   ids: number[];
   molecularId: number;
+  onClick: (id: number) => void;
 }
 
 const AtomList: React.FC<Props> = (props) => {
-  const { ids, molecularId } = props;
+  const { ids, molecularId, onClick } = props;
   const [postId, setPostId] = useState(molecularId);
   const [displayIds, setDisplayIds] = useState(ids);
   const [animeState, toggleAnimeState] = useToggle(true);
@@ -35,6 +36,7 @@ const AtomList: React.FC<Props> = (props) => {
               animeState={animeState}
               activeAnime={activeAnime}
               delay={animeState ? index * 100 + 500 : 0}
+              onClick={onClick}
               onAnimationEnd={() => {
                 if (!animeState) {
                   toggleAnimeState(true);

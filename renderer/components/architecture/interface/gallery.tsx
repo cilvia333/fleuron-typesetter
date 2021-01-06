@@ -73,7 +73,7 @@ const Gallery: React.FC<Props> = (props) => {
   return (
     <>
       <Wrapper>
-        <Title isHoverring={isHoverring}>Molecular List</Title>
+        <Title isHoverring={isHoverring}>Decoration List</Title>
         <SideBarWrapper>
           <SideBarContainer
             className="group"

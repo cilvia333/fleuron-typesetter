@@ -8,6 +8,7 @@ import tw from 'twin.macro';
 import Arrow from '~/assets/svgs/arrow.svg';
 import AtomList from '~/components/architecture/interface/atomList';
 import Gallery from '~/components/architecture/interface/gallery';
+import GridButton from '~/components/architecture/interface/gridButton';
 import Molecular, {
   molecularList,
   molecularInfos,
@@ -19,6 +20,8 @@ const Architecture: React.FC = () => {
   const scrollRef = useRef<HTMLElement>(null);
   const [scrolling, toggleScrolling] = useToggle(false);
   const [onceScrolling, toggleOnceScrolling] = useToggle(false);
+  const [activeGrid, toggleActiveGrid] = useToggle(false);
+  const [currentAtom, setCurrentAtom] = useState<number | null>(null);
   const mouseWheel = useMouseWheel();
   const timerLimit = 3 * 60 * 1000; // 3分
 
@@ -43,6 +46,14 @@ const Architecture: React.FC = () => {
     setTimerId(newTimerId);
   };
 
+  const handleClickAtom = (id: number) => {
+    if (molecularInfos[currentIndex].atoms.includes(id)) {
+      setCurrentAtom((old) => (old ? (old === id ? null : id) : id));
+    } else {
+      setCurrentAtom(null);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -61,6 +72,7 @@ const Architecture: React.FC = () => {
           <TransitionButtonWrapper
             className="group"
             onClick={() => {
+              setCurrentAtom(null);
               setCurrentIndex((old) => {
                 if (old > 0) {
                   return old - 1;
@@ -77,6 +89,7 @@ const Architecture: React.FC = () => {
           <TransitionButtonWrapper
             className="group"
             onClick={() => {
+              setCurrentAtom(null);
               setCurrentIndex((old) => {
                 if (old < molecularList.length - 1) {
                   return old + 1;
@@ -91,13 +104,21 @@ const Architecture: React.FC = () => {
             <TransitionBar />
           </TransitionButtonWrapper>
           <InformationWrapper>
+            <BackButton
+              onClick={() => {
+                Router.push('/');
+              }}
+            >
+              Back to Top
+            </BackButton>
             <Information>
-              <InformationTitle>Ornament Atoms</InformationTitle>
+              <InformationTitle>Ornaments</InformationTitle>
               <AtomList
                 molecularId={currentIndex}
-                ids={molecularInfos[currentIndex].atoms
-                  .map((atom) => atom.id)
-                  .filter((x, i, self) => self.indexOf(x) === i)}
+                onClick={handleClickAtom}
+                ids={molecularInfos[currentIndex].atoms.filter(
+                  (x, i, self) => self.indexOf(x) === i
+                )}
               />
             </Information>
             <Information>
@@ -107,9 +128,23 @@ const Architecture: React.FC = () => {
                 Frederic Warde
               </Reference>
             </Information>
+            <Information>
+              <InformationTitle>Display Grid</InformationTitle>
+              <GridButton
+                active={activeGrid}
+                handleClick={() => {
+                  toggleActiveGrid();
+                }}
+              />
+            </Information>
           </InformationWrapper>
           <OrnamentWrapper>
-            <Molecular name={molecularList[currentIndex]} />
+            <Molecular
+              name={molecularList[currentIndex]}
+              grid={activeGrid}
+              selectAtom={currentAtom}
+              onClick={handleClickAtom}
+            />
           </OrnamentWrapper>
           <PageWrapper>
             <PageList position={currentIndex} max={molecularInfos.length}>
@@ -125,6 +160,7 @@ const Architecture: React.FC = () => {
           <Gallery
             currentId={currentIndex}
             onChangeId={(id) => {
+              setCurrentAtom(null);
               setCurrentIndex(id);
             }}
           />
@@ -237,5 +273,7 @@ const TransitionButtonWrapper = styled.section`
     }
   }
 `;
+
+const BackButton = styled.button``;
 
 export default Architecture;

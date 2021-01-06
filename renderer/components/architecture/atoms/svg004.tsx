@@ -5,31 +5,22 @@ import tw from 'twin.macro';
 import {
   MolecularProps,
   MolecularInfo,
+  Svg,
+  Box,
+  Shape,
 } from '~/components/architecture/share/molecular';
 
 export const svg004Info: MolecularInfo = {
   id: 'svg004',
-  atoms: [
-    { id: 310, type: 0 },
-    { id: 311, type: 0 },
-    { id: 312, type: 0 },
-    { id: 219, type: 0 },
-    { id: 219, type: 1 },
-  ],
+  atoms: [219, 310, 311, 312],
   page: 16,
 };
 
 const svg004: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    borderActive,
-    className,
-  } = props;
+  const { animationAtom, animation, onAnimationEnd, grid, className } = props;
   return (
     <>
-      <Box>
+      <Box active={grid}>
         <Svg className="svg004-mannnaka">
           <path d="M395,300.84v95.94H301V300.84h94m1-1H300v97.94h96V299.84Z" />
         </Svg>
@@ -205,22 +196,6 @@ const svg004: React.FC<MolecularProps> = (props) => {
   );
 };
 
-const Svg = styled((props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
-))`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  path {
-    pointer-events: auto;
-    cursor: pointer;
-    &:hover {
-      fill: #a7a7a7;
-    }
-  }
-`;
-
 const SpreadSpin = (
   number: number,
   spX: number,
@@ -312,33 +287,26 @@ const Sumi = styled.div<{ number: number }>`
   }
 `;
 
-const Box = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  .svg004-mannnaka {
-    fill: #2effa5;
-  }
-  .svg004-hanabira1 {
-    fill: #ff2cd7;
-  }
-  .svg004-hanabira2 {
-    fill: #2e83ff;
-  }
-  .svg004-aida {
-    fill: #ff2e65;
-  }
-  .svg004-sumi {
-    fill: #662eff;
-  }
-`;
-
-const Shape = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-`;
+// const Box = styled.div`
+//   ${tw`absolute inset-0 m-auto`}
+//   width: 600px;
+//   height: 600px;
+//   pointer-events: none;
+//   .svg004-mannnaka {
+//     fill: #2effa5;
+//   }
+//   .svg004-hanabira1 {
+//     fill: #ff2cd7;
+//   }
+//   .svg004-hanabira2 {
+//     fill: #2e83ff;
+//   }
+//   .svg004-aida {
+//     fill: #ff2e65;
+//   }
+//   .svg004-sumi {
+//     fill: #662eff;
+//   }
+// `;
 
 export default svg004;

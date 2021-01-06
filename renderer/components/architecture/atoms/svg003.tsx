@@ -5,31 +5,22 @@ import tw from 'twin.macro';
 import {
   MolecularProps,
   MolecularInfo,
+  Svg,
+  Box,
+  Shape,
 } from '~/components/architecture/share/molecular';
 
 export const svg003Info: MolecularInfo = {
   id: 'svg003',
-  atoms: [
-    { id: 214, type: 0 },
-    { id: 215, type: 0 },
-    { id: 467, type: 0 },
-    { id: 467, type: 1 },
-    { id: 466, type: 0 },
-  ],
+  atoms: [214, 215, 466, 467],
   page: 21,
 };
 
 const svg003: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    borderActive,
-    className,
-  } = props;
+  const { animationAtom, animation, onAnimationEnd, grid, className } = props;
   return (
     <>
-      <Box>
+      <Box active={grid}>
         <Svg className="svg003-mannnaka-right">
           <path d="M348.44,203.92v36.81H325.93V203.92h22.51m1-1H324.93v38.81h24.51V202.92Z" />
         </Svg>
@@ -427,22 +418,6 @@ const svg003: React.FC<MolecularProps> = (props) => {
   );
 };
 
-const Svg = styled((props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
-))`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  path {
-    pointer-events: auto;
-    cursor: pointer;
-    &:hover {
-      fill: #a7a7a7;
-    }
-  }
-`;
-
 const SpreadSpin = (
   number: number,
   spX: number,
@@ -591,36 +566,29 @@ const Hanabira2 = styled.div<{ number: number }>`
   }
 `;
 
-const Box = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  .svg003-mannnaka-righ {
-    fill: #ff2e6f;
-  }
-  .svg003-mannnaka-left {
-    fill: #ad2eff;
-  }
-  .svg003-naka-aida {
-    fill: #472eff;
-  }
-  .svg003-hanabira2 {
-    fill: #3eff2e;
-  }
-  .svg003-hanabira1 {
-    fill: #ff2cd7;
-  }
-  .svg003-aida {
-    fill: #31a7ff;
-  }
-`;
-
-const Shape = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-`;
+// const Box = styled.div`
+//   ${tw`absolute inset-0 m-auto`}
+//   width: 600px;
+//   height: 600px;
+//   pointer-events: none;
+//   .svg003-mannnaka-righ {
+//     fill: #ff2e6f;
+//   }
+//   .svg003-mannnaka-left {
+//     fill: #ad2eff;
+//   }
+//   .svg003-naka-aida {
+//     fill: #472eff;
+//   }
+//   .svg003-hanabira2 {
+//     fill: #3eff2e;
+//   }
+//   .svg003-hanabira1 {
+//     fill: #ff2cd7;
+//   }
+//   .svg003-aida {
+//     fill: #31a7ff;
+//   }
+// `;
 
 export default svg003;

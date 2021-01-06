@@ -11,14 +11,21 @@ interface Props {
   id: number;
   className?: string;
   onAnimationEnd?: () => void;
+  onClick: (id: number) => void;
 }
 
 const AtomItem: React.FC<Props> = (props) => {
-  const { id, className, onAnimationEnd } = props;
+  const { id, className, onAnimationEnd, onClick } = props;
 
   return (
     <>
-      <Wrapper className={className} onAnimationEnd={onAnimationEnd}>
+      <Wrapper
+        className={className}
+        onAnimationEnd={onAnimationEnd}
+        onClick={() => {
+          onClick(id);
+        }}
+      >
         <FleuronWrapper>
           <Fleuron name={`F${id}`} />
         </FleuronWrapper>

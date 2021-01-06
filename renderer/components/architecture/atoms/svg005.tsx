@@ -5,34 +5,22 @@ import tw from 'twin.macro';
 import {
   MolecularProps,
   MolecularInfo,
+  Svg,
+  Box,
+  Shape,
 } from '~/components/architecture/share/molecular';
 
 export const svg005Info: MolecularInfo = {
   id: 'svg005',
-  atoms: [
-    { id: 218, type: 0 },
-    { id: 263, type: 0 },
-    { id: 264, type: 0 },
-    { id: 311, type: 0 },
-    { id: 312, type: 0 },
-    { id: 313, type: 0 },
-    { id: 313, type: 1 },
-    { id: 314, type: 0 },
-  ],
+  atoms: [218, 263, 264, 311, 312, 313, 314],
   page: 5,
 };
 
 const svg005: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    borderActive,
-    className,
-  } = props;
+  const { animationAtom, animation, onAnimationEnd, grid, className } = props;
   return (
     <>
-      <Box>
+      <Box active={grid}>
         <Svg className="svg005-tate-line">
           <path d="M518.73,274.35v51.3H507.56v-51.3h11.17m1-1H506.56v53.3h13.17v-53.3Z" />
         </Svg>
@@ -454,22 +442,6 @@ const svg005: React.FC<MolecularProps> = (props) => {
   );
 };
 
-const Svg = styled((props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" {...props} />
-))`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  path {
-    pointer-events: auto;
-    cursor: pointer;
-    &:hover {
-      fill: #a7a7a7;
-    }
-  }
-`;
-
 const SpreadSpin = (
   number: number,
   spX: number,
@@ -736,48 +708,41 @@ const FootLeft = styled.div<{ number: number }>`
   }
 `;
 
-const Box = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  .svg005-tate-line {
-    fill: #2e5bff;
-  }
-  .svg005-head {
-    fill: #ff2e6f;
-  }
-  .svg005-wind2 {
-    fill: #ff872e;
-  }
-  .dsvg005-mokomokoRight {
-    fill: #2eff87;
-  }
-  .svg005-foot {
-    fill: #2e9cff;
-  }
-  .svg005-yoko-line {
-    fill: #8631ff;
-  }
-  .svg005-shoulderLeft {
-    fill: #ff73eb;
-  }
-  .svg005-wind1 {
-    fill: #ff2cd7;
-  }
-  .svg005-shoulderRight {
-    fill: #ffb92e;
-  }
-  .svg005-mokomokoLeft {
-    fill: #b8ff2e;
-  }
-`;
-
-const Shape = styled.div`
-  ${tw`absolute inset-0 m-auto`}
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-`;
+// const Box = styled.div`
+//   ${tw`absolute inset-0 m-auto`}
+//   width: 600px;
+//   height: 600px;
+//   pointer-events: none;
+//   .svg005-tate-line {
+//     fill: #2e5bff;
+//   }
+//   .svg005-head {
+//     fill: #ff2e6f;
+//   }
+//   .svg005-wind2 {
+//     fill: #ff872e;
+//   }
+//   .dsvg005-mokomokoRight {
+//     fill: #2eff87;
+//   }
+//   .svg005-foot {
+//     fill: #2e9cff;
+//   }
+//   .svg005-yoko-line {
+//     fill: #8631ff;
+//   }
+//   .svg005-shoulderLeft {
+//     fill: #ff73eb;
+//   }
+//   .svg005-wind1 {
+//     fill: #ff2cd7;
+//   }
+//   .svg005-shoulderRight {
+//     fill: #ffb92e;
+//   }
+//   .svg005-mokomokoLeft {
+//     fill: #b8ff2e;
+//   }
+// `;
 
 export default svg005;

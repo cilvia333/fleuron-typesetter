@@ -48,6 +48,11 @@ const GlobalStyle = createGlobalStyle`
   li {
     ${tw`list-none`}
   }
+
+  a {
+    ${tw`font-text text-black visited:text-black`}
+    text-decoration: none;
+  }
 `;
 
 export type Props = AppProps;
