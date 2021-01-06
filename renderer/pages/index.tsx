@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
-import MVSvg from '~/assets/svgs/mv.svg';
 import TitleSvg from '~/assets/svgs/title.svg';
 
 const Architecture: React.FC = () => {
@@ -14,67 +13,97 @@ const Architecture: React.FC = () => {
         <title>THE ARCHITECTURE OF PRINTES ORNAMENTS</title>
       </Head>
       <Main>
-        <MVWrapper>
-          <StyledMVSvg />
-          <StyledTitleSvg />
-          <DirectedText>Directed By Kairi Shiomi</DirectedText>
-          <ExhText>Design Informatics Seminar Exhibition 2020</ExhText>
-        </MVWrapper>
-        <StartButtonWrapper>
-          <StartButton
-            onClick={() => {
-              Router.push('/architecture');
-            }}
-          >
-            Play!
-          </StartButton>
-        </StartButtonWrapper>
+        <StyledTitleSvg />
+        <StartButton
+          onClick={() => {
+            Router.push('/architecture');
+          }}
+        >
+          <SmallText>
+            Click to <br />
+          </SmallText>
+          Play!
+        </StartButton>
+        <DirectedText>Directed By Kairi Shiomi</DirectedText>
+        <ExhText>Design Informatics Seminar Exhibition 2020</ExhText>
       </Main>
     </>
   );
 };
 
+const breath = keyframes`
+  0% {
+    transform:scale(1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    transform:scale(1.2);
+    opacity: 0;
+  }
+  100% {
+    transform:scale(1.2);
+    opacity: 0;
+  }
+
+`;
+
 const Main = styled.main`
-  ${tw`w-screen h-screen relative overflow-hidden grid grid-rows-1`}
-  grid-template-columns: 38.2% 61.8%;
-`;
+  ${tw`w-screen h-screen overflow-hidden flex flex-col justify-center items-center`}
 
-const MVWrapper = styled.section`
-  ${tw`w-full h-full flex flex-col justify-center items-center`}
-`;
-
-const StyledMVSvg = styled(MVSvg)`
-  ${tw`w-1/2`}
+  & > * {
+    ${tw`mt-32`}
+  }
 `;
 
 const StyledTitleSvg = styled(TitleSvg)`
-  ${tw`w-1/2 mt-12`}
+  ${tw`mt-12`}
+
+  width: 554px;
 `;
 
 const DirectedText = styled.p`
-  ${tw`leading-none text-base font-header font-semibold mt-24 mb-0`}
+  ${tw`leading-none text-base font-header font-semibold mb-0`}
 `;
 
 const ExhText = styled.p`
   ${tw`leading-none text-base font-header font-normal mt-4 mb-0`}
 `;
 
-const StartButtonWrapper = styled.section`
-  ${tw`w-full h-full p-4 relative`}
+const StartButton = styled.button`
+  ${tw`relative bg-black font-text font-semibold text-white text-5xl hover:bg-primary hover:border-none transition-all duration-300`}
 
-  &::before {
-    ${tw`w-px h-2/3 absolute inset-y-0 my-auto left-0 bg-black`}
-    content: "";
+  width: 350px;
+  height: 350px;
+
+  &::after {
+    ${tw`absolute border border-black border-solid top-0 bottom-0 right-0 m-auto transition-all duration-300`}
+    width: 366px;
+    height: 366px;
+    left: -9px;
+    content: '';
+    z-index: -1;
+
+    transform: scale(1);
+    opacity: 0;
+
+    animation: ${breath} 2.5s linear infinite forwards;
+  }
+
+  &:hover {
+    &::after {
+      ${tw`border-primary`}
+      animation-name: none;
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 `;
 
-const StartButton = styled.button`
-  ${tw`w-56 h-56 border border-black border-solid font-text font-semibold text-black text-4xl absolute inset-0 m-auto hover:bg-primary hover:border-none hover:text-white transition-all duration-300`}
-
-  &::after {
-    ${tw`text-xl font-normal absolute -bottom-12 inset-x-0 mx-auto text-black`}
-    content: "↑  Click me to play!  ↑";
-  }
+const SmallText = styled.span`
+  ${tw`text-xl`}
 `;
 
 export default Architecture;

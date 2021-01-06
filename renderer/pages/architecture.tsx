@@ -27,7 +27,7 @@ const Architecture: React.FC = () => {
 
   useEffectOnce(() => {
     const timerId = setTimeout(() => {
-      Router.push('/architecture');
+      Router.push('/');
     }, timerLimit);
 
     setTimerId(timerId);
@@ -40,7 +40,7 @@ const Architecture: React.FC = () => {
   const handleAlive = () => {
     clearTimeout(timerId);
     const newTimerId = setTimeout(() => {
-      Router.push('/architecture');
+      Router.push('/');
     }, timerLimit);
 
     setTimerId(newTimerId);
