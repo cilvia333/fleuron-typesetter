@@ -123,7 +123,7 @@ const Wrapper = styled.section`
 `;
 
 const Title = styled.h1<{ isHoverring: boolean }>`
-  ${tw`text-base absolute inset-y-0 my-auto text-left w-full h-4 leading-none -right-24 transition-all duration-100 ease-out`}
+  ${tw`text-base absolute inset-y-0 my-auto text-left w-full h-4 leading-none -right-24 transition-all duration-100 ease-out select-none`}
 
   ${({ isHoverring }) =>
     isHoverring &&

@@ -65,15 +65,15 @@ const StyledTitleSvg = styled(TitleSvg)`
 `;
 
 const DirectedText = styled.p`
-  ${tw`leading-none text-base font-header font-semibold mb-0`}
+  ${tw`leading-none text-base font-header font-semibold mb-0 select-none`}
 `;
 
 const ExhText = styled.p`
-  ${tw`leading-none text-base font-header font-normal mt-4 mb-0`}
+  ${tw`leading-none text-base font-header font-normal mt-4 mb-0 select-none`}
 `;
 
 const StartButton = styled.button`
-  ${tw`relative bg-black font-text font-semibold text-white text-5xl hover:bg-primary hover:border-none transition-all duration-300`}
+  ${tw`relative bg-black font-text font-semibold text-white text-5xl hover:bg-primary hover:border-none transition-all duration-300 select-none`}
 
   width: 350px;
   height: 350px;
