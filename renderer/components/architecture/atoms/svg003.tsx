@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToggle } from 'react-use';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -19,15 +20,9 @@ export const svg003Info: MolecularInfo = {
 };
 
 const svg003: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    onClick,
-    grid,
-    selectAtom,
-    className,
-  } = props;
+  const { animation, onClick, grid, selectAtom, className } = props;
+  const [loadAnimation, toggleLoadAnimation] = useToggle(true);
+
   return (
     <>
       <Box active={grid}>
@@ -181,6 +176,11 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <Aida
             number={0}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
+            onAnimationEnd={() => {
+              toggleLoadAnimation(false);
+            }}
             onClick={() => {
               onClick(467);
             }}
@@ -192,6 +192,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <Aida
             number={1}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -203,6 +205,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <Aida
             number={2}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -214,6 +218,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <Aida
             number={3}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -227,6 +233,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={0}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -238,6 +246,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={1}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -249,6 +259,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={2}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -260,6 +272,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={3}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -271,6 +285,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={4}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -282,6 +298,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={5}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -293,6 +311,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={6}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -304,6 +324,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={7}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -315,6 +337,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={8}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -326,6 +350,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={9}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -337,6 +363,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={10}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -348,6 +376,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={11}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -359,6 +389,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={12}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -370,6 +402,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={13}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -381,6 +415,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={14}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -392,6 +428,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaRight
             number={15}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -403,6 +441,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={0}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -414,6 +454,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={1}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -425,6 +467,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={2}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -436,6 +480,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={3}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -447,6 +493,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={4}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -458,6 +506,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={5}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -469,6 +519,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={6}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -480,6 +532,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={7}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -491,6 +545,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={8}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -502,6 +558,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={9}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -513,6 +571,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={10}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -524,6 +584,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={11}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -535,6 +597,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={12}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -546,6 +610,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={13}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -557,6 +623,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={14}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -568,6 +636,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <MannakaLeft
             number={15}
             select={selectAtom === 466}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(466);
             }}
@@ -581,6 +651,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <NakaAida
             number={0}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -592,6 +664,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <NakaAida
             number={1}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -603,6 +677,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <NakaAida
             number={2}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -614,6 +690,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
           <NakaAida
             number={3}
             select={selectAtom === 467}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(467);
             }}
@@ -626,6 +704,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira1
           number={0}
           select={selectAtom === 214}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(214);
           }}
@@ -637,6 +717,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira1
           number={1}
           select={selectAtom === 214}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(214);
           }}
@@ -648,6 +730,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira1
           number={2}
           select={selectAtom === 214}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(214);
           }}
@@ -659,6 +743,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira1
           number={3}
           select={selectAtom === 214}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(214);
           }}
@@ -670,6 +756,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira2
           number={0}
           select={selectAtom === 215}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(215);
           }}
@@ -681,6 +769,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira2
           number={1}
           select={selectAtom === 215}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(215);
           }}
@@ -692,6 +782,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira2
           number={2}
           select={selectAtom === 215}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(215);
           }}
@@ -703,6 +795,8 @@ const svg003: React.FC<MolecularProps> = (props) => {
         <Hanabira2
           number={3}
           select={selectAtom === 215}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(215);
           }}
@@ -756,27 +850,52 @@ const MannakaRight = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  animation: ${(props) => {
-      if (props.number === 2) {
-        return Move(0, -77.6342, 0);
-      } else if (props.number === 7) {
-        return Move(0, -155.2685, 0);
-      } else if (props.number === 12) {
-        return Move(0, -155.2685, 0);
-      } else if (props.number === 15) {
-        return Move(0, -77.6342, 0);
-      } else {
-        return Move(0, 38.8171, 0);
-      }
-    }}
-    1.5s ${(props) => props.number * 0.04 + 1}s cubic-bezier(0.9, 0, 0.1, 1)
-    both;
+
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+  ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${() => {
+          if (number === 2) {
+            return Move(0, -77.6342, 0);
+          } else if (number === 7) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 12) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 15) {
+            return Move(0, -77.6342, 0);
+          } else {
+            return Move(0, 38.8171, 0);
+          }
+        }}
+        1.5s ${number * 0.04 + 1}s cubic-bezier(0.9, 0, 0.1, 1) both;
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${() => {
+          if (number === 2) {
+            return Move(0, -77.6342, 0);
+          } else if (number === 7) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 12) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 15) {
+            return Move(0, -77.6342, 0);
+          } else {
+            return Move(0, 38.8171, 0);
+          }
+        }}
+        1.5s ${number * 0.04 + 1}s cubic-bezier(0.9, 0, 0.1, 1) both;
     `}
 `;
 
@@ -785,20 +904,6 @@ const MannakaLeft = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  animation: ${(props) => {
-      if (props.number === 2) {
-        return Move(0, -77.6342, 0);
-      } else if (props.number === 7) {
-        return Move(0, -155.2685, 0);
-      } else if (props.number === 12) {
-        return Move(0, -155.2685, 0);
-      } else if (props.number === 15) {
-        return Move(0, -77.6342, 0);
-      } else {
-        return Move(0, 38.8171, 0);
-      }
-    }}
-    1.5s ${(props) => props.number * 0.04}s cubic-bezier(0.9, 0, 0.1, 1) both;
 
   ${({ select }) =>
     select &&
@@ -806,6 +911,45 @@ const MannakaLeft = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+  ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${() => {
+          if (number === 2) {
+            return Move(0, -77.6342, 0);
+          } else if (number === 7) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 12) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 15) {
+            return Move(0, -77.6342, 0);
+          } else {
+            return Move(0, 38.8171, 0);
+          }
+        }}
+        1.5s ${number * 0.04}s cubic-bezier(0.9, 0, 0.1, 1) both;
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${() => {
+          if (number === 2) {
+            return Move(0, -77.6342, 0);
+          } else if (number === 7) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 12) {
+            return Move(0, -155.2685, 0);
+          } else if (number === 15) {
+            return Move(0, -77.6342, 0);
+          } else {
+            return Move(0, 38.8171, 0);
+          }
+        }}
+        1.5s ${number * 0.04}s cubic-bezier(0.9, 0, 0.1, 1) both;
     `}
 `;
 
@@ -814,9 +958,11 @@ const Aida = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 60, -60, 0, 0, -90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -824,6 +970,21 @@ const Aida = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 60, -60, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 60, -60, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -832,21 +993,6 @@ const NakaAida = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  animation: ${(props) => {
-      if (props.number === 0) {
-        return SpreadSpin(0, -30, -30, -3, 7, 90);
-      }
-      if (props.number === 1) {
-        return SpreadSpin(0, 30, -30, 7, 7, 90);
-      }
-      if (props.number === 2) {
-        return SpreadSpin(0, 30, 30, 7, -3, 90);
-      }
-      if (props.number === 3) {
-        return SpreadSpin(0, -30, 30, -3, -3, 90);
-      }
-    }}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
 
   ${({ select }) =>
     select &&
@@ -854,6 +1000,47 @@ const NakaAida = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+  ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${() => {
+          if (number === 0) {
+            return SpreadSpin(0, -30, -30, -3, 7, 90);
+          }
+          if (number === 1) {
+            return SpreadSpin(0, 30, -30, 7, 7, 90);
+          }
+          if (number === 2) {
+            return SpreadSpin(0, 30, 30, 7, -3, 90);
+          }
+          if (number === 3) {
+            return SpreadSpin(0, -30, 30, -3, -3, 90);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${() => {
+          if (number === 0) {
+            return SpreadSpin(0, -30, -30, -3, 7, 90);
+          }
+          if (number === 1) {
+            return SpreadSpin(0, 30, -30, 7, 7, 90);
+          }
+          if (number === 2) {
+            return SpreadSpin(0, 30, 30, 7, -3, 90);
+          }
+          if (number === 3) {
+            return SpreadSpin(0, -30, 30, -3, -3, 90);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -862,9 +1049,11 @@ const Hanabira1 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 30, -130, 0, 0, 90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -873,6 +1062,21 @@ const Hanabira1 = styled.div<AtomsProps>`
         ${tw`text-primary`}
       }
     `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 30, -130, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 30, -130, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
 `;
 
 const Hanabira2 = styled.div<AtomsProps>`
@@ -880,9 +1084,11 @@ const Hanabira2 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, -30, -130, 0, 0, -90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -890,6 +1096,21 @@ const Hanabira2 = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, -30, -130, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, -30, -130, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 

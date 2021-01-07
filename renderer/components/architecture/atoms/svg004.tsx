@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToggle } from 'react-use';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -19,15 +20,9 @@ export const svg004Info: MolecularInfo = {
 };
 
 const svg004: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    onClick,
-    grid,
-    selectAtom,
-    className,
-  } = props;
+  const { animation, onClick, grid, selectAtom, className } = props;
+  const [loadAnimation, toggleLoadAnimation] = useToggle(true);
+
   return (
     <>
       <Box active={grid}>
@@ -97,6 +92,11 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={0}
             select={selectAtom === 310}
+            animation={animation}
+            loadAnimation={loadAnimation}
+            onAnimationEnd={() => {
+              toggleLoadAnimation(false);
+            }}
             onClick={() => {
               onClick(310);
             }}
@@ -108,6 +108,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={1}
             select={selectAtom === 310}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(310);
             }}
@@ -119,6 +121,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={2}
             select={selectAtom === 310}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(310);
             }}
@@ -130,6 +134,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={3}
             select={selectAtom === 310}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(310);
             }}
@@ -143,6 +149,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira1
             number={0}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -154,6 +162,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira1
             number={1}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -165,6 +175,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira1
             number={2}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -176,6 +188,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira1
             number={3}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -187,6 +201,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira2
             number={0}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -198,6 +214,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira2
             number={1}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -209,6 +227,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira2
             number={2}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -220,6 +240,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Hanabira2
             number={3}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -233,6 +255,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Aida
             number={0}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -244,6 +268,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Aida
             number={1}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -255,6 +281,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Aida
             number={2}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -266,6 +294,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Aida
             number={3}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -279,6 +309,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Sumi
             number={0}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -290,6 +322,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Sumi
             number={1}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -301,6 +335,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Sumi
             number={2}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -312,6 +348,8 @@ const svg004: React.FC<MolecularProps> = (props) => {
           <Sumi
             number={3}
             select={selectAtom === 219}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(219);
             }}
@@ -357,9 +395,11 @@ const Mannaka = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 240, 240, 0, 0, 90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -367,6 +407,21 @@ const Mannaka = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 240, 240, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 240, 240, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -375,9 +430,11 @@ const Hanabira1 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 80, 155, 0, 0, 90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -385,6 +442,21 @@ const Hanabira1 = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 80, 155, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 80, 155, 0, 0, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -393,9 +465,11 @@ const Hanabira2 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90 - 0}deg);
-  animation: ${(props) => SpreadSpin(props.number, 80, -155, 0, 0, -90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -403,6 +477,21 @@ const Hanabira2 = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 80, -155, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 80, -155, 0, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -411,9 +500,11 @@ const Aida = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 90, 90, 38.4, 38.4, -45.38)}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -422,6 +513,21 @@ const Aida = styled.div<AtomsProps>`
         ${tw`text-primary`}
       }
     `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 90, 90, 38.4, 38.4, -45.38)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 90, 90, 38.4, 38.4, -45.38)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
 `;
 
 const Sumi = styled.div<AtomsProps>`
@@ -429,9 +535,11 @@ const Sumi = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, 90, 0, -54.3, -44.58)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -439,6 +547,21 @@ const Sumi = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, 90, 0, -54.3, -44.58)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, 90, 0, -54.3, -44.58)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 

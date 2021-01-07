@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToggle } from 'react-use';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -19,15 +20,9 @@ export const svg005Info: MolecularInfo = {
 };
 
 const svg005: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    onClick,
-    grid,
-    selectAtom,
-    className,
-  } = props;
+  const { animation, onClick, grid, selectAtom, className } = props;
+  const [loadAnimation, toggleLoadAnimation] = useToggle(true);
+
   return (
     <>
       <Box active={grid}>
@@ -170,6 +165,11 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <FootRight
               number={1}
               select={selectAtom === 310}
+              animation={animation}
+              loadAnimation={loadAnimation}
+              onAnimationEnd={() => {
+                toggleLoadAnimation(false);
+              }}
               onClick={() => {
                 onClick(310);
               }}
@@ -183,6 +183,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <FootLeft
               number={1}
               select={selectAtom === 310}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(310);
               }}
@@ -197,6 +199,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoRight
             number={1}
             select={selectAtom === 315}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(315);
             }}
@@ -210,6 +214,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoRight
             number={1}
             select={selectAtom === 315}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(315);
             }}
@@ -223,6 +229,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoLeft
             number={1}
             select={selectAtom === 314}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(314);
             }}
@@ -236,6 +244,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoLeft
             number={1}
             select={selectAtom === 314}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(314);
             }}
@@ -250,6 +260,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -261,6 +273,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -272,6 +286,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -283,6 +299,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -296,6 +314,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderLeft
               number={1}
               select={selectAtom === 263}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(263);
               }}
@@ -307,6 +327,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderLeft
               number={1}
               select={selectAtom === 263}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(263);
               }}
@@ -318,6 +340,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderRight
               number={1}
               select={selectAtom === 264}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(264);
               }}
@@ -329,6 +353,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderRight
               number={1}
               select={selectAtom === 264}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(264);
               }}
@@ -341,6 +367,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Top
             number={1}
             select={selectAtom === 218}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(218);
             }}
@@ -355,6 +383,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -366,6 +396,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -377,6 +409,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -390,6 +424,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -401,6 +437,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -412,6 +450,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <TateLine
               number={1}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -424,6 +464,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind1
             number={0}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -437,6 +479,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind1
             number={1}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -450,6 +494,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind1
             number={2}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -463,6 +509,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind1
             number={3}
             select={selectAtom === 311}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(311);
             }}
@@ -476,6 +524,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind2
             number={0}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -489,6 +539,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind2
             number={1}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -502,6 +554,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind2
             number={2}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -515,6 +569,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Wind2
             number={3}
             select={selectAtom === 312}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(312);
             }}
@@ -531,6 +587,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <FootRight
               number={0}
               select={selectAtom === 310}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(310);
               }}
@@ -544,6 +602,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <FootLeft
               number={0}
               select={selectAtom === 310}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(310);
               }}
@@ -558,6 +618,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoRight
             number={0}
             select={selectAtom === 315}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(315);
             }}
@@ -571,6 +633,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoRight
             number={0}
             select={selectAtom === 315}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(315);
             }}
@@ -584,6 +648,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoLeft
             number={0}
             select={selectAtom === 314}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(314);
             }}
@@ -597,6 +663,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <MokomokoLeft
             number={0}
             select={selectAtom === 314}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(314);
             }}
@@ -611,6 +679,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -622,6 +692,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -633,6 +705,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -644,6 +718,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <YokoLine
               number={0}
               select={selectAtom === 313}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(313);
               }}
@@ -657,6 +733,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderLeft
               number={0}
               select={selectAtom === 263}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(263);
               }}
@@ -668,6 +746,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderLeft
               number={0}
               select={selectAtom === 263}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(263);
               }}
@@ -679,6 +759,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderRight
               number={0}
               select={selectAtom === 264}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(264);
               }}
@@ -690,6 +772,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
             <ShoulderRight
               number={0}
               select={selectAtom === 264}
+              animation={animation}
+              loadAnimation={loadAnimation}
               onClick={() => {
                 onClick(264);
               }}
@@ -702,6 +786,8 @@ const svg005: React.FC<MolecularProps> = (props) => {
           <Top
             number={0}
             select={selectAtom === 218}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(218);
             }}
@@ -750,9 +836,11 @@ const Top = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -140, 0, 0, 180, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -760,6 +848,21 @@ const Top = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -140, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -140, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -768,9 +871,11 @@ const TateLine = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 170, 0, 0, 0, -180, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -778,6 +883,21 @@ const TateLine = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 170, 0, 0, 0, -180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 170, 0, 0, 0, -180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -786,9 +906,11 @@ const YokoLine = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -170, 0, 0, -180, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -797,6 +919,21 @@ const YokoLine = styled.div<AtomsProps>`
         ${tw`text-primary`}
       }
     `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -170, 0, 0, -180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -170, 0, 0, -180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
 `;
 
 const Wind1 = styled.div<AtomsProps>`
@@ -804,45 +941,72 @@ const Wind1 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => {
-      if (props.number === 0 || props.number === 1) {
-        return SpreadSpin(props.number, -120, -100, 33.223, -25.619, -90, 180);
-      }
-      if (props.number === 2 || props.number === 3) {
-        return SpreadSpin(
-          props.number,
-          100,
-          -120,
-          -25.6457,
-          -33.2233,
-          -90,
-          180
-        );
-      }
-    }}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
-    transform-origin: ${(props) => {
-      if (props.number === 0 || props.number === 1) {
-        return `115.0345px 193.402px`;
-      }
-      if (props.number === 2 || props.number === 3) {
-        return `432.2433px 148.2573px`;
-      }
-    }};
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+
+      .inner {
+        transform-origin: ${() => {
+          if (number === 0 || number === 1) {
+            return `115.0345px 193.402px`;
+          }
+          if (number === 2 || number === 3) {
+            return `432.2433px 148.2573px`;
+          }
+        }};
+      }
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${() => {
+          if (number === 0 || number === 1) {
+            return SpreadSpin(number, -120, -100, 33.223, -25.619, -90, 180);
+          }
+          if (number === 2 || number === 3) {
+            return SpreadSpin(number, 100, -120, -25.6457, -33.2233, -90, 180);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${() => {
+          if (number === 0 || number === 1) {
+            return SpreadSpin(number, -120, -100, 33.223, -25.619, -90, 180);
+          }
+          if (number === 2 || number === 3) {
+            return SpreadSpin(number, 100, -120, -25.6457, -33.2233, -90, 180);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
@@ -852,45 +1016,71 @@ const Wind2 = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => {
-      if (props.number === 2 || props.number === 3) {
-        return SpreadSpin(props.number, -100, -120, 25.619, -33.223, -90, 180);
-      }
-      if (props.number === 0 || props.number === 1) {
-        return SpreadSpin(
-          props.number,
-          120,
-          -100,
-          -33.2233,
-          -25.6457,
-          -90,
-          180
-        );
-      }
-    }}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
-    transform-origin: ${(props) => {
-      if (props.number === 2 || props.number === 3) {
-        return `167.7569px 148.1516px`;
-      }
-      if (props.number === 0 || props.number === 1) {
-        return `484.9655px 193.399px`;
-      }
-    }};
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+
+      .inner {
+        transform-origin: ${() => {
+          if (number === 2 || number === 3) {
+            return `167.7569px 148.1516px`;
+          }
+          if (number === 0 || number === 1) {
+            return `484.9655px 193.399px`;
+          }
+        }};
+      }
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${() => {
+          if (number === 2 || number === 3) {
+            return SpreadSpin(number, -100, -120, 25.619, -33.223, -90, 180);
+          }
+          if (number === 0 || number === 1) {
+            return SpreadSpin(number, 120, -100, -33.2233, -25.6457, -90, 180);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${() => {
+          if (number === 2 || number === 3) {
+            return SpreadSpin(number, -100, -120, 25.619, -33.223, -90, 180);
+          }
+          if (number === 0 || number === 1) {
+            return SpreadSpin(number, 120, -100, -33.2233, -25.6457, -90, 180);
+          }
+        }}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
@@ -900,9 +1090,11 @@ const ShoulderRight = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -100, 0, 0, 180, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -910,6 +1102,21 @@ const ShoulderRight = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -100, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -100, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -918,9 +1125,11 @@ const ShoulderLeft = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -100, 0, 0, 180, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -929,6 +1138,21 @@ const ShoulderLeft = styled.div<AtomsProps>`
         ${tw`text-primary`}
       }
     `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -100, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -100, 0, 0, 180, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
 `;
 
 const MokomokoRight = styled.div<AtomsProps>`
@@ -936,23 +1160,49 @@ const MokomokoRight = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, 70, -86, 0, 0, 0, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 352.8124px 114.859px;
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 70, -86, 0, 0, 0, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 70, -86, 0, 0, 0, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, 180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
@@ -962,23 +1212,49 @@ const MokomokoLeft = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) => SpreadSpin(props.number, -70, -86, 0, 0, 0, 180)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 247.3278px 114.859px;
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, -70, -86, 0, 0, 0, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, -70, -86, 0, 0, 0, 180)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
@@ -988,24 +1264,49 @@ const FootRight = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) =>
-      SpreadSpin(props.number, -20, -102, -125.1142, -125.1142, 90, 180)}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 273.9139px 451.2001px;
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, -20, -102, -125.1142, -125.1142, 90, 180)}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, -20, -102, -125.1142, -125.1142, 90, 180)}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
@@ -1015,24 +1316,49 @@ const FootLeft = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 180}deg);
-  animation: ${(props) =>
-      SpreadSpin(props.number, 20, -102, 125.1142, -125.1142, 90, 180)}
-    3s cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 326.0862px 451.2001px;
-    animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
-      cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 180}deg);
+    `}
 
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 20, -102, 125.1142, -125.1142, 90, 180)}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 20, -102, 125.1142, -125.1142, 90, 180)}
+        3s cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${SpreadSpin(0, 0, 0, 0, 0, -180, 0)} 3s
+          cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;

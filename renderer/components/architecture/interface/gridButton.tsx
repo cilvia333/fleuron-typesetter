@@ -31,7 +31,7 @@ const GridButton: React.FC<Props> = (props) => {
 };
 
 const Wrapper = styled.div`
-  ${tw`flex items-center -ml-4 text-xl text-darkGray`}
+  ${tw`flex items-center -ml-4 text-xl text-black`}
 
   & > * {
     ${tw`ml-4`}
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 `;
 
 const Button = styled.button<{ active: boolean }>`
-  ${tw`bg-darkGray h-7 w-12 rounded-full relative  transition-all duration-300`}
+  ${tw`bg-black h-7 w-12 rounded-full relative  transition-all duration-300`}
 
   &::after {
     ${tw`bg-white h-5 w-5 rounded-circle z-10 absolute inset-y-0 my-auto left-1 transition-all duration-300`}

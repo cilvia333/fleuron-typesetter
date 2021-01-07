@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useToggle } from 'react-use';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -19,15 +20,8 @@ export const svg001Info: MolecularInfo = {
 };
 
 const svg001: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    onClick,
-    grid,
-    selectAtom,
-    className,
-  } = props;
+  const { animation, onClick, grid, selectAtom, className } = props;
+  const [loadAnimation, toggleLoadAnimation] = useToggle(true);
 
   return (
     <>
@@ -49,6 +43,11 @@ const svg001: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={0}
           select={selectAtom === 310}
+          animation={animation}
+          loadAnimation={loadAnimation}
+          onAnimationEnd={() => {
+            toggleLoadAnimation(false);
+          }}
           onClick={() => {
             onClick(310);
           }}
@@ -60,6 +59,8 @@ const svg001: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={1}
           select={selectAtom === 310}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(310);
           }}
@@ -71,6 +72,8 @@ const svg001: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={2}
           select={selectAtom === 310}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(310);
           }}
@@ -82,6 +85,8 @@ const svg001: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={3}
           select={selectAtom === 310}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(310);
           }}
@@ -121,10 +126,10 @@ const Hanabira = styled.div<AtomsProps>`
   height: 600px;
   transition: 1s;
 
-  ${({ number }) => css`
-    transform: rotateZ(${number * 90}deg);
-    animation: ${SpreadSpin(number, 160, -160)} 3s cubic-bezier(0.9, 0, 0.1, 1);
-  `}
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
 
   ${({ select }) =>
     select &&
@@ -132,6 +137,21 @@ const Hanabira = styled.div<AtomsProps>`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 160, -160)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 160, -160)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 

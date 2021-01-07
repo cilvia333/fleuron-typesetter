@@ -24,10 +24,10 @@ const Wrapper = styled.div`
 `;
 
 const ToolListHeader = styled.h2`
-  ${tw`w-full relative m-0 p-0 text-darkGray text-base font-header`}
+  ${tw`w-full relative m-0 p-0 text-black text-base font-header`}
 
   &::before {
-    ${tw`w-full absolute bg-darkGray`}
+    ${tw`w-full absolute bg-black`}
 
     content: "";
     bottom: -4px;

@@ -9,9 +9,7 @@ import Svg004, { svg004Info } from '~/components/architecture/atoms/svg004';
 import Svg005, { svg005Info } from '~/components/architecture/atoms/svg005';
 
 export interface MolecularProps {
-  animationAtom?: number;
-  animation?: boolean;
-  onAnimationEnd?: (id: number) => void;
+  animation: boolean;
   onClick: (id: number) => void;
   grid: boolean;
   selectAtom: number | null;
@@ -21,6 +19,8 @@ export interface MolecularProps {
 export interface AtomsProps {
   number: number;
   select: boolean;
+  animation: boolean;
+  loadAnimation: boolean;
 }
 
 export type MolecularInfo = {

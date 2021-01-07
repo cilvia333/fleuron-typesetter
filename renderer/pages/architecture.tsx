@@ -21,7 +21,12 @@ const Architecture: React.FC = () => {
   const [scrolling, toggleScrolling] = useToggle(false);
   const [onceScrolling, toggleOnceScrolling] = useToggle(false);
   const [activeGrid, toggleActiveGrid] = useToggle(false);
+  const [activeAnimation, toggleActiveAnimation] = useToggle(false);
   const [currentAtom, setCurrentAtom] = useState<number | null>(null);
+  const [timer, setTimer] = useState<number | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const activeAnimationRef = useRef<boolean>(false);
+  const [prevAtom, setPrevAtom] = useState<number | null>(null);
   const mouseWheel = useMouseWheel();
   const timerLimit = 3 * 60 * 1000; // 3分
 
@@ -32,9 +37,9 @@ const Architecture: React.FC = () => {
   //   // setTimerId(timerId);
   // });
 
-  useEffect(() => {
-    console.log(mouseWheel);
-  }, [mouseWheel]);
+  // useEffect(() => {
+  //   console.log(mouseWheel);
+  // }, [mouseWheel]);
 
   // const handleAlive = () => {
   //   clearTimeout(timerId);
@@ -44,6 +49,54 @@ const Architecture: React.FC = () => {
 
   //   setTimerId(newTimerId);
   // };
+
+  const setActiveAnimation = (active: boolean) => {
+    toggleActiveAnimation(active);
+  };
+
+  const controllAnimation = (origin: boolean) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    if (!currentAtom) {
+      console.log('anim-disable');
+      setTimer(null);
+      return;
+    }
+
+    if (origin) {
+      console.log('anim-disable');
+      setActiveAnimation(false);
+      activeAnimationRef.current = false;
+      timerRef.current = setTimeout(() => {
+        controllAnimation(false);
+      }, 1000);
+      return;
+    }
+
+    if (activeAnimationRef.current) {
+      console.log('anim-disable');
+      setActiveAnimation(false);
+      activeAnimationRef.current = false;
+      timerRef.current = setTimeout(() => {
+        controllAnimation(false);
+      }, 2000);
+      return;
+    } else {
+      console.log('anim-active');
+      setActiveAnimation(true);
+      activeAnimationRef.current = true;
+      timerRef.current = setTimeout(() => {
+        controllAnimation(false);
+      }, 3000);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    controllAnimation(true);
+  }, [currentAtom]);
 
   const handleClickAtom = (id: number) => {
     if (molecularInfos[currentIndex].atoms.includes(id)) {
@@ -143,6 +196,7 @@ const Architecture: React.FC = () => {
           <OrnamentWrapper>
             <Molecular
               name={molecularList[currentIndex]}
+              animation={activeAnimation}
               grid={activeGrid}
               selectAtom={currentAtom}
               onClick={handleClickAtom}
@@ -189,11 +243,11 @@ const Information = styled.section`
 `;
 
 const InformationTitle = styled.h1`
-  ${tw`font-header font-semibold italic text-2xl m-0 mb-6 text-darkGray select-none`}
+  ${tw`font-header font-semibold italic text-2xl m-0 mb-6 text-black select-none`}
 `;
 
 const Reference = styled.p`
-  ${tw`font-text italic text-darkGray select-none`}
+  ${tw`font-text italic text-black select-none`}
 `;
 
 const OrnamentWrapper = styled.section`

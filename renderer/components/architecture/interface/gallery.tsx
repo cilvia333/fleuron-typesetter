@@ -163,7 +163,7 @@ const ListWrapper = styled.ul`
     ${tw`bg-white`}
   }
   ::-webkit-scrollbar-thumb {
-    ${tw`bg-darkGray rounded-full`}
+    ${tw`bg-black rounded-full`}
     box-shadow: inset 0 0 0 2px #fff;
   }
 

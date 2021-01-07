@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToggle } from 'react-use';
 import styled, { css, keyframes } from 'styled-components';
 import tw from 'twin.macro';
 
@@ -19,15 +20,9 @@ export const svg002Info: MolecularInfo = {
 };
 
 const svg002: React.FC<MolecularProps> = (props) => {
-  const {
-    animationAtom,
-    animation,
-    onAnimationEnd,
-    onClick,
-    grid,
-    selectAtom,
-    className,
-  } = props;
+  const { animation, onClick, grid, selectAtom, className } = props;
+  const [loadAnimation, toggleLoadAnimation] = useToggle(true);
+
   return (
     <>
       <Box active={grid}>
@@ -60,6 +55,11 @@ const svg002: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={0}
           select={selectAtom === 218}
+          animation={animation}
+          loadAnimation={loadAnimation}
+          onAnimationEnd={() => {
+            toggleLoadAnimation(false);
+          }}
           onClick={() => {
             onClick(218);
           }}
@@ -71,6 +71,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={1}
           select={selectAtom === 218}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(218);
           }}
@@ -82,6 +84,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={2}
           select={selectAtom === 218}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(218);
           }}
@@ -93,6 +97,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
         <Hanabira
           number={3}
           select={selectAtom === 218}
+          animation={animation}
+          loadAnimation={loadAnimation}
           onClick={() => {
             onClick(218);
           }}
@@ -106,6 +112,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={0}
             select={selectAtom === 29}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(29);
             }}
@@ -119,6 +127,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={1}
             select={selectAtom === 29}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(29);
             }}
@@ -132,6 +142,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={2}
             select={selectAtom === 29}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(29);
             }}
@@ -145,6 +157,8 @@ const svg002: React.FC<MolecularProps> = (props) => {
           <Mannaka
             number={3}
             select={selectAtom === 29}
+            animation={animation}
+            loadAnimation={loadAnimation}
             onClick={() => {
               onClick(29);
             }}
@@ -206,15 +220,33 @@ const Hanabira = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 0, -160, 180, 90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
+
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
       }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -160, 180, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 0, -160, 180, 90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
     `}
 `;
 
@@ -223,22 +255,48 @@ const Mannaka = styled.div<AtomsProps>`
   width: 600px;
   height: 600px;
   transition: 1s;
-  transform: rotateZ(${(props) => props.number * 90}deg);
-  animation: ${(props) => SpreadSpin(props.number, 20, 20, 0, -90)} 3s
-    cubic-bezier(0.9, 0, 0.1, 1);
+
   .inner {
     width: 600px;
     height: 600px;
     transition: 1s;
     transform-origin: 323.836px 323.836px;
     transform: rotateZ(90deg);
-    animation: ${Spin} 3s cubic-bezier(0.9, 0, 0.1, 1);
   }
+
+  ${({ number }) =>
+    css`
+      transform: rotateZ(${number * 90}deg);
+    `}
+
   ${({ select }) =>
     select &&
     css`
       svg {
         ${tw`text-primary`}
+      }
+    `}
+
+    ${({ number, loadAnimation }) =>
+    loadAnimation &&
+    css`
+      animation: ${SpreadSpin(number, 20, 20, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${Spin} 3s cubic-bezier(0.9, 0, 0.1, 1);
+      }
+    `}
+
+    ${({ select, number, animation }) =>
+    select &&
+    animation &&
+    css`
+      animation: ${SpreadSpin(number, 20, 20, 0, -90)} 3s
+        cubic-bezier(0.9, 0, 0.1, 1);
+
+      .inner {
+        animation: ${Spin} 3s cubic-bezier(0.9, 0, 0.1, 1);
       }
     `}
 `;
