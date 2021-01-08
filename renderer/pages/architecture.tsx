@@ -25,30 +25,30 @@ const Architecture: React.FC = () => {
   const [currentAtom, setCurrentAtom] = useState<number | null>(null);
   const [timer, setTimer] = useState<number | null>(null);
   const timerRef = useRef<number | null>(null);
+  const aliveTimerRef = useRef<number | null>(null);
   const activeAnimationRef = useRef<boolean>(false);
   const [prevAtom, setPrevAtom] = useState<number | null>(null);
   const mouseWheel = useMouseWheel();
   const timerLimit = 3 * 60 * 1000; // 3分
 
-  // useEffectOnce(() => {
-  //   // const timerId = setTimeout(() => {
-  //   //   Router.push('/');
-  //   // }, timerLimit);
-  //   // setTimerId(timerId);
-  // });
+  useEffectOnce(() => {
+    handleAlive(true);
+  });
 
-  // useEffect(() => {
-  //   console.log(mouseWheel);
-  // }, [mouseWheel]);
+  const handleAlive = (active: boolean) => {
+    if (aliveTimerRef.current) {
+      clearTimeout(aliveTimerRef.current);
+      aliveTimerRef.current = null;
+    }
 
-  // const handleAlive = () => {
-  //   clearTimeout(timerId);
-  //   const newTimerId = setTimeout(() => {
-  //     Router.push('/');
-  //   }, timerLimit);
-
-  //   setTimerId(newTimerId);
-  // };
+    if (!active) {
+      Router.push('/');
+    } else {
+      aliveTimerRef.current = setTimeout(() => {
+        handleAlive(false);
+      }, timerLimit);
+    }
+  };
 
   const setActiveAnimation = (active: boolean) => {
     toggleActiveAnimation(active);
@@ -60,13 +60,11 @@ const Architecture: React.FC = () => {
     }
 
     if (!currentAtom) {
-      console.log('anim-disable');
       setTimer(null);
       return;
     }
 
     if (origin) {
-      console.log('anim-disable');
       setActiveAnimation(false);
       activeAnimationRef.current = false;
       timerRef.current = setTimeout(() => {
@@ -76,7 +74,6 @@ const Architecture: React.FC = () => {
     }
 
     if (activeAnimationRef.current) {
-      console.log('anim-disable');
       setActiveAnimation(false);
       activeAnimationRef.current = false;
       timerRef.current = setTimeout(() => {
@@ -84,7 +81,6 @@ const Architecture: React.FC = () => {
       }, 2000);
       return;
     } else {
-      console.log('anim-active');
       setActiveAnimation(true);
       activeAnimationRef.current = true;
       timerRef.current = setTimeout(() => {
@@ -113,12 +109,12 @@ const Architecture: React.FC = () => {
       </Head>
       <Main
         ref={scrollRef}
-        // onMouseMove={() => {
-        //   handleAlive();
-        // }}
-        // onKeyDown={() => {
-        //   handleAlive();
-        // }}
+        onMouseMove={() => {
+          handleAlive(true);
+        }}
+        onKeyDown={() => {
+          handleAlive(true);
+        }}
       >
         <Grid>
           <TransitionButtonWrapper
